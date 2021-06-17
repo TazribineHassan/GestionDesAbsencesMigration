@@ -30,7 +30,6 @@
           "Microsoft.EntityFrameworkCore.SqlServer": "5.0.7",
           "Microsoft.EntityFrameworkCore.Tools": "5.0.7",
           "Microsoft.VisualStudio.Azure.Containers.Tools.Targets": "1.10.9",
-          "font-awesome": "4.7.0",
           "Microsoft.AspNetCore.Antiforgery": "5.0.0.0",
           "Microsoft.AspNetCore.Authentication.Abstractions": "5.0.0.0",
           "Microsoft.AspNetCore.Authentication.Cookies": "5.0.0.0",
@@ -320,7 +319,6 @@
           "GestionDesAbsencesMigration.dll": {}
         }
       },
-      "font-awesome/4.7.0": {},
       "Humanizer.Core/2.8.26": {
         "runtime": {
           "lib/netstandard2.0/Humanizer.dll": {
@@ -3003,13 +3001,6 @@
       "type": "project",
       "serviceable": false,
       "sha512": ""
-    },
-    "font-awesome/4.7.0": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-MCuSOl63d8b9Etn7Jm4FJS1lp8d8W9fGwQ6xu5SqrRu8e/p+FZv2a8W/LguziecV1ZpTqZPamG5nfmZs28SahA==",
-      "path": "font-awesome/4.7.0",
-      "hashPath": "font-awesome.4.7.0.nupkg.sha512"
     },
     "Humanizer.Core/2.8.26": {
       "type": "package",

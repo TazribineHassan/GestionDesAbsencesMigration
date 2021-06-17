@@ -12,5 +12,10 @@ namespace GestionDesAbsencesMigration.Controllers
         {
             return View();
         }
+        //[HttpPost]
+        //public ActionResult CheckTeacher(string email, string password)
+        //{
+
+        //}
     }
 }

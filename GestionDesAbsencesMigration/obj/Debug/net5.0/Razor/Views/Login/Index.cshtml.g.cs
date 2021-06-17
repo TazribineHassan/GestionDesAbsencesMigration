@@ -13,14 +13,14 @@ namespace AspNetCore
     using Microsoft.AspNetCore.Mvc.Rendering;
     using Microsoft.AspNetCore.Mvc.ViewFeatures;
 #nullable restore
-#line 1 "D:\mini projets\GestionDesAbsencesMigration\GestionDesAbsencesMigration\Views\_ViewImports.cshtml"
+#line 1 "C:\Users\admin\source\repos\GestionDesAbsencesMigration\GestionDesAbsencesMigration\Views\_ViewImports.cshtml"
 using GestionDesAbsencesMigration;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 2 "D:\mini projets\GestionDesAbsencesMigration\GestionDesAbsencesMigration\Views\_ViewImports.cshtml"
+#line 2 "C:\Users\admin\source\repos\GestionDesAbsencesMigration\GestionDesAbsencesMigration\Views\_ViewImports.cshtml"
 using GestionDesAbsencesMigration.Models;
 
 #line default

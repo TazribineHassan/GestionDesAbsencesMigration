@@ -1,26 +1,24 @@
 {
   "format": 1,
   "restore": {
-    "D:\\mini projets\\GestionDesAbsencesMigration\\GestionDesAbsencesMigration\\GestionDesAbsencesMigration.csproj": {}
+    "C:\\Users\\admin\\source\\repos\\GestionDesAbsencesMigration\\GestionDesAbsencesMigration\\GestionDesAbsencesMigration.csproj": {}
   },
   "projects": {
-    "D:\\mini projets\\GestionDesAbsencesMigration\\GestionDesAbsencesMigration\\GestionDesAbsencesMigration.csproj": {
+    "C:\\Users\\admin\\source\\repos\\GestionDesAbsencesMigration\\GestionDesAbsencesMigration\\GestionDesAbsencesMigration.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\mini projets\\GestionDesAbsencesMigration\\GestionDesAbsencesMigration\\GestionDesAbsencesMigration.csproj",
+        "projectUniqueName": "C:\\Users\\admin\\source\\repos\\GestionDesAbsencesMigration\\GestionDesAbsencesMigration\\GestionDesAbsencesMigration.csproj",
         "projectName": "GestionDesAbsencesMigration",
-        "projectPath": "D:\\mini projets\\GestionDesAbsencesMigration\\GestionDesAbsencesMigration\\GestionDesAbsencesMigration.csproj",
-        "packagesPath": "C:\\Users\\Matrouh\\.nuget\\packages\\",
-        "outputPath": "D:\\mini projets\\GestionDesAbsencesMigration\\GestionDesAbsencesMigration\\obj\\",
+        "projectPath": "C:\\Users\\admin\\source\\repos\\GestionDesAbsencesMigration\\GestionDesAbsencesMigration\\GestionDesAbsencesMigration.csproj",
+        "packagesPath": "C:\\Users\\admin\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\admin\\source\\repos\\GestionDesAbsencesMigration\\GestionDesAbsencesMigration\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "C:\\Program Files (x86)\\Progress\\ToolboxNuGetPackages",
           "C:\\Microsoft\\Xamarin\\NuGet\\"
         ],
         "configFilePaths": [
-          "C:\\Users\\Matrouh\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Telerik UI for WPF.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -28,8 +26,7 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "https://api.nuget.org/v3/index.json": {},
-          "https://nuget.telerik.com/nuget": {}
+          "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net5.0": {
@@ -74,6 +71,10 @@
             "Microsoft.VisualStudio.Azure.Containers.Tools.Targets": {
               "target": "Package",
               "version": "[1.10.9, )"
+            },
+            "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
+              "target": "Package",
+              "version": "[5.0.2, )"
             },
             "NLog.Extensions.Logging": {
               "target": "Package",

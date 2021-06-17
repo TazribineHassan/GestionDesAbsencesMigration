@@ -9,6 +9,8 @@ using GestionDesAbsencesMigration.Models.Context;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using GestionDesAbsencesMigration.services;
+using GestionDesAbsencesMigration.ServicesImpl;
 
 namespace GestionDesAbsencesMigration
 {
@@ -26,6 +28,10 @@ namespace GestionDesAbsencesMigration
         {
             services.AddDbContext<ApplicationContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("GestionDesAbsencesMigration")));
+            
+            // services
+            services.AddTransient<IProfesseurService, ProfesseurService>();
+
             services.AddControllersWithViews();
         }
 

@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GestionDesAbsencesMigration.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20210617011420_initialCreate")]
-    partial class initialCreate
+    [Migration("20210617111749_intialCreate")]
+    partial class intialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -138,9 +138,6 @@ namespace GestionDesAbsencesMigration.Migrations
                     b.Property<int>("Emploi_Id")
                         .HasColumnType("int");
 
-                    b.Property<int>("Local_Id")
-                        .HasColumnType("int");
-
                     b.Property<int>("Module_Id")
                         .HasColumnType("int");
 
@@ -150,8 +147,6 @@ namespace GestionDesAbsencesMigration.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("Emploi_Id");
-
-                    b.HasIndex("Local_Id");
 
                     b.HasIndex("Module_Id");
 
@@ -227,21 +222,6 @@ namespace GestionDesAbsencesMigration.Migrations
                     b.ToTable("Groupes");
                 });
 
-            modelBuilder.Entity("GestionDesAbsencesMigration.Models.Local", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("nom")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Locals");
-                });
-
             modelBuilder.Entity("GestionDesAbsencesMigration.Models.Module", b =>
                 {
                     b.Property<int>("Id")
@@ -301,7 +281,7 @@ namespace GestionDesAbsencesMigration.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Nome")
+                    b.Property<string>("Nom")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -316,10 +296,10 @@ namespace GestionDesAbsencesMigration.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Heure_debut")
+                    b.Property<string>("HeurDebut")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Heure_fin")
+                    b.Property<string>("HeurFin")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Jour")
@@ -407,12 +387,6 @@ namespace GestionDesAbsencesMigration.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("GestionDesAbsencesMigration.Models.Local", "Local")
-                        .WithMany("Details_Emplois")
-                        .HasForeignKey("Local_Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("GestionDesAbsencesMigration.Models.Module", "Module")
                         .WithMany("Details_Emplois")
                         .HasForeignKey("Module_Id")
@@ -426,8 +400,6 @@ namespace GestionDesAbsencesMigration.Migrations
                         .IsRequired();
 
                     b.Navigation("Emploi");
-
-                    b.Navigation("Local");
 
                     b.Navigation("Module");
 
@@ -514,11 +486,6 @@ namespace GestionDesAbsencesMigration.Migrations
             modelBuilder.Entity("GestionDesAbsencesMigration.Models.Groupe", b =>
                 {
                     b.Navigation("Etudiants");
-                });
-
-            modelBuilder.Entity("GestionDesAbsencesMigration.Models.Local", b =>
-                {
-                    b.Navigation("Details_Emplois");
                 });
 
             modelBuilder.Entity("GestionDesAbsencesMigration.Models.Module", b =>

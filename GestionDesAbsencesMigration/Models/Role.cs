@@ -13,7 +13,7 @@ namespace GestionDesAbsencesMigration.Models
         }
 
         public int Id { get; set; }
-        public String Nome { get; set; }
+        public String Nom { get; set; }
 
         public virtual ICollection<Professeur> Professeurs { get; set; }
         public virtual ICollection<Etudiant> Etudiants { get; set; }

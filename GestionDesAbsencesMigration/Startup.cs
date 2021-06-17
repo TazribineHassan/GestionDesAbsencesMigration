@@ -11,6 +11,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using System.Security.Claims;
+using GestionDesAbsencesMigration.services;
+using GestionDesAbsencesMigration.ServicesImpl;
 
 namespace GestionDesAbsencesMigration
 {
@@ -28,6 +30,10 @@ namespace GestionDesAbsencesMigration
         {
             services.AddDbContext<ApplicationContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("GestionDesAbsencesMigration")));
+            
+            // services
+            services.AddTransient<IProfesseurService, ProfesseurService>();
+
             services.AddControllersWithViews();
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                      .AddCookie(options => {

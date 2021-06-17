@@ -13,20 +13,20 @@ namespace AspNetCore
     using Microsoft.AspNetCore.Mvc.Rendering;
     using Microsoft.AspNetCore.Mvc.ViewFeatures;
 #nullable restore
-#line 1 "D:\mini projets\GestionDesAbsencesMigration\GestionDesAbsencesMigration\Views\_ViewImports.cshtml"
+#line 1 "C:\Users\admin\source\repos\GestionDesAbsencesMigration\GestionDesAbsencesMigration\Views\_ViewImports.cshtml"
 using GestionDesAbsencesMigration;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 2 "D:\mini projets\GestionDesAbsencesMigration\GestionDesAbsencesMigration\Views\_ViewImports.cshtml"
+#line 2 "C:\Users\admin\source\repos\GestionDesAbsencesMigration\GestionDesAbsencesMigration\Views\_ViewImports.cshtml"
 using GestionDesAbsencesMigration.Models;
 
 #line default
 #line hidden
 #nullable disable
-    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"01c27d86ac0da58d55fbfe0ec26683e314f4590a", @"/Views/Login/Index.cshtml")]
+    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"276f25fc1721da02f788676f5521e947bc80ae51", @"/Views/Login/Index.cshtml")]
     [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"430ddb756b39511dc01748ceee86d9af80471367", @"/Views/_ViewImports.cshtml")]
     public class Views_Login_Index : global::Microsoft.AspNetCore.Mvc.Razor.RazorPage<dynamic>
     {
@@ -61,7 +61,7 @@ using GestionDesAbsencesMigration.Models;
         #pragma warning disable 1998
         public async override global::System.Threading.Tasks.Task ExecuteAsync()
         {
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("link", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.SelfClosing, "01c27d86ac0da58d55fbfe0ec26683e314f4590a5134", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("link", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.SelfClosing, "276f25fc1721da02f788676f5521e947bc80ae514515", async() => {
             }
             );
             __Microsoft_AspNetCore_Mvc_Razor_TagHelpers_UrlResolutionTagHelper = CreateTagHelper<global::Microsoft.AspNetCore.Mvc.Razor.TagHelpers.UrlResolutionTagHelper>();
@@ -81,7 +81,7 @@ using GestionDesAbsencesMigration.Models;
         <div class=""row justify-content-center"">
             <div class=""col-md-6 text-center mb-5"">
                 <h2 class=""text-white font-weight-bold"">
-                    <i class=""fas fa-credit-card rotate-n-15""></i> Gestion des absences
+                    Gestion des absences
                 </h2>
 
             </div>
@@ -94,19 +94,29 @@ using GestionDesAbsencesMigration.Models;
                     </div>
                     <h3 class=""text-center mb-4"">Connexion</h3>
                     ");
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "01c27d86ac0da58d55fbfe0ec26683e314f4590a7048", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "276f25fc1721da02f788676f5521e947bc80ae516380", async() => {
                 WriteLiteral(@"
-                        <div class=""form-group"">
-                            <input type=""text"" class=""form-control rounded-left"" ngModel #usernameInput=""ngModel"" name=""username"" placeholder=""Username"" required>
+                        <div class=""input-group mb-3"">
+                            <div class=""input-group-prepend"">
+                                <span class=""input-group-text bg-info"" id=""validationTooltipUsernamePrepend"">
+                                    <i class=""fa fa-user text-white""></i>
+                                </span>
+                            </div>
+                            <input type=""email"" class=""form-control"" name=""email"" placeholder=""Email"">
                         </div>
-                        <div class=""form-group d-flex"">
-                            <input type=""password"" class=""form-control rounded-left"" ngModel #passwordInput=""ngModel"" name=""password"" placeholder=""Password"" required>
-                        </div>
+                        <div class=""input-group mb-4"">
+                            <div class=""input-group-prepend"">
+                                <span class=""input-group-text bg-info"" id=""validationTooltipUsernamePrepend"">
+                                    <i class=""fa fa-lock text-white""></i>
+                                </span>
+                            </div>
+                            <input type=""password"" class=""form-control"" name=""password"" placeholder=""Mot de passe"">
+     ");
+                WriteLiteral(@"                   </div>
                         <div class=""form-group"">
-                            <button type=""submit"" class=""form-control btn btn-info rounded submit px-3 text-white"" [disabled]=""loginForm.invalid  || showLoading"">
-                                <i class=""fas fa-user""></i> &nbsp;&nbsp;
-                                <span >Chargement...</span>
-                                <span >Connexion</span>
+                            <button type=""submit"" class=""form-control btn btn-info rounded submit px-3 text-white"">
+                                <i class=""fas fa-sign-in-alt""></i> &nbsp;&nbsp;
+                                Connexion
                             </button>
                         </div>
                     ");

@@ -44,5 +44,10 @@ namespace GestionDesAbsencesMigration.Controllers
 
         
 
+        //[HttpPost]
+        //public ActionResult CheckTeacher(string email, string password)
+        //{
+
+        //}
     }
 }

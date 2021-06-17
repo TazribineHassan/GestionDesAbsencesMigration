@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace GestionDesAbsencesMigration.Migrations
 {
-    public partial class initialCreate : Migration
+    public partial class intialCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -34,25 +34,12 @@ namespace GestionDesAbsencesMigration.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Locals",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    nom = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Locals", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Roles",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Nome = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Nom = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -66,8 +53,8 @@ namespace GestionDesAbsencesMigration.Migrations
                     id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Jour = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Heure_debut = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Heure_fin = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    HeurDebut = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    HeurFin = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -263,8 +250,7 @@ namespace GestionDesAbsencesMigration.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Emploi_Id = table.Column<int>(type: "int", nullable: false),
                     Seance_Id = table.Column<int>(type: "int", nullable: false),
-                    Module_Id = table.Column<int>(type: "int", nullable: false),
-                    Local_Id = table.Column<int>(type: "int", nullable: false)
+                    Module_Id = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -273,12 +259,6 @@ namespace GestionDesAbsencesMigration.Migrations
                         name: "FK_details_Emplois_Emplois_Emploi_Id",
                         column: x => x.Emploi_Id,
                         principalTable: "Emplois",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_details_Emplois_Locals_Local_Id",
-                        column: x => x.Local_Id,
-                        principalTable: "Locals",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -354,11 +334,6 @@ namespace GestionDesAbsencesMigration.Migrations
                 column: "Emploi_Id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_details_Emplois_Local_Id",
-                table: "details_Emplois",
-                column: "Local_Id");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_details_Emplois_Module_Id",
                 table: "details_Emplois",
                 column: "Module_Id");
@@ -413,9 +388,6 @@ namespace GestionDesAbsencesMigration.Migrations
 
             migrationBuilder.DropTable(
                 name: "Emplois");
-
-            migrationBuilder.DropTable(
-                name: "Locals");
 
             migrationBuilder.DropTable(
                 name: "Modules");

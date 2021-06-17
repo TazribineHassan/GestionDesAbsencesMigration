@@ -5954,24 +5954,27 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\admin\\.nuget\\packages\\": {},
+    "C:\\Users\\Matrouh\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Progress\\ToolboxNuGetPackages": {},
     "C:\\Microsoft\\Xamarin\\NuGet\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\admin\\source\\repos\\GestionDesAbsencesMigration\\GestionDesAbsencesMigration\\GestionDesAbsencesMigration.csproj",
+      "projectUniqueName": "D:\\mini projets\\GestionDesAbsencesMigration\\GestionDesAbsencesMigration\\GestionDesAbsencesMigration.csproj",
       "projectName": "GestionDesAbsencesMigration",
-      "projectPath": "C:\\Users\\admin\\source\\repos\\GestionDesAbsencesMigration\\GestionDesAbsencesMigration\\GestionDesAbsencesMigration.csproj",
-      "packagesPath": "C:\\Users\\admin\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\admin\\source\\repos\\GestionDesAbsencesMigration\\GestionDesAbsencesMigration\\obj\\",
+      "projectPath": "D:\\mini projets\\GestionDesAbsencesMigration\\GestionDesAbsencesMigration\\GestionDesAbsencesMigration.csproj",
+      "packagesPath": "C:\\Users\\Matrouh\\.nuget\\packages\\",
+      "outputPath": "D:\\mini projets\\GestionDesAbsencesMigration\\GestionDesAbsencesMigration\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
+        "C:\\Program Files (x86)\\Progress\\ToolboxNuGetPackages",
         "C:\\Microsoft\\Xamarin\\NuGet\\"
       ],
       "configFilePaths": [
-        "C:\\Users\\admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Matrouh\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Telerik UI for WPF.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -5979,7 +5982,8 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-        "https://api.nuget.org/v3/index.json": {}
+        "https://api.nuget.org/v3/index.json": {},
+        "https://nuget.telerik.com/nuget": {}
       },
       "frameworks": {
         "net5.0": {

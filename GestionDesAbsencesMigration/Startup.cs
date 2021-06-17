@@ -9,6 +9,8 @@ using GestionDesAbsencesMigration.Models.Context;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using System.Security.Claims;
 
 namespace GestionDesAbsencesMigration
 {
@@ -27,6 +29,25 @@ namespace GestionDesAbsencesMigration
             services.AddDbContext<ApplicationContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("GestionDesAbsencesMigration")));
             services.AddControllersWithViews();
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                     .AddCookie(options => {
+                         options.LoginPath = "/Login";
+                         options.Events = new CookieAuthenticationEvents()
+                         {
+                             OnSigningIn = async context =>
+                             {
+                                 var principal = context.Principal;
+                                 if (principal.HasClaim(claim => claim.Type.Equals(ClaimTypes.NameIdentifier)))
+                                 {
+                                     if((principal.Claims.FirstOrDefault(claim => claim.Type.Equals(ClaimTypes.NameIdentifier)).Value == "admin"))
+                                     {
+                                         var identity = principal.Identity as ClaimsIdentity;
+                                         identity.AddClaim(new Claim(ClaimTypes.Role, "admin"));
+                                     }
+                                 }
+                             }
+                         };
+                     });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -46,7 +67,7 @@ namespace GestionDesAbsencesMigration
             app.UseStaticFiles();
 
             app.UseRouting();
-
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

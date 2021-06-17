@@ -139,3 +139,4 @@ D:\mini projets\GestionDesAbsencesMigration\GestionDesAbsencesMigration\obj\Debu
 D:\mini projets\GestionDesAbsencesMigration\GestionDesAbsencesMigration\obj\Debug\net5.0\GestionDesAbsencesMigration.Views.pdb
 D:\mini projets\GestionDesAbsencesMigration\GestionDesAbsencesMigration\obj\Debug\net5.0\GestionDesAbsencesMigration.csproj.CopyComplete
 D:\mini projets\GestionDesAbsencesMigration\GestionDesAbsencesMigration\obj\Debug\net5.0\GestionDesAbsencesMigration.genruntimeconfig.cache
+D:\mini projets\GestionDesAbsencesMigration\GestionDesAbsencesMigration\obj\Debug\net5.0\GestionDesAbsencesMigration.csprojAssemblyReference.cache

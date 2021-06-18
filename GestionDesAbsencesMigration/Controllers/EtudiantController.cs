@@ -8,9 +8,9 @@ namespace GestionDesAbsencesMigration.Controllers
 {
     public class EtudiantController : Controller
     {
-        public IActionResult Index()
+        public string Index()
         {
-            return View();
+            return "Etudiant";
         }
     }
 }

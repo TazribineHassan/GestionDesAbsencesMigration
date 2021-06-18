@@ -124,7 +124,7 @@ namespace GestionDesAbsencesMigration.ServicesImpl
                             }).FirstOrDefault();
 
 
-            // generer les absenses 'ils n'existent pas
+            // generer les absenses s'ils n'existent pas
             List<StudentsList> final_result = new List<StudentsList>();
             foreach (var classe in students_by_classe.classes)
             {

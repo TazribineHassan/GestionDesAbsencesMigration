@@ -133,7 +133,7 @@ namespace GestionDesAbsencesMigration.ServicesImpl
             return final_result;
         }
 
-        public List<EtudiantAbsent> absenceList()
+        public List<EtudiantAbsent> statisticsPdf()
         {
 
             int[] tabSem = { 1, 2, 3 };
@@ -170,6 +170,33 @@ namespace GestionDesAbsencesMigration.ServicesImpl
             }
 
             return filtredList;
+        }
+
+        public List<EtudiantAbsent> statistics(int id_semaine)
+        {
+            int[] tabSem = { 1, 2, 3 };
+            var result2 = context.Etudiants.Select(etudiant => new EtudiantAbsent()
+            {
+                nomClass = etudiant.Classe.Nom,
+                id = etudiant.Id,
+                nom = etudiant.Nom,
+                prenom = etudiant.Prenom,
+                absence_count = etudiant.Absences.Where(absence => !absence.EstPresent).Count()
+            }).ToList();
+
+            var result3 = context.Etudiants.Join(context.Absences,
+                etudiant => etudiant.Id,
+                absence => absence.Etudiant.Id,
+
+                (etudiant, absence) => new EtudiantAbsent()
+                {
+                    nomClass = etudiant.Classe.Nom,
+                    id = etudiant.Id,
+                    nom = etudiant.Nom,
+                    prenom = etudiant.Prenom,
+                    absence_count = etudiant.Absences.Where(myabsence => !absence.EstPresent && tabSem.Contains(myabsence.Details_Emploi.Emploi.Semaine.id)).Count()
+                }).ToList();
+            return result3;
         }
     }
 

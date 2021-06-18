@@ -22,7 +22,7 @@ namespace GestionDesAbsencesMigration.Controllers
 
         public IActionResult Index()
         {
-            var listOfSeance = professeurService.GetSeancesForProf(1);
+            var listOfSeance = professeurService.GetSeancesForProf(GetIdUserFromCoockie().Id);
 
             return View(listOfSeance);
         }

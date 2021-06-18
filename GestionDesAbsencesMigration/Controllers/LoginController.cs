@@ -36,6 +36,9 @@ namespace GestionDesAbsencesMigration.Controllers
 
             if (user is Etudiant) return RedirectToAction("Index", "Etudiant");
 
+            if (user is Administrateur) return RedirectToAction("Index", "Admin");
+
+            ViewBag.action = "/Login/validate_user";
             return View();
 
         }
@@ -48,7 +51,7 @@ namespace GestionDesAbsencesMigration.Controllers
 
             if (user == null)
             {
-                return RedirectToAction("Login");
+                return RedirectToAction("Index", new { msg = "Email or password are incorrect" });
             }
 
             string role = null;
@@ -62,7 +65,7 @@ namespace GestionDesAbsencesMigration.Controllers
             if (user is Professeur)  return RedirectToAction("Index", "Professeur");
             if (user is Etudiant) return RedirectToAction("Index", "Etudiant");
 
-            return RedirectToAction("Login");
+            return RedirectToAction("Index", new { msg = "Email or password are incorrect" });
         }
 
         [Authorize(Roles = "admin")]
@@ -73,7 +76,6 @@ namespace GestionDesAbsencesMigration.Controllers
         }
 
 
-
         public ActionResult IndexMsg(string msg)
         {
             ViewBag.Msg = msg;
@@ -82,7 +84,19 @@ namespace GestionDesAbsencesMigration.Controllers
 
         public ActionResult Admin()
         {
-            return View();
+
+            /* CHECK IF USER ALREADY SIGNED IN */
+            var userEmail = this.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+            var user = loginService.getUser(userEmail);
+
+            if (user is Professeur) return RedirectToAction("Index", "Professeur");
+
+            if (user is Etudiant) return RedirectToAction("Index", "Etudiant");
+
+            if (user is Administrateur) return RedirectToAction("Index", "Admin");
+
+            ViewBag.action = "/Login/CheckAdmin";
+            return View("Index");
         }
 
         public ActionResult AdminMsg(string msg)
@@ -92,14 +106,19 @@ namespace GestionDesAbsencesMigration.Controllers
         }
 
         [HttpPost]
-        public ActionResult CheckAdmin(string email, string password)
+        public async Task<ActionResult> CheckAdmin(string email, string password)
         {
             Administrateur admin = loginService.Login(email, password, "admin") as Administrateur;
             if (admin != null)
             {
 
+                this.ControllerContext.HttpContext.Response.Cookies.Append("AdminName", admin.Nom + " " + admin.Prenom);
+
+                ClaimsPrincipal claimsPrincipal = createClaimsPrincipal(email, admin.Role.Nom);
+                await HttpContext.SignInAsync(claimsPrincipal);
+
                 //ViewBag.Nom = professeur.Nom;
-                return RedirectToAction("Home", "Admin");
+                return RedirectToAction("Index", "Admin");
 
             }
             else

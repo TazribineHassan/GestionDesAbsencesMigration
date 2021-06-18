@@ -2,78 +2,71 @@
 using GestionDesAbsencesMigration.Models;
 using GestionDesAbsencesMigration.Models.Context;
 using GestionDesAbsencesMigration.services;
+using GestionDesAbsencesMigration.Services;
 using GestionDesAbsencesMigration.ServicesImpl;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace GestionDesAbsencesMigration.Controllers
 {
+    [Authorize(Roles = "admin")]
     public class AdminController : Controller
     {
         IAdminService AdminService;
         IProfesseurService professeurService;
-        ApplicationContext applicationContext;
-        public AdminController(IAdminService AdminService, IProfesseurService professeurService, ApplicationContext applicationContext)
+        ISemaineService semaineService;
+        ICycleService cycleService;
+        IEtudiantService etudiantService;
+        private string admin_name;
+        public AdminController(IAdminService AdminService, IProfesseurService professeurService, ISemaineService semaineService, ICycleService cycleService, IEtudiantService etudiantService)
         {
             this.professeurService = professeurService;
             this.AdminService = AdminService;
-            this.applicationContext = applicationContext;
+            this.semaineService = semaineService;
+            this.cycleService = cycleService;
+            this.etudiantService = etudiantService;
+
         }
         // GET: Admin
-        public ActionResult Index()
+        public string Index()
         {
-            if (this.ControllerContext.HttpContext.Request.Cookies.Keys.Contains("AdminName"))
-            {
-                String s = this.ControllerContext.HttpContext.Request.Cookies["AdminName"];
-                ViewBag.adminName = s;
-            }
 
-            return View();
+            var user = GetIdUserFromCoockie();
+            this.admin_name = user.Nom = " " + user.Prenom;
+            ViewBag.adminName = admin_name;
+
+            return admin_name;
         }
 
 
         public ActionResult Home()
         {
-            if (this.ControllerContext.HttpContext.Request.Cookies.Keys.Contains("AdminName"))
-            {
-                String s = this.ControllerContext.HttpContext.Request.Cookies["AdminName"];
-                ViewBag.adminName = s;
-            }
+            ViewBag.adminName = admin_name;
             return View();
         }
 
         public ActionResult AllFilieres()
         {
-            if (this.ControllerContext.HttpContext.Request.Cookies.Keys.Contains("AdminName"))
-            {
-                String s = this.ControllerContext.HttpContext.Request.Cookies["AdminName"];
-                ViewBag.adminName = s;
-            }
+            ViewBag.adminName = admin_name;
             return View();
         }
 
         public ActionResult AjouterClasse()
         {
-            if (this.ControllerContext.HttpContext.Request.Cookies.Keys.Contains("AdminName"))
-            {
-                String s = this.ControllerContext.HttpContext.Request.Cookies["AdminName"];
-                ViewBag.adminName = s;
-            }
+            ViewBag.adminName = admin_name;
             return View();
         }
 
         public ActionResult ExcelPage()
         {
-            if (this.ControllerContext.HttpContext.Request.Cookies.Keys.Contains("AdminName"))
-            {
-                String s = this.ControllerContext.HttpContext.Request.Cookies["AdminName"];
-                ViewBag.adminName = s;
-            }
-            ViewBag.list = new SelectList(applicationContext.Cycles, "Id", "Nom");
+            ViewBag.adminName = admin_name;
+            ViewBag.list = new SelectList(cycleService.getAll(), "Id", "Nom");
 
             return View();
         }
@@ -89,13 +82,9 @@ namespace GestionDesAbsencesMigration.Controllers
 */
         public ActionResult AllEtudiants()
         {
-            if (this.ControllerContext.HttpContext.Request.Cookies.Keys.Contains("AdminName"))
-            {
-                String s = this.ControllerContext.HttpContext.Request.Cookies["AdminName"];
-                ViewBag.adminName = s;
-            }
-            ViewBag.list = new SelectList(applicationContext.Cycles, "Id", "Nom");
-            return View(applicationContext.Etudiants.ToList());
+            ViewBag.adminName = admin_name;
+            ViewBag.list = new SelectList(cycleService.getAll(), "Id", "Nom");
+            return View(etudiantService.getAll());
         }
 
         //SaveStudent
@@ -111,14 +100,14 @@ namespace GestionDesAbsencesMigration.Controllers
             e.Id_classe = classe;
             e.Password = Encryption.Encrypt(cne);
             AdminService.saveEtudiant(e);
-            ViewBag.list = new SelectList(applicationContext.Cycles, "Id", "Nom");
+            ViewBag.list = new SelectList(cycleService.getAll(), "Id", "Nom");
             return Redirect("/Admin/AllEtudiants");
         }
 
         //delete Student
         public ActionResult DeleteEtudiant(int id)
         {
-            Etudiant e = applicationContext.Etudiants.Find(id);
+            Etudiant e = etudiantService.GetEudiantById(id);
             AdminService.deleteEtudiant(e);
             return Redirect("/Admin/AllEtudiants");
         }
@@ -129,7 +118,7 @@ namespace GestionDesAbsencesMigration.Controllers
         {
             //String s = this.ControllerContext.HttpContext.Request.Cookies["AdminName"];
             //ViewBag.adminName = s;
-            Etudiant e = applicationContext.Etudiants.Find(id);
+            Etudiant e = etudiantService.GetEudiantById(id);
             return PartialView(e);
         }
 
@@ -137,8 +126,8 @@ namespace GestionDesAbsencesMigration.Controllers
         {
             ViewBag.e = id;
             ViewBag.valN = "";
-            ViewBag.list = new SelectList(applicationContext.Cycles, "Id", "Nom");
-            Etudiant e = applicationContext.Etudiants.Find(id);
+            ViewBag.list = new SelectList(cycleService.getAll(), "Id", "Nom");
+            Etudiant e = etudiantService.GetEudiantById(id);
             return PartialView(e);
         }
 
@@ -146,27 +135,23 @@ namespace GestionDesAbsencesMigration.Controllers
         [HttpPost]
         public ActionResult EditEtudiant(int editidinput, string editcne, string editnom, String editprenom, string editemail, string editcycle, int editclasse, int editgroupe)
         {
-            Etudiant newE = applicationContext.Etudiants.Find(editidinput);
+            Etudiant newE = etudiantService.GetEudiantById(editidinput);
             newE.Cne = editcne;
             newE.Nom = editnom;
             newE.Prenom = editprenom;
             newE.Email = editemail;
             newE.Id_groupe = editgroupe;
             newE.Id_classe = editclasse;
-            applicationContext.SaveChanges();
-            ViewBag.list = new SelectList(applicationContext.Cycles, "Id", "Nom");
+            etudiantService.UpdateEtudiant(newE);
+            ViewBag.list = new SelectList(cycleService.getAll(), "Id", "Nom");
             return Redirect("/Admin/AllEtudiants");
         }
 
         //Prof
         public ActionResult AllProfs()
         {
-            if (this.ControllerContext.HttpContext.Request.Cookies.Keys.Contains("AdminName"))
-            {
-                String s = this.ControllerContext.HttpContext.Request.Cookies["AdminName"];
-                ViewBag.adminName = s;
-            }
-            return View(applicationContext.Professeurs.ToList());
+            ViewBag.adminName = admin_name;
+            return View(professeurService.getAll());
         }
 
         //saveProf
@@ -190,14 +175,14 @@ namespace GestionDesAbsencesMigration.Controllers
         {
             //String s = this.ControllerContext.HttpContext.Request.Cookies["AdminName"];
             //ViewBag.adminName = s;
-            Professeur e = applicationContext.Professeurs.Find(id);
+            Professeur e = professeurService.GetProfesseurById(id);
             return PartialView(e);
         }
 
         //delete Prof
         public ActionResult DeleteProf(int id)
         {
-            Professeur e = applicationContext.Professeurs.Find(id);
+            Professeur e = professeurService.GetProfesseurById(id);
             professeurService.deleteProfesseur(e);
             return Redirect("/Admin/AllProfs");
         }
@@ -207,7 +192,7 @@ namespace GestionDesAbsencesMigration.Controllers
         public PartialViewResult ProfEdit(int id)
         {
             ViewBag.e = id;
-            Professeur p = applicationContext.Professeurs.Find(id);
+            Professeur p = professeurService.GetProfesseurById(id);
             return PartialView(p);
         }
 
@@ -217,14 +202,14 @@ namespace GestionDesAbsencesMigration.Controllers
         {
 
 
-            Professeur newE = applicationContext.Professeurs.Find(editidinput);
+            Professeur newE =professeurService.GetProfesseurById(editidinput);
             newE.Code_prof = editcode;
             newE.Nom = editnom;
             newE.Prenom = editprenom;
             newE.Email = editemail;
 
-            applicationContext.SaveChanges();
-            ViewBag.list = new SelectList(applicationContext.Cycles, "Id", "Nom");
+            professeurService.updateProfesseur(newE);
+            ViewBag.list = new SelectList(cycleService.getAll(), "Id", "Nom");
             return Redirect("/Admin/AllPrfos");
         }
 
@@ -270,8 +255,8 @@ namespace GestionDesAbsencesMigration.Controllers
                 }
             }
             // return View();
-        }*/
-
+        }
+*/
 
         /*[HttpPost]
         public ActionResult AddProfs()
@@ -318,33 +303,21 @@ namespace GestionDesAbsencesMigration.Controllers
 
         public ActionResult AjouterProfesseur()
         {
-            if (this.ControllerContext.HttpContext.Request.Cookies.Keys.Contains("AdminName"))
-            {
-                String s = this.ControllerContext.HttpContext.Request.Cookies["AdminName"];
-                ViewBag.adminName = s;
-            }
+            ViewBag.adminName = admin_name;
             return View();
         }
         public ActionResult AjouterEtudiants()
         {
-            if (this.ControllerContext.HttpContext.Request.Cookies.Keys.Contains("AdminName"))
-            {
-                String s = this.ControllerContext.HttpContext.Request.Cookies["AdminName"];
-                ViewBag.adminName = s;
-            }
-            ViewBag.list = new SelectList(applicationContext.Cycles, "Id", "Nom");
+            ViewBag.adminName = admin_name;
+            ViewBag.list = new SelectList(cycleService.getAll(), "Id", "Nom");
             return View();
         }
 
         public ActionResult CorrectAbs()
         {
-            if (this.ControllerContext.HttpContext.Request.Cookies.Keys.Contains("AdminName"))
-            {
-                String s = this.ControllerContext.HttpContext.Request.Cookies["AdminName"];
-                ViewBag.adminName = s;
-            }
-            ViewBag.list = new SelectList(applicationContext.Professeurs, "Id", "Nom");
-            ViewBag.listSemaines = new SelectList(applicationContext.Semaines, "Id", "Code");
+            ViewBag.adminName = admin_name;
+            ViewBag.list = new SelectList(professeurService.getAll(), "Id", "Nom");
+            ViewBag.listSemaines = new SelectList(semaineService.getAll(), "Id", "Code");
 
             return View();
         }
@@ -388,47 +361,16 @@ namespace GestionDesAbsencesMigration.Controllers
         public ActionResult Statistiques()
         {
             int idSemaine = 1;
-            int[] tabSem = { 1, 2, 3 };
-            if (this.ControllerContext.HttpContext.Request.Cookies.Keys.Contains("AdminName"))
-            {
-                String s = this.ControllerContext.HttpContext.Request.Cookies["AdminName"];
-                ViewBag.adminName = s;
-            }
-            var result2 = applicationContext.Etudiants.Select(etudiant => new EtudiantAbsent()
-            {
-                nomClass = etudiant.Classe.Nom,
-                id = etudiant.Id,
-                nom = etudiant.Nom,
-                prenom = etudiant.Prenom,
-                absence_count = etudiant.Absences.Where(absence => !absence.EstPresent).Count()
-            }).ToList();
-
-            var result3 = applicationContext.Etudiants.Join(applicationContext.Absences,
-                etudiant => etudiant.Id,
-                absence => absence.Etudiant.Id,
-
-                (etudiant, absence) => new EtudiantAbsent()
-                {
-                    nomClass = etudiant.Classe.Nom,
-                    id = etudiant.Id,
-                    nom = etudiant.Nom,
-                    prenom = etudiant.Prenom,
-                    absence_count = etudiant.Absences.Where(myabsence => !absence.EstPresent && tabSem.Contains(myabsence.Details_Emploi.Emploi.Semaine.id)).Count()
-                }).ToList();
-
+            ViewBag.adminName = admin_name;
+            var result3 = AdminService.statistics(idSemaine);
             return View(result3);
         }
 
         public ActionResult StatistiquesPDF()
         {
             int idSemaine = 1;
-            if (this.ControllerContext.HttpContext.Request.Cookies.Keys.Contains("AdminName"))
-            {
-                String s = this.ControllerContext.HttpContext.Request.Cookies["AdminName"];
-                ViewBag.adminName = s;
-            }
-
-            List<EtudiantAbsent> filtredList = AdminService.absenceList();
+            ViewBag.adminName = admin_name;
+            List<EtudiantAbsent> filtredList = AdminService.statisticsPdf();
             return View(filtredList);
         }
 
@@ -440,7 +382,6 @@ namespace GestionDesAbsencesMigration.Controllers
         public ActionResult ListeEtudiants(int seances, int modules, int liste_Semaines)
         {
             var listOfStudents = AdminService.GetStudentsList(seances, modules, liste_Semaines);
-
             return View(listOfStudents);
         }
 
@@ -448,9 +389,14 @@ namespace GestionDesAbsencesMigration.Controllers
         public ActionResult Marquez(int id, bool presence, string url)
         {
             AdminService.UpdateAbsence(id, presence);
-
-
             return Redirect(url);
+        }
+
+        private Administrateur GetIdUserFromCoockie()
+        {
+            var userEmail = this.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+            var user = AdminService.GetAdminByEmail(userEmail);
+            return user;
         }
 
     }

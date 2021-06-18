@@ -47,7 +47,7 @@ namespace GestionDesAbsencesMigration.ServicesImpl
         {
             string[] jours = { "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche" };
 
-            DateTime aujourdhui = DateTime.Parse("05/15/2021");
+            DateTime aujourdhui = DateTime.Parse("15/05/2021");
             Semaine semaine_courante;
             semaine_courante = context.Semaines.Where(s => s.Date_debut.CompareTo(aujourdhui) <= 0
                                                           && s.Date_fin.CompareTo(aujourdhui) >= 0).FirstOrDefault();
@@ -189,6 +189,21 @@ namespace GestionDesAbsencesMigration.ServicesImpl
         {
             var user = context.Professeurs.Find(Id);
             user.Password = newPass;
+            context.SaveChanges();
+        }
+
+        public IEnumerable<Professeur> getAll()
+        {
+            return context.Professeurs;
+        }
+
+        public void updateProfesseur(Professeur professeur)
+        {
+            Professeur old_prof = context.Professeurs.Find(professeur.Id);
+            old_prof.Code_prof = professeur.Code_prof;
+            old_prof.Nom = professeur.Nom;
+            old_prof.Prenom = professeur.Prenom;
+            old_prof.Email = professeur.Email;
             context.SaveChanges();
         }
     }

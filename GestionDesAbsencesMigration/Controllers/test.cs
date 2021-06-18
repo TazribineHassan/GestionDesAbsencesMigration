@@ -23,7 +23,7 @@ namespace GestionDesAbsencesMigration.Controllers
         }
 
 
-        public string Index()
+        public string test1()
         {
 
             var result3 = professeurService.GetStudentsList(1, 1, 1);
@@ -39,6 +39,19 @@ namespace GestionDesAbsencesMigration.Controllers
         {
 
             var result3 = professeurService.GetSeancesForProf(2);
+            var str = JsonConvert.SerializeObject(result3, Formatting.Indented,
+                                                    new JsonSerializerSettings
+                                                    {
+                                                        ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+                                                    });
+            return str;
+        }
+
+
+        public string test2()
+        {
+
+            var result3 = professeurService.GetSeancesForProf(1);
             var str = JsonConvert.SerializeObject(result3, Formatting.Indented,
                                                     new JsonSerializerSettings
                                                     {

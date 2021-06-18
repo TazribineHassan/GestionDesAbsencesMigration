@@ -32,7 +32,7 @@ namespace GestionDesAbsencesMigration.ServicesImpl
 
         public Professeur GetProfesseurByEmail(string email)
         {
-            return context.Professeurs.Include(prof => prof.Role).FirstOrDefault(prof => prof.Email == email);
+            return context.Professeurs.Include(prof => prof.Role).Include(prof => prof.Modules).FirstOrDefault(prof => prof.Email == email);
         }
 
         public Professeur GetProfesseurById(int id)
@@ -47,7 +47,7 @@ namespace GestionDesAbsencesMigration.ServicesImpl
         {
             string[] jours = { "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche" };
 
-            DateTime aujourdhui = DateTime.Parse("05/15/2021");
+            DateTime aujourdhui = DateTime.Parse("15/05/2021");
             Semaine semaine_courante;
             semaine_courante = context.Semaines.Where(s => s.Date_debut.CompareTo(aujourdhui) <= 0
                                                           && s.Date_fin.CompareTo(aujourdhui) >= 0).FirstOrDefault();
@@ -127,7 +127,7 @@ namespace GestionDesAbsencesMigration.ServicesImpl
                             }).FirstOrDefault();
 
 
-            // generer les absenses 'ils n'existent pas
+            // generer les absenses s'ils n'existent pas
             List<StudentsList> final_result = new List<StudentsList>();
             foreach (var classe in students_by_classe.classes)
             {

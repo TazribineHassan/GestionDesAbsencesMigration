@@ -1,18 +1,14 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using GestionDesAbsencesMigration.Models.Context;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using System.Security.Claims;
 using GestionDesAbsencesMigration.services;
 using GestionDesAbsencesMigration.ServicesImpl;
+using GestionDesAbsencesMigration.Services;
 
 namespace GestionDesAbsencesMigration
 {
@@ -33,6 +29,9 @@ namespace GestionDesAbsencesMigration
             
             // services
             services.AddTransient<IProfesseurService, ProfesseurService>();
+            services.AddTransient<IAdminService, AdminService>();
+            services.AddTransient<IEtudiantService, EtudiantService>();
+            services.AddTransient<ILoginService, LoginService>();
 
             services.AddControllersWithViews();
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)

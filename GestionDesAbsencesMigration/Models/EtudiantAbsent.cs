@@ -7,7 +7,7 @@ namespace GestionDesAbsencesMigration.Models
 {
     public class EtudiantAbsent
     {
-         public int id { get; set; }
+        public int id { get; set; }
         public string nom { get; set; }
         public string prenom { get; set; }
         public int absence_count { get; set; }

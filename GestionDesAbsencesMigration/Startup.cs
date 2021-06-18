@@ -38,21 +38,8 @@ namespace GestionDesAbsencesMigration
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                      .AddCookie(options => {
                          options.LoginPath = "/Login";
-                         options.Events = new CookieAuthenticationEvents()
-                         {
-                             OnSigningIn = async context =>
-                             {
-                                 var principal = context.Principal;
-                                 if (principal.HasClaim(claim => claim.Type.Equals(ClaimTypes.NameIdentifier)))
-                                 {
-                                     if((principal.Claims.FirstOrDefault(claim => claim.Type.Equals(ClaimTypes.NameIdentifier)).Value == "admin"))
-                                     {
-                                         var identity = principal.Identity as ClaimsIdentity;
-                                         identity.AddClaim(new Claim(ClaimTypes.Role, "admin"));
-                                     }
-                                 }
-                             }
-                         };
+                         options.AccessDeniedPath = "/Login?accessDenied";
+                         
                      });
         }
 

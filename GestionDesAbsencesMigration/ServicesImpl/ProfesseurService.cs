@@ -1,6 +1,7 @@
 ﻿using GestionDesAbsencesMigration.Models;
 using GestionDesAbsencesMigration.Models.Context;
 using GestionDesAbsencesMigration.services;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,7 +32,7 @@ namespace GestionDesAbsencesMigration.ServicesImpl
 
         public Professeur GetProfesseurByEmail(string email)
         {
-            return context.Professeurs.FirstOrDefault(prof => prof.Email == email);
+            return context.Professeurs.Include(prof => prof.Role).FirstOrDefault(prof => prof.Email == email);
         }
 
         public Professeur GetProfesseurById(int id)
@@ -43,18 +44,21 @@ namespace GestionDesAbsencesMigration.ServicesImpl
         {
             string[] jours = { "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche" };
 
-            DateTime aujourdhui = DateTime.Parse("05/01/2021");
+            DateTime aujourdhui = DateTime.Parse("15/05/2021");
             Semaine semaine_courante;
-            using (var db = new ApplicationContext())
-            {
-                semaine_courante = db.Semaines.Where(s => s.Date_debut.CompareTo(aujourdhui) <= 0
+            semaine_courante = context.Semaines.Where(s => s.Date_debut.CompareTo(aujourdhui) <= 0
                                                           && s.Date_fin.CompareTo(aujourdhui) >= 0).FirstOrDefault();
-            }
+            
             long jour_indexer = (long)(aujourdhui - semaine_courante.Date_debut).TotalDays;
             string aujourdhui_string = jours[jour_indexer];
             List<SeancesForProf> listSeeances = new List<SeancesForProf>();
 
-            var seances = context.details_Emplois.Where(e => e.Module.Professeur.Id == professeur_id
+            var seances = context.details_Emplois.Include(emp => emp.Module)
+                                                 .ThenInclude(emp => emp.Professeur)
+                                                 .Include(emp => emp.Emploi)
+                                                 .ThenInclude(emploi => emploi.Semaine)
+                                                 .Include(emp => emp.Seance)
+                                                 .Where(e => e.Module.Professeur.Id == professeur_id
                                                              && e.Emploi.Semaine.id == semaine_courante.id
                                                              && e.Seance.Jour.Equals(aujourdhui_string))
                                                   .Select(e => new
@@ -91,10 +95,16 @@ namespace GestionDesAbsencesMigration.ServicesImpl
 
         public List<StudentsList> GetStudentsList(int id_seance, int id_module, int id_semaine)
         {
-            var seance_courante = context.details_Emplois.Where(r => (r.Module_Id == id_module
+            var seance_courante = context.details_Emplois
+                                         .Include(e => e.Emploi).ThenInclude(e => e.Semaine)
+                                         .Include(seance => seance.Absences)
+                                         .Where(r => (r.Module_Id == id_module
                                            && r.Seance_Id == id_seance
                                            && r.Emploi.Semaine.id == id_semaine)).FirstOrDefault();
-            var students_by_classe = context.Modules.Where(module => module.Id == id_module)
+
+            var students_by_classe = context.Modules
+                            .Include(m => m.Classes).ThenInclude(classe => classe.Etudiants)    
+                            .Where(module => module.Id == id_module)
                             .Select(module => new
                             {
                                 classes = module.Classes.Select(c => new
@@ -171,5 +181,6 @@ namespace GestionDesAbsencesMigration.ServicesImpl
             var result = context.SaveChanges();
             return result >= 1;
         }
+
     }
 }

@@ -16,5 +16,6 @@ namespace GestionDesAbsencesMigration.services
         List<StudentsList> GetStudentsList(int id_seance, int id_module, int id_semaine);
         bool UpdateAbsence(int id_absence, bool est_present);
         void deleteProfesseur(Professeur p);
+        void ResetPassword(int Id, string newPass);
     }
 }

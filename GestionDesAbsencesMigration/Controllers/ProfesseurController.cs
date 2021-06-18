@@ -1,4 +1,5 @@
-﻿using GestionDesAbsencesMigration.Models;
+﻿using GestionDesAbsencesMigration.Common;
+using GestionDesAbsencesMigration.Models;
 using GestionDesAbsencesMigration.Models.Context;
 using GestionDesAbsencesMigration.services;
 using Microsoft.AspNetCore.Authorization;
@@ -35,6 +36,37 @@ namespace GestionDesAbsencesMigration.Controllers
         {
 
             return View(GetIdUserFromCoockie());
+        }
+
+        public ActionResult Notez(int id_seance, int id_module, int id_semaine)
+        {
+            var listOfStudents = professeurService.GetStudentsList(id_seance, id_module, id_semaine);
+
+            return View(listOfStudents);
+        }
+
+        [HttpPost]
+        public ActionResult Marquez(int id, bool presence, string url)
+        {
+            professeurService.UpdateAbsence(id, presence);
+
+            return Redirect(url);
+        }
+
+        [HttpPost]
+        public ActionResult ResetPassword(string currentPassword, string newPassword, string url)
+        {
+            var user = GetIdUserFromCoockie();
+            if(Encryption.Decrypt(user.Password).Equals(currentPassword))
+            {
+                professeurService.ResetPassword(user.Id, Encryption.Encrypt(newPassword));
+                ViewBag.Msg = "Le mot de passe a été bien changé";
+            }
+            else
+            {
+                ViewBag.Msg = "Votre mot de passe actuel est inccorect";
+            }
+            return Redirect(url);
         }
 
         private Professeur GetIdUserFromCoockie()

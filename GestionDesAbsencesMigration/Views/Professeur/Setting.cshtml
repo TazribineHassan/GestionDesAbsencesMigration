@@ -1,17 +1,19 @@
-﻿
+﻿@using Microsoft.AspNetCore.Http.Extensions
 @{
     ViewData["Title"] = "Paramètres";
     Layout = "~/Views/Shared/ProfesseurLayout.cshtml";
+    string absoluteurl = Context.Request.GetDisplayUrl();
 }
 
 
 <div class="row justify-content-center ">
+    <h3>@ViewBag.Msg</h3> 
     <div class="col-md-8 pt-3">
         <div class="card bg-light shadow">
             <div class="card-header font-weight-bolder  btn btn-primary text-center">
                 Changez le mot de passe
             </div>
-            <form action="/" method="post">
+            <form action="/Professeur/ResetPassword" method="post">
                 <div class="card-body">
                     <div class="form-group">
                         <label class="col-md-10 control-label">Mot de passe actuel <span class="text-danger">*</span></label>
@@ -35,10 +37,12 @@
                             <input type="password" id="confirmNewPassword" name="confirmNewPassword" required class="form-control">
                         </div>
                     </div>
+                    <input type="hidden" id="confirmNewPassword" name="url" value="@absoluteurl" required class="form-control">
+
                     <div class="form-group">
                         <div class="row">
                             <button type="submit" class="btn btn-primary mx-5">Valider</button>
-                            <button type="reset" class="btn btn-warning ml-5" >Annuler</button>
+                            <button type="reset" class="btn btn-warning ml-5">Annuler</button>
                         </div>
                     </div>
                 </div>

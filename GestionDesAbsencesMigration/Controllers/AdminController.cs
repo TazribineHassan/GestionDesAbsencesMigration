@@ -1,6 +1,10 @@
-﻿/*using GestionDesAbsencesMigration.Models;
+﻿using GestionDesAbsencesMigration.Common;
+using GestionDesAbsencesMigration.Models;
+using GestionDesAbsencesMigration.Models.Context;
 using GestionDesAbsencesMigration.services;
+using GestionDesAbsencesMigration.ServicesImpl;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,18 +15,20 @@ namespace GestionDesAbsencesMigration.Controllers
     public class AdminController : Controller
     {
         IAdminService AdminService;
-
-        public AdminController(IAdminService AdminService)
+        IProfesseurService professeurService;
+        ApplicationContext applicationContext;
+        public AdminController(IAdminService AdminService, IProfesseurService professeurService, ApplicationContext applicationContext)
         {
-
+            this.professeurService = professeurService;
             this.AdminService = AdminService;
+            this.applicationContext = applicationContext;
         }
         // GET: Admin
         public ActionResult Index()
         {
-            if (this.ControllerContext.HttpContext.Request.Cookies.AllKeys.Contains("AdminName"))
+            if (this.ControllerContext.HttpContext.Request.Cookies.Keys.Contains("AdminName"))
             {
-                String s = this.ControllerContext.HttpContext.Request.Cookies["AdminName"].Value;
+                String s = this.ControllerContext.HttpContext.Request.Cookies["AdminName"];
                 ViewBag.adminName = s;
             }
 
@@ -32,9 +38,9 @@ namespace GestionDesAbsencesMigration.Controllers
 
         public ActionResult Home()
         {
-            if (this.ControllerContext.HttpContext.Request.Cookies.AllKeys.Contains("AdminName"))
+            if (this.ControllerContext.HttpContext.Request.Cookies.Keys.Contains("AdminName"))
             {
-                String s = this.ControllerContext.HttpContext.Request.Cookies["AdminName"].Value;
+                String s = this.ControllerContext.HttpContext.Request.Cookies["AdminName"];
                 ViewBag.adminName = s;
             }
             return View();
@@ -42,9 +48,9 @@ namespace GestionDesAbsencesMigration.Controllers
 
         public ActionResult AllFilieres()
         {
-            if (this.ControllerContext.HttpContext.Request.Cookies.AllKeys.Contains("AdminName"))
+            if (this.ControllerContext.HttpContext.Request.Cookies.Keys.Contains("AdminName"))
             {
-                String s = this.ControllerContext.HttpContext.Request.Cookies["AdminName"].Value;
+                String s = this.ControllerContext.HttpContext.Request.Cookies["AdminName"];
                 ViewBag.adminName = s;
             }
             return View();
@@ -52,9 +58,9 @@ namespace GestionDesAbsencesMigration.Controllers
 
         public ActionResult AjouterClasse()
         {
-            if (this.ControllerContext.HttpContext.Request.Cookies.AllKeys.Contains("AdminName"))
+            if (this.ControllerContext.HttpContext.Request.Cookies.Keys.Contains("AdminName"))
             {
-                String s = this.ControllerContext.HttpContext.Request.Cookies["AdminName"].Value;
+                String s = this.ControllerContext.HttpContext.Request.Cookies["AdminName"];
                 ViewBag.adminName = s;
             }
             return View();
@@ -62,17 +68,16 @@ namespace GestionDesAbsencesMigration.Controllers
 
         public ActionResult ExcelPage()
         {
-            if (this.ControllerContext.HttpContext.Request.Cookies.AllKeys.Contains("AdminName"))
+            if (this.ControllerContext.HttpContext.Request.Cookies.Keys.Contains("AdminName"))
             {
-                String s = this.ControllerContext.HttpContext.Request.Cookies["AdminName"].Value;
+                String s = this.ControllerContext.HttpContext.Request.Cookies["AdminName"];
                 ViewBag.adminName = s;
             }
-            GestionDesAbsenceContext gestion = new GestionDesAbsenceContext();
-            ViewBag.list = new SelectList(gestion.Cycles, "Id", "Nom");
+            ViewBag.list = new SelectList(applicationContext.Cycles, "Id", "Nom");
 
             return View();
         }
-        public JsonResult GetClass(int id)
+       /* public JsonResult GetClass(int id)
         {
             GestionDesAbsenceContext gestion = new GestionDesAbsenceContext();
             gestion.Configuration.ProxyCreationEnabled = false;
@@ -81,24 +86,22 @@ namespace GestionDesAbsencesMigration.Controllers
             return Json(classe, JsonRequestBehavior.AllowGet);
 
         }
-
+*/
         public ActionResult AllEtudiants()
         {
-            if (this.ControllerContext.HttpContext.Request.Cookies.AllKeys.Contains("AdminName"))
+            if (this.ControllerContext.HttpContext.Request.Cookies.Keys.Contains("AdminName"))
             {
-                String s = this.ControllerContext.HttpContext.Request.Cookies["AdminName"].Value;
+                String s = this.ControllerContext.HttpContext.Request.Cookies["AdminName"];
                 ViewBag.adminName = s;
             }
-            GestionDesAbsenceContext gestion = new GestionDesAbsenceContext();
-            ViewBag.list = new SelectList(gestion.Cycles, "Id", "Nom");
-            return View(gestion.Etudiants.ToList());
+            ViewBag.list = new SelectList(applicationContext.Cycles, "Id", "Nom");
+            return View(applicationContext.Etudiants.ToList());
         }
 
         //SaveStudent
         [HttpPost]
         public ActionResult SaveEtudiant(string cne, string nom, String prenom, string email, string cycle, int classe, int groupe)
         {
-            GestionDesAbsenceContext gestion = new GestionDesAbsenceContext();
             Etudiant e = new Etudiant();
             e.Cne = cne;
             e.Nom = nom;
@@ -107,19 +110,16 @@ namespace GestionDesAbsencesMigration.Controllers
             e.Id_groupe = groupe;
             e.Id_classe = classe;
             e.Password = Encryption.Encrypt(cne);
-            AdminService service = new AdminService();
-            service.saveEtudiant(e);
-            ViewBag.list = new SelectList(gestion.Cycles, "Id", "Nom");
+            AdminService.saveEtudiant(e);
+            ViewBag.list = new SelectList(applicationContext.Cycles, "Id", "Nom");
             return Redirect("/Admin/AllEtudiants");
         }
 
         //delete Student
         public ActionResult DeleteEtudiant(int id)
         {
-            GestionDesAbsenceContext gestion = new GestionDesAbsenceContext();
-            Etudiant e = gestion.Etudiants.Find(id);
-            AdminService service = new AdminService();
-            service.deleteEtudiant(e);
+            Etudiant e = applicationContext.Etudiants.Find(id);
+            AdminService.deleteEtudiant(e);
             return Redirect("/Admin/AllEtudiants");
         }
 
@@ -127,20 +127,18 @@ namespace GestionDesAbsencesMigration.Controllers
         //details student
         public PartialViewResult etudiantDetails(int id)
         {
-            //String s = this.ControllerContext.HttpContext.Request.Cookies["AdminName"].Value;
+            //String s = this.ControllerContext.HttpContext.Request.Cookies["AdminName"];
             //ViewBag.adminName = s;
-            GestionDesAbsenceContext gestion = new GestionDesAbsenceContext();
-            Etudiant e = gestion.Etudiants.Find(id);
+            Etudiant e = applicationContext.Etudiants.Find(id);
             return PartialView(e);
         }
 
         public PartialViewResult etudiantEdit(int id)
         {
-            GestionDesAbsenceContext gestion = new GestionDesAbsenceContext();
             ViewBag.e = id;
             ViewBag.valN = "";
-            ViewBag.list = new SelectList(gestion.Cycles, "Id", "Nom");
-            Etudiant e = gestion.Etudiants.Find(id);
+            ViewBag.list = new SelectList(applicationContext.Cycles, "Id", "Nom");
+            Etudiant e = applicationContext.Etudiants.Find(id);
             return PartialView(e);
         }
 
@@ -148,29 +146,27 @@ namespace GestionDesAbsencesMigration.Controllers
         [HttpPost]
         public ActionResult EditEtudiant(int editidinput, string editcne, string editnom, String editprenom, string editemail, string editcycle, int editclasse, int editgroupe)
         {
-            GestionDesAbsenceContext gestion = new GestionDesAbsenceContext();
-            Etudiant newE = gestion.Etudiants.Find(editidinput);
+            Etudiant newE = applicationContext.Etudiants.Find(editidinput);
             newE.Cne = editcne;
             newE.Nom = editnom;
             newE.Prenom = editprenom;
             newE.Email = editemail;
             newE.Id_groupe = editgroupe;
             newE.Id_classe = editclasse;
-            gestion.SaveChanges();
-            ViewBag.list = new SelectList(gestion.Cycles, "Id", "Nom");
+            applicationContext.SaveChanges();
+            ViewBag.list = new SelectList(applicationContext.Cycles, "Id", "Nom");
             return Redirect("/Admin/AllEtudiants");
         }
 
         //Prof
         public ActionResult AllProfs()
         {
-            if (this.ControllerContext.HttpContext.Request.Cookies.AllKeys.Contains("AdminName"))
+            if (this.ControllerContext.HttpContext.Request.Cookies.Keys.Contains("AdminName"))
             {
-                String s = this.ControllerContext.HttpContext.Request.Cookies["AdminName"].Value;
+                String s = this.ControllerContext.HttpContext.Request.Cookies["AdminName"];
                 ViewBag.adminName = s;
             }
-            GestionDesAbsenceContext gestion = new GestionDesAbsenceContext();
-            return View(gestion.Professeurs.ToList());
+            return View(applicationContext.Professeurs.ToList());
         }
 
         //saveProf
@@ -179,35 +175,30 @@ namespace GestionDesAbsencesMigration.Controllers
         public ActionResult SaveProf(string code, string nom, String prenom, string email)
         {
 
-            GestionDesAbsenceContext gestion = new GestionDesAbsenceContext();
             Professeur e = new Professeur();
             e.Code_prof = code;
             e.Nom = nom;
             e.Prenom = prenom;
             e.Email = email;
             e.Password = Encryption.Encrypt(email);
-            ProfesseurService service = new ProfesseurService();
-            service.Save(e);
+            professeurService.Save(e);
             return Redirect("/Admin/AllProfs");
         }
 
         //Prof details PartialVies
         public PartialViewResult ProfDetails(int id)
         {
-            //String s = this.ControllerContext.HttpContext.Request.Cookies["AdminName"].Value;
+            //String s = this.ControllerContext.HttpContext.Request.Cookies["AdminName"];
             //ViewBag.adminName = s;
-            GestionDesAbsenceContext gestion = new GestionDesAbsenceContext();
-            Professeur e = gestion.Professeurs.Find(id);
+            Professeur e = applicationContext.Professeurs.Find(id);
             return PartialView(e);
         }
 
         //delete Prof
         public ActionResult DeleteProf(int id)
         {
-            GestionDesAbsenceContext gestion = new GestionDesAbsenceContext();
-            Professeur e = gestion.Professeurs.Find(id);
-            ProfesseurService service = new ProfesseurService();
-            service.deleteProfesseur(e);
+            Professeur e = applicationContext.Professeurs.Find(id);
+            professeurService.deleteProfesseur(e);
             return Redirect("/Admin/AllProfs");
         }
 
@@ -215,9 +206,8 @@ namespace GestionDesAbsencesMigration.Controllers
 
         public PartialViewResult ProfEdit(int id)
         {
-            GestionDesAbsenceContext gestion = new GestionDesAbsenceContext();
             ViewBag.e = id;
-            Professeur p = gestion.Professeurs.Find(id);
+            Professeur p = applicationContext.Professeurs.Find(id);
             return PartialView(p);
         }
 
@@ -227,22 +217,20 @@ namespace GestionDesAbsencesMigration.Controllers
         {
 
 
-            GestionDesAbsenceContext gestion = new GestionDesAbsenceContext();
-            Professeur newE = gestion.Professeurs.Find(editidinput);
+            Professeur newE = applicationContext.Professeurs.Find(editidinput);
             newE.Code_prof = editcode;
             newE.Nom = editnom;
             newE.Prenom = editprenom;
             newE.Email = editemail;
 
-            gestion.SaveChanges();
-            ViewBag.list = new SelectList(gestion.Cycles, "Id", "Nom");
+            applicationContext.SaveChanges();
+            ViewBag.list = new SelectList(applicationContext.Cycles, "Id", "Nom");
             return Redirect("/Admin/AllPrfos");
         }
 
 
-        GestionDesAbsenceContext db = new GestionDesAbsenceContext();
 
-        [ActionName("Index")]
+        /*[ActionName("Index")]
         [HttpPost]
         public ActionResult import(int myclass)
         {
@@ -282,10 +270,10 @@ namespace GestionDesAbsencesMigration.Controllers
                 }
             }
             // return View();
-        }
+        }*/
 
 
-        [HttpPost]
+        /*[HttpPost]
         public ActionResult AddProfs()
         {
 
@@ -326,44 +314,42 @@ namespace GestionDesAbsencesMigration.Controllers
             }
             // return View();
 
-        }
+        }*/
 
         public ActionResult AjouterProfesseur()
         {
-            if (this.ControllerContext.HttpContext.Request.Cookies.AllKeys.Contains("AdminName"))
+            if (this.ControllerContext.HttpContext.Request.Cookies.Keys.Contains("AdminName"))
             {
-                String s = this.ControllerContext.HttpContext.Request.Cookies["AdminName"].Value;
+                String s = this.ControllerContext.HttpContext.Request.Cookies["AdminName"];
                 ViewBag.adminName = s;
             }
             return View();
         }
         public ActionResult AjouterEtudiants()
         {
-            if (this.ControllerContext.HttpContext.Request.Cookies.AllKeys.Contains("AdminName"))
+            if (this.ControllerContext.HttpContext.Request.Cookies.Keys.Contains("AdminName"))
             {
-                String s = this.ControllerContext.HttpContext.Request.Cookies["AdminName"].Value;
+                String s = this.ControllerContext.HttpContext.Request.Cookies["AdminName"];
                 ViewBag.adminName = s;
             }
-            GestionDesAbsenceContext gestion = new GestionDesAbsenceContext();
-            ViewBag.list = new SelectList(gestion.Cycles, "Id", "Nom");
+            ViewBag.list = new SelectList(applicationContext.Cycles, "Id", "Nom");
             return View();
         }
 
         public ActionResult CorrectAbs()
         {
-            if (this.ControllerContext.HttpContext.Request.Cookies.AllKeys.Contains("AdminName"))
+            if (this.ControllerContext.HttpContext.Request.Cookies.Keys.Contains("AdminName"))
             {
-                String s = this.ControllerContext.HttpContext.Request.Cookies["AdminName"].Value;
+                String s = this.ControllerContext.HttpContext.Request.Cookies["AdminName"];
                 ViewBag.adminName = s;
             }
-            GestionDesAbsenceContext gestion = new GestionDesAbsenceContext();
-            ViewBag.list = new SelectList(gestion.Professeurs, "Id", "Nom");
-            ViewBag.listSemaines = new SelectList(gestion.Semaines, "Id", "Code");
+            ViewBag.list = new SelectList(applicationContext.Professeurs, "Id", "Nom");
+            ViewBag.listSemaines = new SelectList(applicationContext.Semaines, "Id", "Code");
 
             return View();
         }
 
-        public JsonResult GetModule(int id)
+        /*public JsonResult GetModule(int id)
         {
             GestionDesAbsenceContext gestion = new GestionDesAbsenceContext();
             gestion.Configuration.ProxyCreationEnabled = false;
@@ -397,19 +383,18 @@ namespace GestionDesAbsencesMigration.Controllers
 
             return Json(seances, JsonRequestBehavior.AllowGet);
 
-        }
+        }*/
 
         public ActionResult Statistiques()
         {
             int idSemaine = 1;
             int[] tabSem = { 1, 2, 3 };
-            if (this.ControllerContext.HttpContext.Request.Cookies.AllKeys.Contains("AdminName"))
+            if (this.ControllerContext.HttpContext.Request.Cookies.Keys.Contains("AdminName"))
             {
-                String s = this.ControllerContext.HttpContext.Request.Cookies["AdminName"].Value;
+                String s = this.ControllerContext.HttpContext.Request.Cookies["AdminName"];
                 ViewBag.adminName = s;
             }
-            GestionDesAbsenceContext db = new GestionDesAbsenceContext();
-            var result2 = db.Etudiants.Select(etudiant => new EtudiantAbsent()
+            var result2 = applicationContext.Etudiants.Select(etudiant => new EtudiantAbsent()
             {
                 nomClass = etudiant.Classe.Nom,
                 id = etudiant.Id,
@@ -418,7 +403,7 @@ namespace GestionDesAbsencesMigration.Controllers
                 absence_count = etudiant.Absences.Where(absence => !absence.EstPresent).Count()
             }).ToList();
 
-            var result3 = db.Etudiants.Join(db.Absences,
+            var result3 = applicationContext.Etudiants.Join(applicationContext.Absences,
                 etudiant => etudiant.Id,
                 absence => absence.Etudiant.Id,
 
@@ -437,10 +422,9 @@ namespace GestionDesAbsencesMigration.Controllers
         public ActionResult StatistiquesPDF()
         {
             int idSemaine = 1;
-            int[] tabSem = { 1, 2, 3 };
-            if (this.ControllerContext.HttpContext.Request.Cookies.AllKeys.Contains("AdminName"))
+            if (this.ControllerContext.HttpContext.Request.Cookies.Keys.Contains("AdminName"))
             {
-                String s = this.ControllerContext.HttpContext.Request.Cookies["AdminName"].Value;
+                String s = this.ControllerContext.HttpContext.Request.Cookies["AdminName"];
                 ViewBag.adminName = s;
             }
 
@@ -448,11 +432,11 @@ namespace GestionDesAbsencesMigration.Controllers
             return View(filtredList);
         }
 
-        *//*public actionresult generatepdf()
+        /*public ActionResult generatePdf()
         {
             return new rotativa.actionaspdf("statistiquespdf");
-        }*//*
-
+        }
+*/
         public ActionResult ListeEtudiants(int seances, int modules, int liste_Semaines)
         {
             var listOfStudents = AdminService.GetStudentsList(seances, modules, liste_Semaines);
@@ -471,4 +455,3 @@ namespace GestionDesAbsencesMigration.Controllers
 
     }
 }
-*/

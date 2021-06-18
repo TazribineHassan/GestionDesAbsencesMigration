@@ -15,12 +15,11 @@
 <div class="row justify-content-center py-5 ">
     <div class="col-md-8 btn btn-outline-danger">
         @*@Model.First().Semaine.Code - @Model.Last().Date.ToString("dddd-MM-yyyyy")*@
-        @ViewBag.Role
     </div>
 </div>
 
 <div class="row justify-content-center ">
-    @*@foreach ((SeancesForProf item, Int32 i) in Model.Select((value, i) => (value, i)))
+    @foreach ((SeancesForProf item, Int32 i) in Model.Select((value, i) => (value, i)))
     {
         <div class="col-md-3 pt-3">
             <div class="card bg-light shadow">
@@ -45,5 +44,5 @@
                 </div>
             </div>
         </div>
-    }*@
+    }
 </div>

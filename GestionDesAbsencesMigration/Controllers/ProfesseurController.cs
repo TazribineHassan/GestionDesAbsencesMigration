@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace GestionDesAbsencesMigration.Controllers
@@ -23,9 +24,9 @@ namespace GestionDesAbsencesMigration.Controllers
 
         public IActionResult Index()
         {
-            // listOfSeance = professeurService.GetSeancesForProf(3).Last().Module.NomModule;
-            ViewBag.Role = professeurService.GetProfesseurById(3).Role.Nom;
-            return View();
+            var listOfSeance = professeurService.GetSeancesForProf(GetIdUserFromCoockie().Id);
+
+            return View(listOfSeance);
         }
 
         public IActionResult Setting()
@@ -35,9 +36,15 @@ namespace GestionDesAbsencesMigration.Controllers
         
         public IActionResult Profil()
         {
-            return View();
+
+            return View(GetIdUserFromCoockie());
         }
 
-
+        private Professeur GetIdUserFromCoockie()
+        {
+            var userEmail = this.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+            var user = professeurService.GetProfesseurByEmail(userEmail);
+            return user;
+        }
     }
 }

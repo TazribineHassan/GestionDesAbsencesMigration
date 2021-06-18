@@ -150,3 +150,5 @@ C:\Users\admin\source\repos\GestionDesAbsencesMigration\GestionDesAbsencesMigrat
 C:\Users\admin\source\repos\GestionDesAbsencesMigration\GestionDesAbsencesMigration\obj\Debug\net5.0\Razor\Views\Professeur\Index.cshtml.g.cs
 C:\Users\admin\source\repos\GestionDesAbsencesMigration\GestionDesAbsencesMigration\obj\Debug\net5.0\Razor\Views\Professeur\Profil.cshtml.g.cs
 C:\Users\admin\source\repos\GestionDesAbsencesMigration\GestionDesAbsencesMigration\obj\Debug\net5.0\Razor\Views\Professeur\Setting.cshtml.g.cs
+C:\Users\admin\source\repos\GestionDesAbsencesMigration\GestionDesAbsencesMigration\bin\Debug\net5.0\Castle.Core.dll
+C:\Users\admin\source\repos\GestionDesAbsencesMigration\GestionDesAbsencesMigration\bin\Debug\net5.0\Microsoft.EntityFrameworkCore.Proxies.dll

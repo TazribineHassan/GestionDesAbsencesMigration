@@ -3,6 +3,7 @@ using GestionDesAbsencesMigration.Models.Context;
 using GestionDesAbsencesMigration.services;
 using Microsoft.EntityFrameworkCore;
 using System;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -37,14 +38,17 @@ namespace GestionDesAbsencesMigration.ServicesImpl
 
         public Professeur GetProfesseurById(int id)
         {
-            return context.Professeurs.Find(id);
+            return context.Professeurs.Where(p => p.Id == id)
+                                      .Include(p => p.Role)
+                                      .Include(p => p.Modules)
+                                      .FirstOrDefault();
         }
 
         public List<SeancesForProf> GetSeancesForProf(int professeur_id)
         {
             string[] jours = { "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche" };
 
-            DateTime aujourdhui = DateTime.Parse("15/05/2021");
+            DateTime aujourdhui = DateTime.Parse("05/15/2021");
             Semaine semaine_courante;
             semaine_courante = context.Semaines.Where(s => s.Date_debut.CompareTo(aujourdhui) <= 0
                                                           && s.Date_fin.CompareTo(aujourdhui) >= 0).FirstOrDefault();

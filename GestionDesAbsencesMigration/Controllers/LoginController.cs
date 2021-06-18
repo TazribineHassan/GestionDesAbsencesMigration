@@ -125,7 +125,7 @@ namespace GestionDesAbsencesMigration.Controllers
             ClaimsPrincipal claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
             return claimsPrincipal;
         }
-
+         
 
     }
 }

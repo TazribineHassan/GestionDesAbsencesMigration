@@ -3,6 +3,8 @@ using GestionDesAbsencesMigration.services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
+using System.Security.Claims;
+using System.Threading.Tasks;
 
 namespace GestionDesAbsencesMigration.Controllers
 {
@@ -16,13 +18,29 @@ namespace GestionDesAbsencesMigration.Controllers
             this.professeurService = professeurService;
         }
 
-        public string Index()
+        public IActionResult Index()
         {
-            var listOfSeance = professeurService.GetSeancesForProf(1).Last().Module.NomModule;
-            
-            return listOfSeance;
+            var listOfSeance = professeurService.GetSeancesForProf(GetIdUserFromCoockie().Id);
+
+            return View(listOfSeance);
         }
 
+        public IActionResult Setting()
+        {
+            return View();
+        }        
+        
+        public IActionResult Profil()
+        {
 
+            return View(GetIdUserFromCoockie());
+        }
+
+        private Professeur GetIdUserFromCoockie()
+        {
+            var userEmail = this.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+            var user = professeurService.GetProfesseurByEmail(userEmail);
+            return user;
+        }
     }
 }

@@ -306,3 +306,5 @@ D:\mini projets\GestionDesAbsencesMigration\GestionDesAbsencesMigration\obj\Debu
 D:\mini projets\GestionDesAbsencesMigration\GestionDesAbsencesMigration\obj\Debug\net5.0\GestionDesAbsencesMigration.Views.pdb
 D:\mini projets\GestionDesAbsencesMigration\GestionDesAbsencesMigration\obj\Debug\net5.0\GestionDesAbsencesMigration.csproj.CopyComplete
 D:\mini projets\GestionDesAbsencesMigration\GestionDesAbsencesMigration\obj\Debug\net5.0\GestionDesAbsencesMigration.genruntimeconfig.cache
+D:\mini projets\GestionDesAbsencesMigration\GestionDesAbsencesMigration\obj\Debug\net5.0\Razor\Views\Etudiant\Index.cshtml.g.cs
+D:\mini projets\GestionDesAbsencesMigration\GestionDesAbsencesMigration\obj\Debug\net5.0\Razor\Views\Shared\_LayoutEtudiant.cshtml.g.cs

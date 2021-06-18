@@ -135,7 +135,8 @@ namespace GestionDesAbsencesMigration.ServicesImpl
 
         public List<EtudiantAbsent> absenceList()
         {
-            /*
+
+            int[] tabSem = { 1, 2, 3 };
             var result2 = context.Etudiants.Select(etudiant => new EtudiantAbsent()
             {
                 nomClass = etudiant.Classe.Nom,
@@ -168,8 +169,7 @@ namespace GestionDesAbsencesMigration.ServicesImpl
                 }
             }
 
-            return filtredList;*/
-            return null;
+            return filtredList;
         }
     }
 

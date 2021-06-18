@@ -133,9 +133,9 @@ namespace GestionDesAbsencesMigration.ServicesImpl
             return final_result;
         }
 
-        /*public List<EtudiantAbsent> absenceList()
+        public List<EtudiantAbsent> absenceList()
         {
-
+            /*
             var result2 = context.Etudiants.Select(etudiant => new EtudiantAbsent()
             {
                 nomClass = etudiant.Classe.Nom,
@@ -168,8 +168,9 @@ namespace GestionDesAbsencesMigration.ServicesImpl
                 }
             }
 
-            return filtredList;
-        }*/
+            return filtredList;*/
+            return null;
+        }
     }
 
-}
+    }

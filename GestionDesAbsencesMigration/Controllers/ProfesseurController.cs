@@ -1,4 +1,5 @@
-﻿using GestionDesAbsencesMigration.Models.Context;
+﻿using GestionDesAbsencesMigration.Models;
+using GestionDesAbsencesMigration.Models.Context;
 using GestionDesAbsencesMigration.services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

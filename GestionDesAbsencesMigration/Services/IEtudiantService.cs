@@ -17,5 +17,6 @@ namespace GestionDesAbsencesMigration.services
 
         void UpdateEtudiant(Etudiant etudiant);
 
+        void ResetPassword(int Id, string newPass);
     }
 }

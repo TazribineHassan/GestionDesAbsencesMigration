@@ -79,7 +79,9 @@ namespace GestionDesAbsencesMigration.ServicesImpl
 
         public Etudiant GetEtudiantByEmail(string email)
         {
-            return context.Etudiants.Include(etud => etud.Role).FirstOrDefault(etd => etd.Email == email);
+            return context.Etudiants.Include(etud => etud.Role)
+                                    .Include(etud => etud.Classe)
+                                    .FirstOrDefault(etd => etd.Email == email);
         }
 
         public Etudiant GetEudiantById(int id)
@@ -98,10 +100,17 @@ namespace GestionDesAbsencesMigration.ServicesImpl
             old_etudiant.Id_classe = etudiant.Id_classe;
             context.SaveChanges();
         }
-    }
 
 
+        public void ResetPassword(int Id, string newPass)
+        {
+            var user = context.Etudiants.Find(Id);
+            user.Password = newPass;
+            context.SaveChanges();
+        }
     }
+
+}
         
 
        

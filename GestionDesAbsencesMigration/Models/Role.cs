@@ -10,6 +10,8 @@ namespace GestionDesAbsencesMigration.Models
         public Role()
         {
             Professeurs = new HashSet<Professeur>();
+            Etudiants = new HashSet<Etudiant>();
+            Administrateurs = new HashSet<Administrateur>();
         }
 
         public int Id { get; set; }

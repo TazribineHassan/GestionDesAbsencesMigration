@@ -9,10 +9,6 @@ namespace GestionDesAbsencesMigration.Models.Context
 {
     public class ApplicationContext : DbContext
     {
-        public ApplicationContext()
-        {
-        }
-
         public ApplicationContext(DbContextOptions<ApplicationContext> options) : base(options)
         {
 
@@ -31,5 +27,11 @@ namespace GestionDesAbsencesMigration.Models.Context
         public DbSet<Professeur> Professeurs { get; set; }
         public DbSet<Seance> Seances { get; set; }
         public DbSet<Semaine> Semaines { get; set; }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            base.OnConfiguring(optionsBuilder);
+        }
+
     }
 }

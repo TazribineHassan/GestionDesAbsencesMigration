@@ -9,6 +9,8 @@ using GestionDesAbsencesMigration.Models.Context;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using System.Security.Claims;
 using GestionDesAbsencesMigration.services;
 using GestionDesAbsencesMigration.ServicesImpl;
 
@@ -33,6 +35,12 @@ namespace GestionDesAbsencesMigration
             services.AddTransient<IProfesseurService, ProfesseurService>();
 
             services.AddControllersWithViews();
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                     .AddCookie(options => {
+                         options.LoginPath = "/Login";
+                         options.AccessDeniedPath = "/Login?accessDenied";
+                         
+                     });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -52,7 +60,7 @@ namespace GestionDesAbsencesMigration
             app.UseStaticFiles();
 
             app.UseRouting();
-
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

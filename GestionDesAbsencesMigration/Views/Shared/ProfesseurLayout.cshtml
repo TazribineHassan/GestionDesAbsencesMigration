@@ -1,7 +1,7 @@
 ﻿<!doctype html>
 <html lang="en">
 <head>
-    <title>Sidebar 07</title>
+    <title>Espace professeur</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
@@ -12,19 +12,19 @@
 
     <div class="wrapper d-flex align-items-stretch">
         <nav id="sidebar" class="active  min-size">
-            <h1><a href="index.html" class="logo">M.</a></h1>
+            <h6><a href="/Professeur/Index" class="logo">ENSAS</a></h6>
             <ul class="list-unstyled components mb-5">
                 <li class="active">
-                    <a href="#"><span class="fa fa-home"></span>&nbsp; Home</a>
+                    <a href="/Professeur/Index"><span class="fa fa-home"></span>&nbsp;Home</a>
                 </li>
                 <li>
-                    <a href="#"><span class="fa fa-user"></span>&nbsp; Profil</a>
+                    <a href="/Professeur/Profil"><span class="fa fa-user"></span>&nbsp;Profil</a>
                 </li>
                 <li>
-                    <a href="#" class=""><span class="fa fa-cogs"></span>&nbsp; Paramètres</a>
+                    <a href="/Professeur/Setting"><span class="fa fa-cogs"></span>Paramètres</a>
                 </li>
                 <li>
-                    <a href="#"><span class="fa fa-paper-plane"></span>&nbsp; Contacts</a>
+                    <a href="http://www.ensas.uca.ma/#/" target="_blank"><span class="fa fa-paper-plane"></span>Contacts</a>
                 </li>
             </ul>
 
@@ -45,6 +45,10 @@
                     <button type="button" id="sidebarCollapse" class="btn btn-primary">
                         <i class="fa fa-bars"></i>
                         <span class="sr-only">Toggle Menu</span>
+                    </button>
+                    
+                    <button class="btn  btn-primary">
+                        @ViewData["Title"]
                     </button>
 
                     <button class="btn btn-primary" data-toggle="modal" data-target="#exitModal">
@@ -83,6 +87,6 @@
     <script src="~/js/popper.js"></script>
     <script src="~/js/bootstrap.min.js"></script>
     <script src="~/js/main.js"></script>
-
+    <script src="~/js/site.js"></script>
 </body>
 </html>

@@ -20,11 +20,21 @@ namespace GestionDesAbsencesMigration.Controllers
             this.professeurService = professeurService;
         }
 
-        public string Index()
+        public IActionResult Index()
         {
-            var listOfSeance = professeurService.GetSeancesForProf(3).Last().Module.NomModule;
-            
-            return listOfSeance;
+            // listOfSeance = professeurService.GetSeancesForProf(3).Last().Module.NomModule;
+            ViewBag.Role = professeurService.GetProfesseurById(3).Role.Nom;
+            return View();
+        }
+
+        public IActionResult Setting()
+        {
+            return View();
+        }        
+        
+        public IActionResult Profil()
+        {
+            return View();
         }
 
 

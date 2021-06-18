@@ -2,6 +2,7 @@
 using GestionDesAbsencesMigration.Models.Context;
 using GestionDesAbsencesMigration.services;
 using System;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -36,7 +37,9 @@ namespace GestionDesAbsencesMigration.ServicesImpl
 
         public Professeur GetProfesseurById(int id)
         {
-            return context.Professeurs.Find(id);
+            return context.Professeurs.Where(p => p.Id == id)
+                                      .Include(p => p.Role)
+                                      .FirstOrDefault();
         }
 
         public List<SeancesForProf> GetSeancesForProf(int professeur_id)

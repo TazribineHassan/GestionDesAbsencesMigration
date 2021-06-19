@@ -35,6 +35,7 @@ namespace GestionDesAbsencesMigration
             services.AddTransient<ISemaineService, SemaineService>();
             services.AddTransient<ICycleService, CycleService>();
             services.AddTransient<IExcelService, ExcelService>();
+            services.AddTransient<ISeanceService, SeanceService>();
 
             services.AddControllersWithViews();
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)

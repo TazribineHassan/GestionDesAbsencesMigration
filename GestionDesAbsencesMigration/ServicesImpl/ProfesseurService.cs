@@ -32,15 +32,16 @@ namespace GestionDesAbsencesMigration.ServicesImpl
 
         public Professeur GetProfesseurByEmail(string email)
         {
-            return context.Professeurs.Include(prof => prof.Role).Include(prof => prof.Modules).FirstOrDefault(prof => prof.Email == email);
+            return context.Professeurs.Include(prof => prof.Role)
+                                       .Include(prof => prof.Modules)
+                                       .FirstOrDefault(prof => prof.Email == email);
         }
 
         public Professeur GetProfesseurById(int id)
         {
-            return context.Professeurs.Where(p => p.Id == id)
-                                      .Include(p => p.Role)
+            return context.Professeurs.Include(p => p.Role)
                                       .Include(p => p.Modules)
-                                      .FirstOrDefault();
+                                      .FirstOrDefault(p => p.Id == id);
         }
 
         public List<SeancesForProf> GetSeancesForProf(int professeur_id)

@@ -94,6 +94,14 @@
             "NPOI": {
               "target": "Package",
               "version": "[2.5.3, )"
+            },
+            "Rotativa.AspNetCore": {
+              "target": "Package",
+              "version": "[1.1.1, )"
+            },
+            "Select.HtmlToPdf.NetCore": {
+              "target": "Package",
+              "version": "[21.1.0, )"
             }
           },
           "imports": [

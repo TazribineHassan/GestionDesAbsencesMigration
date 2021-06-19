@@ -5,7 +5,10 @@ using GestionDesAbsencesMigration.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Mvc.ViewEngines;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using NPOI.HSSF.UserModel;
 using NPOI.XSSF.UserModel;
 using System;
@@ -14,6 +17,8 @@ using System.Data;
 using System.IO;
 using System.Linq;
 using System.Security.Claims;
+using System.Threading.Tasks;
+
 namespace GestionDesAbsencesMigration.Controllers
 {
     [Authorize(Roles = "admin")]
@@ -25,10 +30,13 @@ namespace GestionDesAbsencesMigration.Controllers
         ICycleService cycleService;
         IEtudiantService etudiantService;
         IExcelService excelService;
+        ISeanceService seanceService;
+        ICompositeViewEngine compositeViewEngine;
         private string admin_name;
         public AdminController(IAdminService AdminService, IProfesseurService professeurService, 
                                ISemaineService semaineService, ICycleService cycleService, 
-                               IEtudiantService etudiantService, IExcelService excelService)
+                               IEtudiantService etudiantService, IExcelService excelService,
+                               ISeanceService seanceService, ICompositeViewEngine compositeViewEngine)
         {
             this.professeurService = professeurService;
             this.AdminService = AdminService;
@@ -36,7 +44,8 @@ namespace GestionDesAbsencesMigration.Controllers
             this.cycleService = cycleService;
             this.etudiantService = etudiantService;
             this.excelService = excelService;
-
+            this.seanceService = seanceService;
+            this.compositeViewEngine = compositeViewEngine;
         }
         // GET: Admin
         public string Index()
@@ -75,16 +84,18 @@ namespace GestionDesAbsencesMigration.Controllers
 
             return View();
         }
-       /* public JsonResult GetClass(int id)
-        {
-            GestionDesAbsenceContext gestion = new GestionDesAbsenceContext();
-            gestion.Configuration.ProxyCreationEnabled = false;
-            var classe = gestion.Classes.Where(p => p.id_cycle == id);
 
-            return Json(classe, JsonRequestBehavior.AllowGet);
+        public JsonResult GetClass(int cycle_id)
+        {
+            var classes = cycleService.GetCycleById(cycle_id).Classes;
+            foreach(var classe in classes)
+            {
+                classe.Cycle = null;
+            }
+            return Json(classes);
 
         }
-*/
+
         public ActionResult AllEtudiants()
         {
             ViewBag.adminName = admin_name;
@@ -324,41 +335,29 @@ namespace GestionDesAbsencesMigration.Controllers
             return View();
         }
 
-        /*public JsonResult GetModule(int id)
+        public JsonResult GetModule(int prof_id)
         {
-            GestionDesAbsenceContext gestion = new GestionDesAbsenceContext();
-            gestion.Configuration.ProxyCreationEnabled = false;
-            var classe = gestion.Modules.Where(p => p.id_Professeur == id);
 
-            return Json(classe, JsonRequestBehavior.AllowGet);
+            var modules = professeurService.GetProfesseurById(prof_id).Modules;
+
+            // to prevent json recursivity
+            foreach(Module module in modules)
+            {
+                module.Professeur = null;
+            }
+
+            return Json(modules);
 
         }
 
-        public JsonResult GetSeances(int id)
+        public JsonResult GetSeances(int module_id, int semaine_id)
         {
-            GestionDesAbsenceContext gestion = new GestionDesAbsenceContext();
 
-            var myclasse = gestion.details_Emplois.Where(p => p.Module_Id == id);
+            var seances = seanceService.GetSeances(module_id, semaine_id);
 
-            List<int> ids = new List<int>();
+            return Json(seances);
 
-            foreach (var p in myclasse)
-            {
-
-                if (gestion.Seances.Find(p.Seance_Id) != null)
-                    ids.Add(gestion.Seances.Find(p.Seance_Id).id);
-
-            }
-
-            //ids.Add(1);
-            //ids.Add(2);
-            GestionDesAbsenceContext db = new GestionDesAbsenceContext();
-            db.Configuration.ProxyCreationEnabled = false;
-            var seances = db.Seances.Where(s => ids.Contains(s.id));
-
-            return Json(seances, JsonRequestBehavior.AllowGet);
-
-        }*/
+        }
 
         public ActionResult Statistiques()
         {
@@ -368,7 +367,7 @@ namespace GestionDesAbsencesMigration.Controllers
             return View(result3);
         }
 
-        public ActionResult StatistiquesPDF()
+        public ViewResult StatistiquesPDF()
         {
             int idSemaine = 1;
             ViewBag.adminName = admin_name;
@@ -376,11 +375,33 @@ namespace GestionDesAbsencesMigration.Controllers
             return View(filtredList);
         }
 
-       /* public ActionResult generatePdf()
+        [Route("Admin/generatePdf")]
+        public async Task<ActionResult> generatePdfAsync()
         {
-            return new rotativa.actionaspdf("statistiquespdf");
+
+            using (var s = new StringWriter()) {
+
+                var viewResult = StatistiquesPDF();
+
+                var viewContext = new ViewContext(ControllerContext,
+                                                    (viewResult.ViewEngine as ViewEngineResult).View,
+                                                    viewResult.ViewData,
+                                                    viewResult.TempData,
+                                                    s,
+                                                    new HtmlHelperOptions()
+                                                  );
+                
+                await (viewResult.ViewEngine as ViewEngineResult).View.RenderAsync(viewContext);
+
+                SelectPdf.HtmlToPdf converter = new SelectPdf.HtmlToPdf();
+                SelectPdf.PdfDocument doc = converter.ConvertHtmlString(s.ToString());
+                var pdf = doc.Save();
+                doc.Close();
+                return File(pdf, "application/pdf");
+            }
+
         }
-*/
+
         public ActionResult ListeEtudiants(int seances, int modules, int liste_Semaines)
         {
             var listOfStudents = AdminService.GetStudentsList(seances, modules, liste_Semaines);

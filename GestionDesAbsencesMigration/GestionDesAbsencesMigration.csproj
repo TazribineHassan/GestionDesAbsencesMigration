@@ -24,6 +24,12 @@
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="5.0.2" />
     <PackageReference Include="NLog.Extensions.Logging" Version="1.7.3" />
     <PackageReference Include="NPOI" Version="2.5.3" />
+    <PackageReference Include="Rotativa.AspNetCore" Version="1.1.1" />
+    <PackageReference Include="Select.HtmlToPdf.NetCore" Version="21.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Views\Admin\" />
   </ItemGroup>
 
 </Project>

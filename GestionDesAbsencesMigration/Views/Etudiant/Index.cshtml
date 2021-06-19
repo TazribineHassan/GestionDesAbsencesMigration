@@ -6,25 +6,38 @@
 @using GestionDesAbsencesMigration.Models
 
 @model List<AbsenceList>
+<div class="row justify-content-center mt-5">
+    <div class="col-md-8 pt-3 mt-5">
+        <div class="card bg-light shadow">
+            <div class="card-header font-weight-bolder  btn btn-primary text-center">
+                Page d'acceuil
+            </div>            
+            <div class="card-text font-weight-bolder mt-3  text-danger text-center">
+                Les absences d'aujourd'hui
+            </div>
+            <div class="card-body">
+                <table class="table table-hover border">
+                    <thead>
+                        <tr>
+                            <th class="text-secondary border-right" scope="col">Semaine</th>
+                            <th class="text-secondary border-right" scope="col">Module</th>
+                            <th class="text-secondary border-right" scope="col">Début séance</th>
+                            <th class="text-secondary border-right" scope="col">fin séance</th>
+                        </tr>
+                    </thead>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td class="text-danger">@item.semaine.Code</td>
+                            <td class="text-danger">@item.module.NomModule</td>
+                            <td class="text-danger">@item.seance.HeurDebut</td>
+                            <td class="text-danger">@item.seance.HeurFin</td>
+                        </tr>
 
-<table class="table table-hover">
-    <thead>
-        <tr>
-            <th scope="col">Semaine</th>
-            <th scope="col">Module</th>
-            <th scope="col">Début_séance</th>
-            <th scope="col">fin_séance</th>
-        </tr>
-    </thead>
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td>@item.semaine.Code</td>
-            <td>@item.module.NomModule</td>
-            <td>@item.seance.HeurDebut</td>
-            <td>@item.seance.HeurFin</td>
-        </tr>
+                    }
 
-    }
-
-</table>
+                </table>
+                </div>
+        </div>
+    </div>
+</div>

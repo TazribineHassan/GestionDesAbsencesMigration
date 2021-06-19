@@ -62,7 +62,7 @@ namespace GestionDesAbsencesMigration.Controllers
             if (user is Professeur)  return RedirectToAction("Index", "Professeur");
             if (user is Etudiant) return RedirectToAction("Index", "Etudiant");
 
-            return RedirectToAction("Login");
+            return RedirectToAction("Index");
         }
 
         [Authorize(Roles = "admin")]

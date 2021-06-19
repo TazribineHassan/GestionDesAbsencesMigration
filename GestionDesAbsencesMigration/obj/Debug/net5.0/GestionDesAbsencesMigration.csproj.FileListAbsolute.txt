@@ -310,3 +310,11 @@ D:\mini projets\GestionDesAbsencesMigration\GestionDesAbsencesMigration\obj\Debu
 D:\mini projets\GestionDesAbsencesMigration\GestionDesAbsencesMigration\obj\Debug\net5.0\ref\GestionDesAbsencesMigration.dll
 D:\mini projets\GestionDesAbsencesMigration\GestionDesAbsencesMigration\obj\Debug\net5.0\GestionDesAbsencesMigration.pdb
 D:\mini projets\GestionDesAbsencesMigration\GestionDesAbsencesMigration\obj\Debug\net5.0\GestionDesAbsencesMigration.genruntimeconfig.cache
+D:\mini projets\GestionDesAbsencesMigration\GestionDesAbsencesMigration\bin\Debug\net5.0\NPOI.OOXML.dll
+D:\mini projets\GestionDesAbsencesMigration\GestionDesAbsencesMigration\bin\Debug\net5.0\NPOI.OpenXml4Net.dll
+D:\mini projets\GestionDesAbsencesMigration\GestionDesAbsencesMigration\bin\Debug\net5.0\NPOI.OpenXmlFormats.dll
+D:\mini projets\GestionDesAbsencesMigration\GestionDesAbsencesMigration\bin\Debug\net5.0\NPOI.dll
+D:\mini projets\GestionDesAbsencesMigration\GestionDesAbsencesMigration\bin\Debug\net5.0\BouncyCastle.Crypto.dll
+D:\mini projets\GestionDesAbsencesMigration\GestionDesAbsencesMigration\bin\Debug\net5.0\ICSharpCode.SharpZipLib.dll
+D:\mini projets\GestionDesAbsencesMigration\GestionDesAbsencesMigration\obj\Debug\net5.0\Razor\Views\Etudiant\Profil.cshtml.g.cs
+D:\mini projets\GestionDesAbsencesMigration\GestionDesAbsencesMigration\obj\Debug\net5.0\Razor\Views\Etudiant\Setting.cshtml.g.cs

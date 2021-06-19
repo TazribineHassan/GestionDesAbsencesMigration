@@ -1,18 +1,19 @@
 ﻿using GestionDesAbsencesMigration.Common;
 using GestionDesAbsencesMigration.Models;
-using GestionDesAbsencesMigration.Models.Context;
 using GestionDesAbsencesMigration.services;
 using GestionDesAbsencesMigration.Services;
-using GestionDesAbsencesMigration.ServicesImpl;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using NPOI.HSSF.UserModel;
+using NPOI.XSSF.UserModel;
 using System;
 using System.Collections.Generic;
+using System.Data;
+using System.IO;
 using System.Linq;
 using System.Security.Claims;
-using System.Threading.Tasks;
-
 namespace GestionDesAbsencesMigration.Controllers
 {
     [Authorize(Roles = "admin")]
@@ -23,14 +24,18 @@ namespace GestionDesAbsencesMigration.Controllers
         ISemaineService semaineService;
         ICycleService cycleService;
         IEtudiantService etudiantService;
+        IExcelService excelService;
         private string admin_name;
-        public AdminController(IAdminService AdminService, IProfesseurService professeurService, ISemaineService semaineService, ICycleService cycleService, IEtudiantService etudiantService)
+        public AdminController(IAdminService AdminService, IProfesseurService professeurService, 
+                               ISemaineService semaineService, ICycleService cycleService, 
+                               IEtudiantService etudiantService, IExcelService excelService)
         {
             this.professeurService = professeurService;
             this.AdminService = AdminService;
             this.semaineService = semaineService;
             this.cycleService = cycleService;
             this.etudiantService = etudiantService;
+            this.excelService = excelService;
 
         }
         // GET: Admin
@@ -215,21 +220,20 @@ namespace GestionDesAbsencesMigration.Controllers
 
 
 
-        /*[ActionName("Index")]
+        [ActionName("Index")]
         [HttpPost]
-        public ActionResult import(int myclass)
+        public ActionResult import(int myclass, IFormFile file)
         {
-            HttpPostedFileBase file = Request.Files["file"];
-            if (file == null || file.ContentLength <= 0)
+            if (file == null || file.Length <= 0)
             {
-                return Json("please select excel file", JsonRequestBehavior.AllowGet);
+                return Json("please select excel file");
             }
-            Stream streamfile = file.InputStream;
+            Stream streamfile = file.OpenReadStream();
             DataTable dt = new DataTable();
             string FileName = Path.GetExtension(file.FileName);
             if (FileName != ".xls" && FileName != ".xlsx")
             {
-                return Json("Only excel file", JsonRequestBehavior.AllowGet);
+                return Json("Only excel file");
             }
             else
             {
@@ -238,41 +242,39 @@ namespace GestionDesAbsencesMigration.Controllers
                     if (FileName == ".xls")
                     {
                         HSSFWorkbook workbook = new HSSFWorkbook(streamfile);
-                        dt = excel.Import(dt, workbook, db, myclass);
+                        dt = excelService.ImportEtudiants(dt, workbook, myclass);
                     }
                     else
                     {
                         XSSFWorkbook workbook = new XSSFWorkbook(streamfile);
-                        dt = excel.Import(dt, workbook, db, myclass);
+                        dt = excelService.ImportEtudiants(dt, workbook, myclass);
                     }
-                    return Json("OK", JsonRequestBehavior.AllowGet);
+                    return Json("OK");
                 }
 
                 catch (Exception e)
                 {
 
-                    return Json(e.ToString(), JsonRequestBehavior.AllowGet);
+                    return Json(e.ToString());
                 }
             }
             // return View();
         }
-*/
 
-        /*[HttpPost]
-        public ActionResult AddProfs()
+
+        [HttpPost]
+        public ActionResult AddProfs(IFormFile file)
         {
-
-            HttpPostedFileBase file = Request.Files["file"];
-            if (file == null || file.ContentLength <= 0)
+            if (file == null || file.Length <= 0)
             {
-                return Json("please select excel file", JsonRequestBehavior.AllowGet);
+                return Json("please select excel file");
             }
-            Stream streamfile = file.InputStream;
+            Stream streamfile = file.OpenReadStream();
             DataTable dt = new DataTable();
             string FileName = Path.GetExtension(file.FileName);
             if (FileName != ".xls" && FileName != ".xlsx")
             {
-                return Json("Only excel file", JsonRequestBehavior.AllowGet);
+                return Json("Only excel file");
             }
             else
             {
@@ -281,25 +283,25 @@ namespace GestionDesAbsencesMigration.Controllers
                     if (FileName == ".xls")
                     {
                         HSSFWorkbook workbook = new HSSFWorkbook(streamfile);
-                        dt = ExcelP.Importing(dt, workbook, db);
+                        dt = excelService.ImportProfesseurs(dt, workbook);
                     }
                     else
                     {
                         XSSFWorkbook workbook = new XSSFWorkbook(streamfile);
-                        dt = ExcelP.Importing(dt, workbook, db);
+                        dt = excelService.ImportProfesseurs(dt, workbook);
                     }
-                    return Json("OK", JsonRequestBehavior.AllowGet);
+                    return Json("OK");
                 }
 
                 catch (Exception e)
                 {
 
-                    return Json(e.ToString(), JsonRequestBehavior.AllowGet);
+                    return Json(e.ToString());
                 }
             }
             // return View();
 
-        }*/
+        }
 
         public ActionResult AjouterProfesseur()
         {
@@ -374,7 +376,7 @@ namespace GestionDesAbsencesMigration.Controllers
             return View(filtredList);
         }
 
-        /*public ActionResult generatePdf()
+       /* public ActionResult generatePdf()
         {
             return new rotativa.actionaspdf("statistiquespdf");
         }

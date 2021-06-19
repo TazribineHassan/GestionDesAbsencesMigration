@@ -1,8 +1,8 @@
 ﻿using GestionDesAbsencesMigration.Models;
 using GestionDesAbsencesMigration.Models.Context;
 using GestionDesAbsencesMigration.Services;
-using System;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -20,7 +20,14 @@ namespace GestionDesAbsencesMigration.ServicesImpl
 
         public IEnumerable<Cycle> getAll()
         {
-            return context.Cycles.Include(c => c.Classes);
+            return context.Cycles;
+        }
+
+        public Cycle GetCycleById(int id)
+        {
+            return context.Cycles.Include(c => c.Classes)
+                          .Where(c => c.Id == id)
+                          .FirstOrDefault();
         }
     }
 }

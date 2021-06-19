@@ -20,13 +20,14 @@ namespace GestionDesAbsencesMigration.ServicesImpl
 
         public List<AbsenceList> GetAbsence(int Etudiant_id)
         {
-            var absences = context.Absences.Where(absence => absence.Etudiant.Id == Etudiant_id)
-                                           .Include(ab => ab.Details_Emploi).ThenInclude(demp => demp.Module)
+            var absences = context.Absences.Include(ab => ab.Details_Emploi).ThenInclude(demp => demp.Module)
                                            .Include(ab => ab.Details_Emploi).ThenInclude(demp => demp.Seance)
                                            .Include(ab => ab.Details_Emploi).ThenInclude(demp => demp.Emploi).ThenInclude(emp => emp.Semaine)
+                                           .Where(absence => absence.Etudiant.Id == Etudiant_id && !absence.EstPresent)
                                            .Select(absence => new { 
                                                      Absence_ID = absence.Id,
                                                      Est_Absent = !absence.EstPresent,
+                                                     etudiant_id = absence.Etudiant_id,
                                                      module = new { Id = absence.Details_Emploi.Module.Id, 
                                                                              NomModule = absence.Details_Emploi.Module .NomModule
                                                                    },

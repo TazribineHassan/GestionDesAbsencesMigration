@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace GestionDesAbsencesMigration.Services
 {
-    public interface ICycleService
+    public interface ISeanceService
     {
-        IEnumerable<Cycle> getAll();
-        Cycle GetCycleById(int id);
+        IEnumerable<Seance> GetSeances(int module_id, int semaine_id);
     }
 }

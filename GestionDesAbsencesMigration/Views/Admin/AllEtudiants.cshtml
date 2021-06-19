@@ -1,0 +1,154 @@
+﻿@{
+    ViewBag.Title = "La liste des étudiants";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+@model IEnumerable<GestionDesAbsencesMigration.Models.Etudiant>
+
+
+@{
+    Etudiant etudiant = new Etudiant();
+    int etudiant_id = 0;
+
+    @functions {
+        Etudiant getEtudiant(Etudiant etu)
+        {
+            return etu;
+        }
+    }
+
+
+}
+
+@section Style {
+
+    <link href="~/lib/datatables/css/jquery.dataTables.css" rel="stylesheet" />
+}
+
+<div class="row justify-content-center ">
+
+    <div class="col-md-10 pt-3">
+        <div class="card bg-light shadow">
+            <div class="card-body">
+                <button class="btn btn-primary mb-3" data-toggle="modal" data-target="#addStudentModal"><i class="fas fa-user-plus"></i> Ajouter etudiant</button>
+                <table id="myTable" class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th class="text-primary">CNE</th>
+                            <th class="text-primary">Nom</th>
+                            <th class="text-primary">Prénom</th>
+                            <th class="text-primary">Email</th>
+                            <th class="text-primary ">Classe</th>
+                            <th class="text-primary ">Groupe</th>
+                            <th class="text-primary text-center">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            etudiant = item;
+                            <tr>
+                                <td>@Html.DisplayFor(c => item.Cne)</td>
+                                <td>@Html.DisplayFor(c => item.Nom)</td>
+                                <td>@Html.DisplayFor(c => item.Prenom)</td>
+                                <td>@Html.DisplayFor(c => item.Email)</td>
+                                <td>@Html.DisplayFor(c => item.Classe.Nom)</td>
+                                <td>@Html.DisplayFor(c => item.Groupe.Nom)</td>
+                                <td class="text-center">
+                                    <div class="btn-group"> 
+                                        <form asp-controller="Admin">
+                                            <input type="hidden" name="id" value="@item.Id" />
+                                            <input type="hidden" name="action" value="edit" />
+                                            <button type="submit" class="btn btn-sm btn-outline-primary" ><i class="fa fa-edit "></i></button>
+                                        </form>                                        
+                                        <form action="/Admin/AjaxEditEtudiant" data-ajax="true" data-ajax-method="POST" data-ajax-mode="replace-with" data-ajax-update="#test"  method="post" enctype="multipart/form-data">
+                                            @*<input type="hidden" name="id" value="@item.Id" />
+                                            <input type="hidden" name="action" value="delete" />*@
+                                            <button type="submit" id="deleteItem" class="btn btn-sm btn-outline-danger" data-toggle="modal" data-target="#modal_ajax"><i class="fas fa-trash-alt"></i></button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@*Add new student Modal*@
+<div class="modal fade" id="addStudentModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalScrollableTitle">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                @using (Html.BeginForm("SaveEtudiant", "Admin", FormMethod.Post, new { @class = "my_from" }))
+                {
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="cne">CNE</label>
+                            <input type="text" class="form-control border" id="cne" name="cne" placeholder="Cne">
+                        </div>
+                        <div class="form-group">
+                            <label for="nom">Nom</label>
+                            <input type="text" class="form-control border" id="nom" name="nom" placeholder="Nom">
+                        </div>
+                        <div class="form-group">
+                            <label for="preom">Prenom</label>
+                            <input type="text" class="form-control border" id="prenom" name="prenom" placeholder="Preom">
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email address</label>
+                            <input type="email" class="form-control border" id="email" name="email" aria-describedby="emailHelp" placeholder="Enter email" />
+                        </div>
+                        <div class="form-group">
+                            <label>Cycle</label>
+                            @Html.DropDownList("liste_cycle", ViewBag.list as SelectList, "Selectionnez le cycle", new { id = "liste_cycle" })
+
+                        </div>
+                        <div class="form-group">
+                            <label>Classe</label>
+                            <select class="form-control border" id="classe" name="classe"></select>
+                        </div>
+                        <div class="form-group">
+                            <label>Groupe</label>
+                            <select class="form-control border" id="groupe" name="groupe">
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                            </select>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <input type="submit" class="btn btn-primary" id="submit" value="Ajouter Etudiant" />
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+    @section Scripts{
+        <script src="~/lib/datatables/js/jquery.dataTables.js"></script>
+        <script>
+            //$.ajax({
+            //    url: "AjaxEditEtudiant",
+            //    type: 'POST',
+            //    success: function (res) {
+            //        $("#modal_ajax").html(res)
+            //    }
+            //});
+            $(document).ready(function () {
+                $('#myTable').DataTable();
+            });
+        </script>
+    }

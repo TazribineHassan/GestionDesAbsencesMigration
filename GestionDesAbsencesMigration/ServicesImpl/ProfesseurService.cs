@@ -191,5 +191,20 @@ namespace GestionDesAbsencesMigration.ServicesImpl
             user.Password = newPass;
             context.SaveChanges();
         }
+
+        public IEnumerable<Professeur> getAll()
+        {
+            return context.Professeurs;
+        }
+
+        public void updateProfesseur(Professeur professeur)
+        {
+            Professeur old_prof = context.Professeurs.Find(professeur.Id);
+            old_prof.Code_prof = professeur.Code_prof;
+            old_prof.Nom = professeur.Nom;
+            old_prof.Prenom = professeur.Prenom;
+            old_prof.Email = professeur.Email;
+            context.SaveChanges();
+        }
     }
 }

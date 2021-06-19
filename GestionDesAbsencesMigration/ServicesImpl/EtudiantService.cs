@@ -72,7 +72,11 @@ namespace GestionDesAbsencesMigration.ServicesImpl
             return result;
         }
 
-     
+        public IEnumerable<Etudiant> getAll()
+        {
+            return context.Etudiants.Include( e => e.Groupe)
+                                    .Include(e => e.Classe);
+        }
 
         public Etudiant GetEtudiantByEmail(string email)
         {
@@ -85,6 +89,19 @@ namespace GestionDesAbsencesMigration.ServicesImpl
         {
             return context.Etudiants.Find(id);
         }
+
+        public void UpdateEtudiant(Etudiant etudiant)
+        {
+            var old_etudiant = context.Etudiants.Find(etudiant.Id);
+            old_etudiant.Cne = etudiant.Cne;
+            old_etudiant.Nom = etudiant.Nom;
+            old_etudiant.Prenom = etudiant.Prenom;
+            old_etudiant.Email = etudiant.Email;
+            old_etudiant.Id_groupe = etudiant.Id_groupe;
+            old_etudiant.Id_classe = etudiant.Id_classe;
+            context.SaveChanges();
+        }
+
 
         public void ResetPassword(int Id, string newPass)
         {

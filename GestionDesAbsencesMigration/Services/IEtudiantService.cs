@@ -12,6 +12,11 @@ namespace GestionDesAbsencesMigration.services
         Etudiant GetEtudiantByEmail(string email);
         Etudiant GetEudiantById(int id);
         List<AbsenceList> GetAbsence(int Etudiant_id);
+
+        IEnumerable<Etudiant> getAll();
+
+        void UpdateEtudiant(Etudiant etudiant);
+
         void ResetPassword(int Id, string newPass);
     }
 }

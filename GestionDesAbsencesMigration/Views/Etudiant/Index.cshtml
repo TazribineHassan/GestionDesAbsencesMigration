@@ -19,6 +19,7 @@
                 <table class="table table-hover border">
                     <thead>
                         <tr>
+                            <th class="text-secondary border-right" scope="col">Date</th>
                             <th class="text-secondary border-right" scope="col">Semaine</th>
                             <th class="text-secondary border-right" scope="col">Module</th>
                             <th class="text-secondary border-right" scope="col">Début séance</th>
@@ -28,6 +29,7 @@
                     @foreach (var item in Model)
                     {
                         <tr>
+                            <td class="text-danger">@item.seance.Jour</td>
                             <td class="text-danger">@item.semaine.Code</td>
                             <td class="text-danger">@item.module.NomModule</td>
                             <td class="text-danger">@item.seance.HeurDebut</td>

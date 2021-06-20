@@ -49,8 +49,8 @@
                                 <td>@Html.DisplayFor(c => item.Groupe.Nom)</td>
                                 <td class="text-center">
                                     <div class="btn-group">
-                                        <button type="submit" value="@item.Id" class="editbutton btn btn-sm btn-outline-primary"><i class="fa fa-edit "></i></button>
-                                        <button type="submit"  class="btn btn-sm btn-outline-danger" data-toggle="modal" data-target="#deleteModal"><i class="fas fa-trash-alt"></i></button>
+                                        <button value="@item.Id" class="editbutton btn btn-sm btn-outline-primary "> <i class="fa fa-edit"></i> </button>
+                                        <button value="@item.Id" class="deleteButton btn btn-sm btn-outline-danger" data-toggle="modal" data-target="#deleteModal" > <i class="fas fa-trash-alt"></i> </button>
                                     </div>
                                 </td>
                             </tr>
@@ -66,8 +66,8 @@
 <div class="modal fade" id="addStudentModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-scrollable" role="document">
         <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalScrollableTitle">Ajouter un nouveau etudiant</h5>
+            <div class="modal-header text-center" style="background-color:#44bef1; text-align:center">
+                <h5 class="modal-title"  style="text-align: center;" id="exampleModalScrollableTitle">Ajouter un nouveau etudiant</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -94,7 +94,7 @@
                         </div>
                         <div class="form-group">
                             <label>Cycle</label>
-                            @Html.DropDownList("liste_cycle", ViewBag.list as SelectList, "Selectionnez le cycle", new { id = "liste_cycle" })
+                            @Html.DropDownList("liste_cycle", ViewBag.list as SelectList, "Selectionnez le cycle", new { id = "liste_cycle", @class = "form-control border" })
 
                         </div>
                         <div class="form-group">
@@ -107,13 +107,14 @@
                                 <option value="1">1</option>
                                 <option value="2">2</option>
                                 <option value="3">3</option>
+                                <option value="4">4</option>
                             </select>
                         </div>
 
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <input type="submit" class="btn btn-primary" id="submit" value="Ajouter Etudiant" />
+                        <input type="submit" class="btn btn-primary" id="submit" value="Ajouter" />
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
                     </div>
                 }
             </div>
@@ -124,17 +125,17 @@
 <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Se déconnecter</h5>
+            <div class="modal-header bg-danger">
+                <h5 class="modal-title text-white" id="exampleModalLabel">Supprimer un etudiant</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body">
+            <div class="modal-body font-weight-bold">
                 Êtes-vous sûr ?
             </div>
             <div class="modal-footer">
-                <a href="/Login/Logout" class="btn btn-danger">Oui</a>
+                <a href="" id="deleteHref" class="btn btn-danger">Oui</a>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Non</button>
             </div>
         </div>
@@ -143,12 +144,11 @@
 
 <!--edit etudiant Modal and button-->
 <button hidden data-toggle="modal" id="lunchModal" data-target="#editModal" ></button>
-
 <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-scrollable" role="document">
         <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalScrollableTitle">Ajouter un nouveau etudiant</h5>
+            <div class="modal-header" style="background-color:#44bef1;">
+                <h5 class="modal-title" id="exampleModalScrollableTitle">Éditer un etudiant</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -163,6 +163,7 @@
         </div>
     </div>
 </div>
+
 
     @section Scripts{
         <script src="~/lib/datatables/js/jquery.dataTables.js"></script>
@@ -183,14 +184,18 @@
                     });
                 });
 
-                $(".editbutton").click(function (e) {
-                    console.log(e.target.value);
-                    var url = "EtudiantEdit/" + e.target.value;
+                $(".editbutton").click(function () {
+                    var url = "GetEditedEtudiant/" + $(this).attr("value");
                     $.get(url, function (data) {
                         $('#modalEditBody').html(data);
                         document.getElementById("lunchModal").click();
                     })
                 });
+
+                $(".deleteButton").click(function () {
+                    var url = "DeleteEtudiant/" + $(this).attr("value");
+                    $("#deleteHref").attr("href", url);
+                })
             });
         </script>
     }

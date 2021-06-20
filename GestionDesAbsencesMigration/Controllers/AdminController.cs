@@ -104,8 +104,8 @@ namespace GestionDesAbsencesMigration.Controllers
         }
 
         //SaveStudent
-        [HttpPost]
-        public ActionResult SaveEtudiant(string cne, string nom, String prenom, string email, string cycle, int classe, int groupe)
+        [HttpPost] //DONE
+        public ActionResult SaveEtudiant(string cne, string nom, string prenom, string email, string liste_cycle, int classe, int groupe)
         {
             Etudiant e = new Etudiant();
             e.Cne = cne;
@@ -128,17 +128,8 @@ namespace GestionDesAbsencesMigration.Controllers
             return Redirect("/Admin/AllEtudiants");
         }
 
-
-        //details student
-        public PartialViewResult etudiantDetails(int id)
-        {
-            //String s = this.ControllerContext.HttpContext.Request.Cookies["AdminName"];
-            //ViewBag.adminName = s;
-            Etudiant e = etudiantService.GetEudiantById(id);
-            return PartialView(e);
-        }
-
-        public PartialViewResult EtudiantEdit(int id)
+        //DONE
+        public PartialViewResult GetEditedEtudiant(int id)
         {
             ViewBag.e = id;
             ViewBag.valN = "";
@@ -148,16 +139,27 @@ namespace GestionDesAbsencesMigration.Controllers
         }
 
         //edit student
-        [HttpPost]
-        public ActionResult EditEtudiant(int editidinput, string editcne, string editnom, String editprenom, string editemail, string editcycle, int editclasse, int editgroupe)
+        [HttpPost] // DONE
+        public ActionResult EditEtudiant(int editidinput, string editcne, string editnom, string editprenom, string editemail, string editliste_cycle, int editclasse, int editgroupe)
         {
             Etudiant newE = etudiantService.GetEudiantById(editidinput);
-            newE.Cne = editcne;
-            newE.Nom = editnom;
-            newE.Prenom = editprenom;
-            newE.Email = editemail;
-            newE.Id_groupe = editgroupe;
-            newE.Id_classe = editclasse;
+            if(!editclasse.Equals("") && !editgroupe.Equals(""))
+            {
+                newE.Cne = editcne;
+                newE.Nom = editnom;
+                newE.Prenom = editprenom;
+                newE.Email = editemail;
+                newE.Id_groupe = editgroupe;
+                newE.Id_classe = editclasse;
+            }
+            else
+            {
+                newE.Cne = editcne;
+                newE.Nom = editnom;
+                newE.Prenom = editprenom;
+                newE.Email = editemail;
+            }
+
             etudiantService.UpdateEtudiant(newE);
             ViewBag.list = new SelectList(cycleService.getAll(), "Id", "Nom");
             return Redirect("/Admin/AllEtudiants");

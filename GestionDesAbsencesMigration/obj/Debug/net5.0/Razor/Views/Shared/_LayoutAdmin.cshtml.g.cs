@@ -26,7 +26,7 @@ using GestionDesAbsencesMigration.Models;
 #line default
 #line hidden
 #nullable disable
-    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"dcb0ffd5ec5294a747d3a0c5c6920f316c101c68", @"/Views/Shared/_LayoutAdmin.cshtml")]
+    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"18c448f268a7720daa73eab50c3fed9bb2d4f2cc", @"/Views/Shared/_LayoutAdmin.cshtml")]
     [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"430ddb756b39511dc01748ceee86d9af80471367", @"/Views/_ViewImports.cshtml")]
     public class Views_Shared__LayoutAdmin : global::Microsoft.AspNetCore.Mvc.Razor.RazorPage<dynamic>
     {
@@ -160,10 +160,10 @@ Write(RenderSection("Style", required: false));
                         <a href=""/Admin/AllEtudiants""><span class=""fas fa-users mr-3""></span>Etudiants</a>
                     </li>
                     <li>
-                        <a href=""#""><span class=""fa fa-briefcase mr-3""></span> Works</a>
-                    </li>
-      ");
-                WriteLiteral(@"              <li>
+                        <a href=""#""><span class=""fas fa-chalkboard-teacher""></span> Professeurs </a>
+                    <");
+                WriteLiteral(@"/li>
+                    <li>
                         <a href=""#""><span class=""fa fa-sticky-note mr-3""></span> Blog</a>
                     </li>
                     <li>
@@ -180,8 +180,8 @@ Write(RenderSection("Style", required: false));
                     <p>
                         <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
                         Copyright &copy;
-                        <script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class=""icon-heart"" aria-hidden=""true""></i> by <a href=""https://colorlib.com"" t");
-                WriteLiteral(@"arget=""_blank"">Colorlib.com</a>
+                        <script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class=""icon-heart"" aria-hidden=""true""></i> by <a href=""https://col");
+                WriteLiteral(@"orlib.com"" target=""_blank"">Colorlib.com</a>
                         <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
                     </p>
                 </div>

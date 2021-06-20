@@ -407,7 +407,8 @@ WriteAttributeValue("", 2261, item.Id, 2261, 8, false);
                         $('#modalEditBody').html(data);
                         document.getElementById(""lunchModal"").click();
                     })
-                });");
+                });
+");
                 WriteLiteral("\n            });\r\n        </script>\r\n    ");
             }
             );

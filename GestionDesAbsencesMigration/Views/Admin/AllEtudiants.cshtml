@@ -4,28 +4,22 @@
 }
 @model IEnumerable<GestionDesAbsencesMigration.Models.Etudiant>
 
+@functions{
 
-@{
     Etudiant etudiant = new Etudiant();
     int etudiant_id = 0;
-
-    @functions {
-        Etudiant getEtudiant(Etudiant etu)
-        {
-            return etu;
-        }
+    public void testFunction(Etudiant e)
+    {
+        etudiant = e;
     }
-
-
 }
 
-@section Style {
 
+@section Style {
     <link href="~/lib/datatables/css/jquery.dataTables.css" rel="stylesheet" />
 }
 
 <div class="row justify-content-center ">
-
     <div class="col-md-10 pt-3">
         <div class="card bg-light shadow">
             <div class="card-body">
@@ -54,17 +48,9 @@
                                 <td>@Html.DisplayFor(c => item.Classe.Nom)</td>
                                 <td>@Html.DisplayFor(c => item.Groupe.Nom)</td>
                                 <td class="text-center">
-                                    <div class="btn-group"> 
-                                        <form asp-controller="Admin">
-                                            <input type="hidden" name="id" value="@item.Id" />
-                                            <input type="hidden" name="action" value="edit" />
-                                            <button type="submit" class="btn btn-sm btn-outline-primary" ><i class="fa fa-edit "></i></button>
-                                        </form>                                        
-                                        <form action="/Admin/AjaxEditEtudiant" data-ajax="true" data-ajax-method="POST" data-ajax-mode="replace-with" data-ajax-update="#test"  method="post" enctype="multipart/form-data">
-                                            @*<input type="hidden" name="id" value="@item.Id" />
-                                            <input type="hidden" name="action" value="delete" />*@
-                                            <button type="submit" id="deleteItem" class="btn btn-sm btn-outline-danger" data-toggle="modal" data-target="#modal_ajax"><i class="fas fa-trash-alt"></i></button>
-                                        </form>
+                                    <div class="btn-group">
+                                        <button type="submit" value="@item.Id" class="editbutton btn btn-sm btn-outline-primary"><i class="fa fa-edit "></i></button>
+                                        <button type="submit"  class="btn btn-sm btn-outline-danger" data-toggle="modal" data-target="#deleteModal"><i class="fas fa-trash-alt"></i></button>
                                     </div>
                                 </td>
                             </tr>
@@ -76,14 +62,12 @@
     </div>
 </div>
 
-
-
 @*Add new student Modal*@
 <div class="modal fade" id="addStudentModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-scrollable" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalScrollableTitle">Modal title</h5>
+                <h5 class="modal-title" id="exampleModalScrollableTitle">Ajouter un nouveau etudiant</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -137,18 +121,76 @@
     </div>
 </div>
 
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Se déconnecter</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Êtes-vous sûr ?
+            </div>
+            <div class="modal-footer">
+                <a href="/Login/Logout" class="btn btn-danger">Oui</a>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Non</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--edit etudiant Modal and button-->
+<button hidden data-toggle="modal" id="lunchModal" data-target="#editModal" ></button>
+
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalScrollableTitle">Ajouter un nouveau etudiant</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                @using (Html.BeginForm("EditEtudiant", "Admin", FormMethod.Post, new { @class = "my_from" }))
+                {
+                    <div class="modal-body" id="modalEditBody">
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
     @section Scripts{
         <script src="~/lib/datatables/js/jquery.dataTables.js"></script>
         <script>
-            //$.ajax({
-            //    url: "AjaxEditEtudiant",
-            //    type: 'POST',
-            //    success: function (res) {
-            //        $("#modal_ajax").html(res)
-            //    }
-            //});
             $(document).ready(function () {
+
                 $('#myTable').DataTable();
+
+                $("#liste_cycle").addClass("form-control");
+
+                $("#liste_cycle").change(function () {
+                    $.get("/Admin/GetClass", { id: $("#liste_cycle").val() }, function (data) {
+                        $("#classe").empty();
+                        $.each(data, function (index, ligne) {
+                            $("#classe").append("<option value='" + ligne.id + "'>" + ligne.nom + "</option>")
+                        });
+
+                    });
+                });
+
+                $(".editbutton").click(function (e) {
+                    console.log(e.target.value);
+                    var url = "EtudiantEdit/" + e.target.value;
+                    $.get(url, function (data) {
+                        $('#modalEditBody').html(data);
+                        document.getElementById("lunchModal").click();
+                    })
+                });
             });
         </script>
     }

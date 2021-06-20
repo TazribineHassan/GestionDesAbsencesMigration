@@ -26,7 +26,6 @@ namespace GestionDesAbsencesMigration
         {
             services.AddDbContext<ApplicationContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("GestionDesAbsencesMigration")));
-            
             // services
             services.AddTransient<IProfesseurService, ProfesseurService>();
             services.AddTransient<IAdminService, AdminService>();
@@ -34,12 +33,12 @@ namespace GestionDesAbsencesMigration
             services.AddTransient<ILoginService, LoginService>();
             services.AddTransient<ISemaineService, SemaineService>();
             services.AddTransient<ICycleService, CycleService>();
-<<<<<<< HEAD
-=======
             services.AddTransient<IExcelService, ExcelService>();
             services.AddTransient<ISeanceService, SeanceService>();
->>>>>>> d830f0e839b9ad362901bd89e8eb43a7d273a900
 
+
+            services.AddControllersWithViews().AddNewtonsoftJson(options =>
+    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
             services.AddControllersWithViews();
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                      .AddCookie(options => {
@@ -71,6 +70,8 @@ namespace GestionDesAbsencesMigration
 
             app.UseEndpoints(endpoints =>
             {
+                //endpoints.MapRazorPages();
+                //endpoints.MapBlazorHub();
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Login}/{action=Index}/{id?}");

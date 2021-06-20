@@ -36,11 +36,7 @@ namespace GestionDesAbsencesMigration.Controllers
 
             if (user is Etudiant) return RedirectToAction("Index", "Etudiant");
 
-<<<<<<< HEAD
             if (user is Administrateur) return RedirectToAction("Home", "Admin");
-=======
-            if (user is Administrateur) return RedirectToAction("Index", "Admin");
->>>>>>> d830f0e839b9ad362901bd89e8eb43a7d273a900
 
             ViewBag.action = "/Login/validate_user";
             return View();
@@ -97,11 +93,7 @@ namespace GestionDesAbsencesMigration.Controllers
 
             if (user is Etudiant) return RedirectToAction("Index", "Etudiant");
 
-<<<<<<< HEAD
             if (user is Administrateur) return RedirectToAction("Home", "Admin");
-=======
-            if (user is Administrateur) return RedirectToAction("Index", "Admin");
->>>>>>> d830f0e839b9ad362901bd89e8eb43a7d273a900
 
             ViewBag.action = "/Login/CheckAdmin";
             return View("Index");
@@ -126,7 +118,7 @@ namespace GestionDesAbsencesMigration.Controllers
                 await HttpContext.SignInAsync(claimsPrincipal);
 
                 //ViewBag.Nom = professeur.Nom;
-                return RedirectToAction("Index", "Admin");
+                return RedirectToAction("", "Admin");
 
             }
             else

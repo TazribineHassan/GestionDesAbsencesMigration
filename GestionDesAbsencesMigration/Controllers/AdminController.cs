@@ -85,13 +85,13 @@ namespace GestionDesAbsencesMigration.Controllers
             return View();
         }
 
-        public JsonResult GetClass(int cycle_id)
+        public JsonResult GetClass(int id)
         {
-            var classes = cycleService.GetCycleById(cycle_id).Classes;
-            foreach(var classe in classes)
-            {
-                classe.Cycle = null;
-            }
+            var classes = cycleService.GetCycleById(id).Classes;
+            //foreach(var classe in classes)
+            //{
+            //    classe.Cycle = null;
+            //}
             return Json(classes);
 
         }
@@ -138,8 +138,7 @@ namespace GestionDesAbsencesMigration.Controllers
             return PartialView(e);
         }
 
-        [HttpPost]
-        public PartialViewResult AjaxEditEtudiant()
+        public PartialViewResult EtudiantEdit(int id)
         {
             ViewBag.e = id;
             ViewBag.valN = "";

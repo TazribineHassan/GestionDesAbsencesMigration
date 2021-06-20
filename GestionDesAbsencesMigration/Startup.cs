@@ -35,6 +35,7 @@ namespace GestionDesAbsencesMigration
             services.AddTransient<ICycleService, CycleService>();
             services.AddTransient<IExcelService, ExcelService>();
             services.AddTransient<ISeanceService, SeanceService>();
+            services.AddTransient<IRoleService, RoleService>();
 
 
             services.AddControllersWithViews().AddNewtonsoftJson(options =>

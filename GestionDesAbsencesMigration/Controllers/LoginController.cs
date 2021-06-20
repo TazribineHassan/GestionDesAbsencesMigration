@@ -118,7 +118,7 @@ namespace GestionDesAbsencesMigration.Controllers
                 await HttpContext.SignInAsync(claimsPrincipal);
 
                 //ViewBag.Nom = professeur.Nom;
-                return RedirectToAction("", "Admin");
+                return RedirectToAction("Index", "Admin");
 
             }
             else

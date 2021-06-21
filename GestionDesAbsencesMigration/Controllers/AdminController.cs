@@ -124,6 +124,7 @@ namespace GestionDesAbsencesMigration.Controllers
         }
 
         //delete Student
+        //DONE
         public ActionResult DeleteEtudiant(int id)
         {
             Etudiant e = etudiantService.GetEudiantById(id);
@@ -146,24 +147,14 @@ namespace GestionDesAbsencesMigration.Controllers
         public ActionResult EditEtudiant(int editidinput, string editcne, string editnom, string editprenom, string editemail, string editliste_cycle, int editclasse, int editgroupe)
         {
             Etudiant newE = etudiantService.GetEudiantById(editidinput);
-            if(!editclasse.Equals("") && !editgroupe.Equals(""))
-            {
-                newE.Cne = editcne;
-                newE.Nom = editnom;
-                newE.Prenom = editprenom;
-                newE.Email = editemail;
-                newE.Id_groupe = editgroupe;
-                newE.Id_classe = editclasse;
-            }
-            else
-            {
-                newE.Cne = editcne;
-                newE.Nom = editnom;
-                newE.Prenom = editprenom;
-                newE.Email = editemail;
-            }
-
+            newE.Cne = editcne;
+            newE.Nom = editnom;
+            newE.Prenom = editprenom;
+            newE.Email = editemail;
+            newE.Id_groupe = editgroupe;
+            newE.Id_classe = editclasse;
             etudiantService.UpdateEtudiant(newE);
+
             ViewBag.list = new SelectList(cycleService.getAll(), "Id", "Nom");
             return Redirect("/Admin/AllEtudiants");
         }
@@ -176,9 +167,8 @@ namespace GestionDesAbsencesMigration.Controllers
         }
 
         //saveProf
-        //SaveStudent
-        [HttpPost]
-        public ActionResult SaveProf(string code, string nom, String prenom, string email)
+        [HttpPost]//DONE
+        public ActionResult SaveProf(string code, string nom, string prenom, string email)
         {
             Professeur e = new Professeur();
             e.Code_prof = code;
@@ -191,16 +181,9 @@ namespace GestionDesAbsencesMigration.Controllers
             return Redirect("/Admin/AllProfs");
         }
 
-        //Prof details PartialVies
-        public PartialViewResult ProfDetails(int id)
-        {
-            //String s = this.ControllerContext.HttpContext.Request.Cookies["AdminName"];
-            //ViewBag.adminName = s;
-            Professeur e = professeurService.GetProfesseurById(id);
-            return PartialView(e);
-        }
 
         //delete Prof
+        //DONE
         public ActionResult DeleteProf(int id)
         {
             Professeur e = professeurService.GetProfesseurById(id);
@@ -209,29 +192,29 @@ namespace GestionDesAbsencesMigration.Controllers
         }
 
         //editProf partialview
-
-        public PartialViewResult ProfEdit(int id)
+        //DONE
+        public PartialViewResult GetEditedProfesseur(int id)
         {
             ViewBag.e = id;
             Professeur p = professeurService.GetProfesseurById(id);
             return PartialView(p);
         }
 
-        //editProf (Modify)
-
-        public ActionResult ModifyProf(int editidinput, string editcode, string editnom, String editprenom, string editemail, string editcycle)
+        //editProf
+        //DONE
+        public ActionResult EditProfesseur(int editidinput, string editcode, string editnom, string editprenom, string editemail, string editcycle)
         {
-
 
             Professeur newE =professeurService.GetProfesseurById(editidinput);
             newE.Code_prof = editcode;
             newE.Nom = editnom;
             newE.Prenom = editprenom;
             newE.Email = editemail;
-
             professeurService.updateProfesseur(newE);
+
+
             ViewBag.list = new SelectList(cycleService.getAll(), "Id", "Nom");
-            return Redirect("/Admin/AllPrfos");
+            return Redirect("/Admin/AllProfs");
         }
 
 

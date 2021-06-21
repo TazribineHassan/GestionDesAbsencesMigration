@@ -4,26 +4,16 @@
 }
 @model IEnumerable<GestionDesAbsencesMigration.Models.Etudiant>
 
-@functions{
-
-    Etudiant etudiant = new Etudiant();
-    int etudiant_id = 0;
-    public void testFunction(Etudiant e)
-    {
-        etudiant = e;
-    }
-}
-
-
 @section Style {
     <link href="~/lib/datatables/css/jquery.dataTables.css" rel="stylesheet" />
 }
+
 
 <div class="row justify-content-center ">
     <div class="col-md-10 pt-3">
         <div class="card bg-light shadow">
             <div class="card-body">
-                <button class="btn btn-primary mb-3" data-toggle="modal" data-target="#addStudentModal"><i class="fas fa-user-plus"></i> Ajouter etudiant</button>
+                <button class="btn btn-primary mb-3" data-toggle="modal" data-target="#addStudentModal"><i class="fas fa-user-plus"></i> Ajouter un etudiant</button>
                 <table id="myTable" class="table table-hover">
                     <thead>
                         <tr>
@@ -39,7 +29,6 @@
                     <tbody>
                         @foreach (var item in Model)
                         {
-                            etudiant = item;
                             <tr>
                                 <td>@Html.DisplayFor(c => item.Cne)</td>
                                 <td>@Html.DisplayFor(c => item.Nom)</td>
@@ -49,8 +38,8 @@
                                 <td>@Html.DisplayFor(c => item.Groupe.Nom)</td>
                                 <td class="text-center">
                                     <div class="btn-group">
-                                        <button value="@item.Id" class="editbutton btn btn-sm btn-outline-primary "> <i class="fa fa-edit"></i> </button>
-                                        <button value="@item.Id" class="deleteButton btn btn-sm btn-outline-danger" data-toggle="modal" data-target="#deleteModal" > <i class="fas fa-trash-alt"></i> </button>
+                                        <button value="@item.Id" class="editbutton btn btn-outline-primary "> <i class="fa fa-edit"></i> </button>
+                                        <button value="@item.Id" class="deleteButton btn btn-outline-danger" data-toggle="modal" data-target="#deleteModal" > <i class="fas fa-trash-alt"></i> </button>
                                     </div>
                                 </td>
                             </tr>
@@ -122,6 +111,7 @@
     </div>
 </div>
 
+@*delte Modal*@
 <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -158,6 +148,10 @@
                 {
                     <div class="modal-body" id="modalEditBody">
                     </div>
+                    <div class="modal-footer">
+                        <input type="submit" class="btn btn-primary" id="submit" value="Éditer" />
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+                    </div>
                 }
             </div>
         </div>
@@ -172,6 +166,8 @@
 
                 $('#myTable').DataTable();
 
+
+
                 $("#liste_cycle").addClass("form-control");
 
                 $("#liste_cycle").change(function () {
@@ -184,7 +180,8 @@
                     });
                 });
 
-                $(".editbutton").click(function () {
+                // edit etudiant
+                $("#myTable").on("click", ".editbutton", function () {
                     var url = "GetEditedEtudiant/" + $(this).attr("value");
                     $.get(url, function (data) {
                         $('#modalEditBody').html(data);
@@ -192,10 +189,16 @@
                     })
                 });
 
-                $(".deleteButton").click(function () {
+                // delte etudiant
+                $("#myTable").on("click", ".deleteButton", function () {
                     var url = "DeleteEtudiant/" + $(this).attr("value");
                     $("#deleteHref").attr("href", url);
-                })
+                });
+
+                //$(".deleteButton").click(function () {
+                //    var url = "DeleteEtudiant/" + $(this).attr("value");
+                //    $("#deleteHref").attr("href", url);
+                //})
             });
         </script>
     }

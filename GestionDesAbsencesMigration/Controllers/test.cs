@@ -172,9 +172,9 @@ namespace GestionDesAbsencesMigration.Controllers
 
                 // La tables des semaines
                 var semaines = new List<Semaine>();
-                semaines.Add(new Semaine() { id = 0, Code = "S1", Date_debut = DateTime.Parse("05/01/2021"), Date_fin = DateTime.Parse("05/07/2021") });
-                semaines.Add(new Semaine() { id = 0, Code = "S1", Date_debut = DateTime.Parse("05/08/2021"), Date_fin = DateTime.Parse("05/14/2021") });
-                semaines.Add(new Semaine() { id = 0, Code = "S1", Date_debut = DateTime.Parse("05/15/2021"), Date_fin = DateTime.Parse("05/21/2021") });
+                semaines.Add(new Semaine() { id = 0, Code = "S1", Date_debut = DateTime.Parse("01/05/2021"), Date_fin = DateTime.Parse("07/05/2021") });
+                semaines.Add(new Semaine() { id = 0, Code = "S1", Date_debut = DateTime.Parse("08/05/2021"), Date_fin = DateTime.Parse("14/05/2021") });
+                semaines.Add(new Semaine() { id = 0, Code = "S1", Date_debut = DateTime.Parse("15/05/2021"), Date_fin = DateTime.Parse("21/05/2021") });
                 db.Semaines.AddRange(semaines);
                 db.SaveChanges();
 

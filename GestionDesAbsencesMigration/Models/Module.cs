@@ -19,7 +19,7 @@ namespace GestionDesAbsencesMigration.Models
         public string NomModule { get; set; }
 
         [ForeignKey("Professeur")]
-        public int id_Professeur { get; set; }
+        public Nullable<int> id_Professeur { get; set; }
 
         public virtual Professeur Professeur { get; set; }
 

@@ -28,10 +28,5 @@ namespace GestionDesAbsencesMigration.Models.Context
         public DbSet<Seance> Seances { get; set; }
         public DbSet<Semaine> Semaines { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            base.OnConfiguring(optionsBuilder);
-        }
-
     }
 }

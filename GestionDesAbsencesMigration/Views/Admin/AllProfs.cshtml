@@ -1,0 +1,157 @@
+﻿@model IEnumerable<GestionDesAbsencesMigration.Models.Professeur>
+@{
+    ViewBag.Title = "La liste des professeur";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+@section Style {
+    <link href="~/lib/datatables/css/jquery.dataTables.css" rel="stylesheet" />
+}
+
+<div class="row justify-content-center ">
+    <div class="col-md-10 pt-3">
+        <div class="card bg-light shadow">
+            <div class="card-body">
+                <button class="btn btn-primary mb-3" data-toggle="modal" data-target="#ajoutModal"><i class="fas fa-user-plus"></i> Ajouter un professeur</button>
+                <table id="myTable" class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th class="text-primary">Code Professeur</th>
+                            <th class="text-primary">Nom</th>
+                            <th class="text-primary">Prénom</th>
+                            <th class="text-primary">Email</th>
+                            <th class="text-primary text-center">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@Html.DisplayFor(c => item.Code_prof)</td>
+                                <td>@Html.DisplayFor(c => item.Nom)</td>
+                                <td>@Html.DisplayFor(c => item.Prenom)</td>
+                                <td>@Html.DisplayFor(c => item.Email)</td>
+                                <td class="text-center">
+                                    <div class="btn-group">
+                                        <button value="@item.Id" class="editbutton btn  btn-outline-primary "> <i class="fa fa-edit"></i> </button>
+                                        <button value="@item.Id" class="deleteButton btn btn-outline-danger" data-toggle="modal" data-target="#deleteModal"> <i class="fas fa-trash-alt"></i> </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+@*Ajouter professeur modal*@
+<div class="modal fade" id="ajoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color:#44bef1;">
+                <h5 class="modal-title" id="exampleModalLabel">Ajouter un nouveau professeur</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            @using (Html.BeginForm("SaveProf", "Admin", FormMethod.Post, new { @class = "my_from" }))
+            {
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="cne">Code Prof</label>
+                        <input type="text" class="form-control border" id="code" name="code" placeholder="Code Prof">
+                    </div>
+                    <div class="form-group">
+                        <label for="nom">Nom</label>
+                        <input type="text" class="form-control border" id="nom" name="nom" placeholder="Nom">
+                    </div>
+                    <div class="form-group">
+                        <label for="preom">Prenom</label>
+                        <input type="text" class="form-control border" id="prenom" name="prenom" placeholder="Prenom">
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email address</label>
+                        <input type="email" class="form-control border" id="email" name="email" aria-describedby="emailHelp" placeholder="Enter email" />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input type="submit" class="btn btn-primary" id="submit" value="Ajouter" />
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@*delete Modal*@
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-danger">
+                <h5 class="modal-title text-white" id="exampleModalLabel">Supprimer un professeur</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body font-weight-bold">
+                Êtes-vous sûr ?
+            </div>
+            <div class="modal-footer">
+                <a href="" id="deleteHref" class="btn btn-danger">Oui</a>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Non</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--edit professeur Modal and button-->
+<button hidden data-toggle="modal" id="lunchModal" data-target="#editModal"></button>
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color:#44bef1;">
+                <h5 class="modal-title" id="exampleModalScrollableTitle">Éditer un professeur</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            @using (Html.BeginForm("EditProfesseur", "Admin", FormMethod.Post, new { @class = "my_from" }))
+            {
+                <div class="modal-body" id="modalEditBody">
+                </div>
+                <div class="modal-footer">
+                    <input type="submit" class="btn btn-primary" id="submit" value="Éditer" />
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@*scripts*@
+@section Scripts{
+    <script src="~/lib/datatables/js/jquery.dataTables.js"></script>
+    <script>
+        $(document).ready(function () {
+
+            $('#myTable').DataTable();
+
+            // edit Professeur
+            $("#myTable").on("click", ".editbutton", function () {
+                var url = "GetEditedProfesseur/" + $(this).attr("value");
+                $.get(url, function (data) {
+                    $('#modalEditBody').html(data);
+                    document.getElementById("lunchModal").click();
+                })
+            });
+
+            // delete Professeur
+            $("#myTable").on("click", ".deleteButton", function () {
+                var url = "DeleteProf/" + $(this).attr("value");
+                $("#deleteHref").attr("href", url);
+            });
+        });
+    </script>
+}

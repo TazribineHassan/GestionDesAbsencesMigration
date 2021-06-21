@@ -185,3 +185,5 @@ C:\Users\admin\source\repos\GestionDesAbsencesMigration\GestionDesAbsencesMigrat
 C:\Users\admin\source\repos\GestionDesAbsencesMigration\GestionDesAbsencesMigration\obj\Debug\net5.0\GestionDesAbsencesMigration.genruntimeconfig.cache
 C:\Users\admin\source\repos\GestionDesAbsencesMigration\GestionDesAbsencesMigration\bin\Debug\net5.0\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
 C:\Users\admin\source\repos\GestionDesAbsencesMigration\GestionDesAbsencesMigration\obj\Debug\net5.0\Razor\Views\Admin\GetEditedEtudiant.cshtml.g.cs
+C:\Users\admin\source\repos\GestionDesAbsencesMigration\GestionDesAbsencesMigration\obj\Debug\net5.0\Razor\Views\Admin\AllProfs.cshtml.g.cs
+C:\Users\admin\source\repos\GestionDesAbsencesMigration\GestionDesAbsencesMigration\obj\Debug\net5.0\Razor\Views\Admin\GetEditedProfesseur.cshtml.g.cs

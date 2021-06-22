@@ -18,8 +18,8 @@ namespace GestionDesAbsencesMigration.services
         List<StudentsList> GetStudentsList(int id_seance, int id_module, int id_semaine);
         bool UpdateAbsence(int id_absence, bool est_present);
 
-        List<EtudiantAbsent> statisticsPdf();
-        List<EtudiantAbsent> statistics(int id_semaine);
+        List<EtudiantAbsent> consielPdf(int id_semaine_debut, int id_semaine_fin, int id_classe);
+        List<EtudiantAbsent> statistics(int id_semaine_debut, int id_semaine_fin, int id_classe);
 
 
     }

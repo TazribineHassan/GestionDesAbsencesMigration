@@ -134,71 +134,31 @@ namespace GestionDesAbsencesMigration.ServicesImpl
             return final_result;
         }
 
-        public List<EtudiantAbsent> statisticsPdf()
+        public List<EtudiantAbsent> consielPdf(int id_semaine_debut, int id_semaine_fin, int id_classe)
         {
-
-            int[] tabSem = { 1, 2, 3 };
-            var result2 = context.Etudiants.Select(etudiant => new EtudiantAbsent()
-            {
-                nomClass = etudiant.Classe.Nom,
-                id = etudiant.Id,
-                nom = etudiant.Nom,
-                prenom = etudiant.Prenom,
-                absence_count = etudiant.Absences.Where(absence => !absence.EstPresent).Count()
-            }).ToList();
-
-            List<EtudiantAbsent> elist = context.Etudiants.Join(context.Absences,
-                etudiant => etudiant.Id,
-                absence => absence.Etudiant.Id,
-
-                (etudiant, absence) => new EtudiantAbsent()
-                {
-                    nomClass = etudiant.Classe.Nom,
-                    id = etudiant.Id,
-                    nom = etudiant.Nom,
-                    prenom = etudiant.Prenom,
-                    absence_count = etudiant.Absences.Where(myabsence => !absence.EstPresent && tabSem.Contains(myabsence.Details_Emploi.Emploi.Semaine.id)).Count()
-                }).ToList();
-
-            List<EtudiantAbsent> filtredList = new List<EtudiantAbsent>();
-
-            for (int i = 0; i < elist.Count; i++)
-            {
-                if (elist[i].absence_count > 1)
-                {
-                    filtredList.Add(elist[i]);
-                }
-            }
-
-            return filtredList;
+            var absence_list = context.Etudiants.Include(e => e.Classe)
+                                                .Include(e => e.Absences).ThenInclude(a => a.Details_Emploi)
+                                                                         .ThenInclude(demp => demp.Emploi)
+                                                                         .ThenInclude(emp => emp.Semaine)
+                                                .Where(etud => etud.Classe.Id == id_classe)
+                                                .Select(etudiant => new EtudiantAbsent()
+                                                {
+                                                    nom = etudiant.Nom,
+                                                    prenom = etudiant.Prenom,
+                                                    absence_count = etudiant.Absences.Where(absence => !absence.EstPresent
+                                                                                            /*&& absence.Details_Emploi.Emploi.Semaine.id >= id_semaine_debut
+                                                                                            && absence.Details_Emploi.Emploi.Semaine.id <= id_semaine_fin*/).Count()
+                                                })
+                                                .Where(etud_abs => etud_abs.absence_count >= 2)
+                                                .ToList();
+            return absence_list;
         }
 
-        public List<EtudiantAbsent> statistics(int id_semaine)
+        public List<EtudiantAbsent> statistics(int id_semaine_debut, int id_semaine_fin , int id_classe)
         {
-            int[] tabSem = { 1, 2, 3 };
-            var result2 = context.Etudiants.Select(etudiant => new EtudiantAbsent()
-            {
-                nomClass = etudiant.Classe.Nom,
-                id = etudiant.Id,
-                nom = etudiant.Nom,
-                prenom = etudiant.Prenom,
-                absence_count = etudiant.Absences.Where(absence => !absence.EstPresent).Count()
-            }).ToList();
 
-            var result3 = context.Etudiants.Join(context.Absences,
-                etudiant => etudiant.Id,
-                absence => absence.Etudiant.Id,
-
-                (etudiant, absence) => new EtudiantAbsent()
-                {
-                    nomClass = etudiant.Classe.Nom,
-                    id = etudiant.Id,
-                    nom = etudiant.Nom,
-                    prenom = etudiant.Prenom,
-                    absence_count = etudiant.Absences.Where(myabsence => !absence.EstPresent && tabSem.Contains(myabsence.Details_Emploi.Emploi.Semaine.id)).Count()
-                }).ToList();
-            return result3;
+            return null;
         }
     }
 
-    }
+}

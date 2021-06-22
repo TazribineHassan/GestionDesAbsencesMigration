@@ -447,16 +447,16 @@ namespace GestionDesAbsencesMigration.Controllers
         {
             int idSemaine = 1;
             ViewBag.adminName = admin_name;
-            var result3 = AdminService.statistics(idSemaine);
+            var result3 = AdminService.statistics(3, 1, 1);
             return View(result3);
         }
 
-        public ViewResult StatistiquesPDF()
+        public ViewResult ConsielPDF()
         {
             int idSemaine = 1;
             ViewBag.adminName = admin_name;
-            List<EtudiantAbsent> filtredList = AdminService.statisticsPdf();
-            return View(filtredList);
+            List<EtudiantAbsent> filtredList = AdminService.consielPdf(3, 1, 1);
+            return View("StatistiquesPDF", filtredList);
         }
 
         [Route("Admin/generatePdf")]
@@ -467,7 +467,7 @@ namespace GestionDesAbsencesMigration.Controllers
 
                 // var viewResult = StatistiquesPDF();
                 var viewResult = compositeViewEngine.FindView(ControllerContext, "StatistiquesPDF", false);
-                List<EtudiantAbsent> filtredList = AdminService.statisticsPdf();
+                List<EtudiantAbsent> filtredList = AdminService.consielPdf(3, 1, 1);
                 ViewData.Model = filtredList;
                 var viewContext = new ViewContext(ControllerContext,
                                                     viewResult.View,

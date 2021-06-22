@@ -494,9 +494,9 @@ namespace GestionDesAbsencesMigration.Controllers
 
         }
 
-        public ActionResult ListeEtudiants(int seances, int modules, int liste_Semaines)
+        public ActionResult ListeEtudiants(int id_seance, int id_modules, int id_semaine)
         {
-            var listOfStudents = AdminService.GetStudentsList(seances, modules, liste_Semaines);
+            var listOfStudents = AdminService.GetStudentsList(id_seance, id_modules, id_semaine);
             return View(listOfStudents);
         }
 

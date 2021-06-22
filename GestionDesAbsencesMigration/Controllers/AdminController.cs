@@ -92,10 +92,6 @@ namespace GestionDesAbsencesMigration.Controllers
         public JsonResult GetClass(int id)
         {
             var classes = cycleService.GetCycleById(id).Classes;
-            //foreach(var classe in classes)
-            //{
-            //    classe.Cycle = null;
-            //}
             return Json(classes);
 
         }

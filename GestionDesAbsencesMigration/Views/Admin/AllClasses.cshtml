@@ -2,3 +2,46 @@
     ViewBag.Title = "La liste des classes";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
+
+@model IEnumerable<GestionDesAbsencesMigration.Models.Classe>
+
+@section Style {
+    <link href="~/lib/datatables/css/jquery.dataTables.css" rel="stylesheet" />
+}
+
+<div class="row justify-content-center ">
+    <div class="col-md-10 pt-3">
+        <div class="card bg-light shadow">
+            <div class="card-body">
+                <button class="btn btn-primary mb-3" data-toggle="modal" data-target="#addStudentModal"><i class="fas fa-school"></i>Ajouter une classe</button>
+                <table id="myTable" class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th class="text-primary">ID</th>
+                            <th class="text-primary">Nom</th>
+                            <th class="text-primary">Cycle</th>
+                            <th class="text-primary">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@Html.DisplayFor(c => item.Id)</td>
+                                <td>@Html.DisplayFor(c => item.Nom)</td>
+                                <td>@Html.DisplayFor(c => item.Cycle.Nom)</td>
+
+                                <td class="text-center">
+                                    <div class="btn-group">
+                                        <button value="@item.Id" class="editbutton btn btn-outline-primary "> <i class="fa fa-edit"></i> </button>
+                                        <button value="@item.Id" class="deleteButton btn btn-outline-danger" data-toggle="modal" data-target="#deleteModal"> <i class="fas fa-trash-alt"></i> </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

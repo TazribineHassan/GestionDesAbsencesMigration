@@ -1,7 +1,7 @@
 C:\Users\admin\source\repos\GestionDesAbsencesMigration\GestionDesAbsencesMigration\bin\Debug\net5.0\Select.Html.dep
 C:\Users\admin\source\repos\GestionDesAbsencesMigration\GestionDesAbsencesMigration\bin\Debug\net5.0\appsettings.Development.json
-C:\Users\admin\source\repos\GestionDesAbsencesMigration\GestionDesAbsencesMigration\bin\Debug\net5.0\appsettings.json
 C:\Users\admin\source\repos\GestionDesAbsencesMigration\GestionDesAbsencesMigration\bin\Debug\net5.0\libman.json
+C:\Users\admin\source\repos\GestionDesAbsencesMigration\GestionDesAbsencesMigration\bin\Debug\net5.0\appsettings.json
 C:\Users\admin\source\repos\GestionDesAbsencesMigration\GestionDesAbsencesMigration\bin\Debug\net5.0\GestionDesAbsencesMigration.exe
 C:\Users\admin\source\repos\GestionDesAbsencesMigration\GestionDesAbsencesMigration\bin\Debug\net5.0\GestionDesAbsencesMigration.deps.json
 C:\Users\admin\source\repos\GestionDesAbsencesMigration\GestionDesAbsencesMigration\bin\Debug\net5.0\GestionDesAbsencesMigration.runtimeconfig.json
@@ -157,9 +157,13 @@ C:\Users\admin\source\repos\GestionDesAbsencesMigration\GestionDesAbsencesMigrat
 C:\Users\admin\source\repos\GestionDesAbsencesMigration\GestionDesAbsencesMigration\obj\Debug\net5.0\GestionDesAbsencesMigration.TagHelpers.input.cache
 C:\Users\admin\source\repos\GestionDesAbsencesMigration\GestionDesAbsencesMigration\obj\Debug\net5.0\GestionDesAbsencesMigration.TagHelpers.output.cache
 C:\Users\admin\source\repos\GestionDesAbsencesMigration\GestionDesAbsencesMigration\obj\Debug\net5.0\GestionDesAbsencesMigration.RazorCoreGenerate.cache
+C:\Users\admin\source\repos\GestionDesAbsencesMigration\GestionDesAbsencesMigration\obj\Debug\net5.0\Razor\Views\Admin\AllClasses.cshtml.g.cs
 C:\Users\admin\source\repos\GestionDesAbsencesMigration\GestionDesAbsencesMigration\obj\Debug\net5.0\Razor\Views\Admin\AllEtudiants.cshtml.g.cs
+C:\Users\admin\source\repos\GestionDesAbsencesMigration\GestionDesAbsencesMigration\obj\Debug\net5.0\Razor\Views\Admin\AllModules.cshtml.g.cs
 C:\Users\admin\source\repos\GestionDesAbsencesMigration\GestionDesAbsencesMigration\obj\Debug\net5.0\Razor\Views\Admin\AllProfs.cshtml.g.cs
+C:\Users\admin\source\repos\GestionDesAbsencesMigration\GestionDesAbsencesMigration\obj\Debug\net5.0\Razor\Views\Admin\GetEditedClass.cshtml.g.cs
 C:\Users\admin\source\repos\GestionDesAbsencesMigration\GestionDesAbsencesMigration\obj\Debug\net5.0\Razor\Views\Admin\GetEditedEtudiant.cshtml.g.cs
+C:\Users\admin\source\repos\GestionDesAbsencesMigration\GestionDesAbsencesMigration\obj\Debug\net5.0\Razor\Views\Admin\GetEditedModule.cshtml.g.cs
 C:\Users\admin\source\repos\GestionDesAbsencesMigration\GestionDesAbsencesMigration\obj\Debug\net5.0\Razor\Views\Admin\GetEditedProfesseur.cshtml.g.cs
 C:\Users\admin\source\repos\GestionDesAbsencesMigration\GestionDesAbsencesMigration\obj\Debug\net5.0\Razor\Views\Admin\Home.cshtml.g.cs
 C:\Users\admin\source\repos\GestionDesAbsencesMigration\GestionDesAbsencesMigration\obj\Debug\net5.0\Razor\Views\Admin\StatistiquesPDF.cshtml.g.cs

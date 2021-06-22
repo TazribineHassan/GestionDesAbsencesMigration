@@ -1,6 +1,7 @@
 ﻿using GestionDesAbsencesMigration.Models;
 using GestionDesAbsencesMigration.Models.Context;
 using GestionDesAbsencesMigration.Services;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,16 +27,22 @@ namespace GestionDesAbsencesMigration.ServicesImpl
 
         public IEnumerable<Module> getAll()
         {
-            return context.Modules;
+            return context.Modules.Include(m => m.Professeur).Include(m => m.Classes);
         }
 
         public Module GetModuleById(int id)
         {
-            return context.Modules.Where(m => m.Id == id).FirstOrDefault();
+            return context.Modules.Include(m => m.Professeur)
+                                  .Include(m => m.Classes)
+                                  .Where(m => m.Id == id).FirstOrDefault();
         }
 
-        public void Save(Module module)
+        public void Save(Module module, List<int> classes_ids)
         {
+            var classes = context.Classes.Where(c => classes_ids.Contains(c.Id));
+            foreach(var classe in classes)
+                 module.Classes.Add(classe);
+
             context.Modules.Add(module);
             context.SaveChanges();
         }

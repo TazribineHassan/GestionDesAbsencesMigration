@@ -2,18 +2,43 @@
     ViewBag.Title = "Rectification des absences";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
-
+@model IEnumerable<GestionDesAbsencesMigration.Models.Semaine>
 <div class="row justify-content-center ">
-    <div class="col-md-10 pt-3">
+    <div class="col-md-8 pt-3">
         <div class="card bg-light shadow">
+            <div class="card-header font-weight-bolder  btn btn-primary text-center">
+                Formulaire d'absence
+            </div>
             <div class="card-body">
                 @using (Html.BeginForm("Rectifier", "Admin", FormMethod.Post, new { @class = "my_from" }))
                 {
                     <div class="form-group">
-                        <label for="cne">Nom</label>
-                        <input type="text" class="form-control border" id="nomModule" name="nomModule" value="@Model.NomModule" placeholder="Nom">
+                        <label for="Semaine">Semaine</label>
+                        @*@Html.DropDownList("id_semaine", ViewBag.list_semaine as SelectList, "Selectionnez un professeur", new { id = "id_semaine", @class = "form-control border" })*@
+                        <select name="semaine_id" id="semaine_id" class="form-control border">
+                            <option>Selectionnez la semaine</option>
+                            @foreach (var item in Model)
+                            {
+                                <option value="@item.id">S @item.id ( @item.Date_debut.ToShortDateString() -> @item.Date_fin.ToShortDateString() )</option>
+                            }
+
+                        </select>
                     </div>
-                    <div class="modal-footer">
+
+                    <div class="form-group">
+                        <label for="cne">Module</label>
+                        @Html.DropDownList("id_module", ViewBag.list_Module as SelectList, "Selectionnez le module", new { id = "id_module", @class = "form-control border" })
+                    </div>
+
+                    <div class="form-group">
+                        <label for="seance">Séance</label>
+                        <select class="form-control border" id="id_seance" name="id_seance">
+                            <option>Selectionnez l'heure de la séance</option>
+                        </select>
+                        
+                    </div>
+
+                    <div class="form-group">
                         <input type="submit" class="btn btn-primary" id="submit" value="Valider" />
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
                     </div>
@@ -22,3 +47,22 @@
         </div>
     </div>
 </div>
+
+
+@section Scripts{
+    
+    <script>
+
+        $("#id_module").change(function () {
+            $.get("/Admin/GetSeances", { module_id: $("#id_module").val(), semaine_id: $("#semaine_id").val() }, function (data) {
+                $("#id_seance").empty();
+                $.each(data, function (index, ligne) {
+                    console.log(ligne.HeurDebut);
+                    console.log(ligne.HeurFin);
+                    $("#id_seance").append("<option value='" + ligne.id + "'>" + ligne.heurDebut + " - " + ligne.heurFin +"</option>")
+                });
+
+            });
+        });
+    </script>
+}

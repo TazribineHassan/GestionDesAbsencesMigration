@@ -1,5 +1,84 @@
-﻿@{
-    ViewBag.Title = "La liste des étudiants";
+﻿@model IEnumerable<GestionDesAbsencesMigration.Models.StudentsList>
+@using Microsoft.AspNetCore.Http.Extensions
+
+@{
+    ViewBag.Title = "Rectifier les absences";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    string absoluteurl = Context.Request.GetDisplayUrl();
 }
-<h1>Rectifier</h1>
+
+@section Style {
+
+    <link href="~/lib/datatables/css/jquery.dataTables.css" rel="stylesheet" />
+}
+
+<div class="row justify-content-center ">
+    <div class="col-md-10 pt-3">
+        <div class="card bg-light shadow">
+            <div class="card-body">
+                <table id="myTable" class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th class="text-primary">@Html.DisplayNameFor(model => model.Etudiant.Id)</th>
+                            <th class="text-primary">@Html.DisplayNameFor(model => model.Etudiant.Nom)</th>
+                            <th class="text-primary">Prénom</th>
+                            <th class="text-primary">Groupe</th>
+                            <th class="text-primary text-center">Présence</th>
+                            <th class="text-primary text-center">Marquez</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@Html.DisplayFor(c => item.Etudiant.Id)</td>
+                                <td>@Html.DisplayFor(c => item.Etudiant.Nom)</td>
+                                <td>@Html.DisplayFor(c => item.Etudiant.Prenom)</td>
+                                <td>@Html.DisplayFor(c => item.Etudiant.Groupe.Nom)</td>
+                                <td class="text-center">
+                                    @if (item.Absence.EstPresent)
+                                    {
+                                        <i class='fas fa-check text-success'></i>
+                                    }
+                                    else
+                                    {
+                                        <i class='fas fa-times text-danger'></i>
+                                    }
+                                </td>
+                                <td class="text-center">
+                                    @if (item.Absence.EstPresent)
+                                    {
+                                        <form action='Marquez' method='post'>
+                                            <input type='hidden' name='id' value="@item.Absence.Id" />
+                                            <input type='hidden' name='presence' value="false" />
+                                            <input type='hidden' name='url' value="@absoluteurl" />
+                                            <button type='submit' class='btn btn-danger' value=''>A</button>
+                                        </form>
+                                    }
+                                    else
+                                    {
+                                        <form action='Marquez' method='post'>
+                                            <input type='hidden' name='id' value="@item.Absence.Id" />
+                                            <input type='hidden' name='presence' value="true" />
+                                            <input type='hidden' name='url' value="@absoluteurl" />
+                                            <button type='submit' class='btn btn-success' value=''>P</button>
+                                        </form>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script src="~/lib/datatables/js/jquery.dataTables.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#myTable').DataTable();
+        });
+    </script>
+}

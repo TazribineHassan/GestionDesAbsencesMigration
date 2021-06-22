@@ -26,7 +26,7 @@ using GestionDesAbsencesMigration.Models;
 #line default
 #line hidden
 #nullable disable
-    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"504279ec4e80fe11c24107e00d8a36b5af95f27d", @"/Views/Shared/_LayoutAdmin.cshtml")]
+    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"143624c1cc88045548cf1a9fa4aa9f51a7a78b9b", @"/Views/Shared/_LayoutAdmin.cshtml")]
     [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"430ddb756b39511dc01748ceee86d9af80471367", @"/Views/_ViewImports.cshtml")]
     public class Views_Shared__LayoutAdmin : global::Microsoft.AspNetCore.Mvc.Razor.RazorPage<dynamic>
     {
@@ -179,6 +179,9 @@ Write(RenderSection("Style", required: false));
                     <li>                           
                         <a href=""/Admin/Rectification""><span class=""");
                 WriteLiteral(@"fas fa-calendar-check mr-4""></span>Rectification</a>
+                    </li>                    
+                    <li>                           
+                        <a href=""/Admin/Conseil""><span class=""fas fa-calendar-alt mr-4""></span>Conseil disciplinaire</a>
                     </li>
                     <li>
                         <a href=""http://www.ensas.uca.ma/"" target=""_blank""><span class=""fa fa-paper-plane mr-3""></span> Contacts</a>
@@ -189,7 +192,8 @@ Write(RenderSection("Style", required: false));
                         <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
                         Copyright &copy;
                         <script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class=""icon-heart"" aria-hidden=""true""></i> by <a href=""https://colorlib.com"" target=""_blank"">Colorlib.com</a>
-                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                        <!-- Link back to Colorl");
+                WriteLiteral(@"ib can't be removed. Template is licensed under CC BY 3.0. -->
                     </p>
                 </div>
 
@@ -197,8 +201,11 @@ Write(RenderSection("Style", required: false));
         </nav>
 
         <!-- Page Content  -->
-        <div id=""content"" class=""px-");
-                WriteLiteral("5 pt-3\">\r\n            <nav class=\"navbar navbar-expand-lg navbar-light shadow p-3 mb-5 bg-white rounded\">\r\n                <div class=\"container-fluid\">\r\n                    <button class=\"btn  btn-primary\">\r\n                        ");
+        <div id=""content"" class=""px-5 pt-3"">
+            <nav class=""navbar navbar-expand-lg navbar-light shadow p-3 mb-5 bg-white rounded"">
+                <div class=""container-fluid"">
+                    <button class=""btn  btn-primary"">
+                        ");
 #nullable restore
 #line 67 "D:\mini projets\GestionDesAbsencesMigration\GestionDesAbsencesMigration\Views\Shared\_LayoutAdmin.cshtml"
                    Write(ViewData["Title"]);

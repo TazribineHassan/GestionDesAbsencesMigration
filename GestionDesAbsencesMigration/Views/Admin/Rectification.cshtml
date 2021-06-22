@@ -10,12 +10,11 @@
                 Formulaire d'absence
             </div>
             <div class="card-body">
-                @using (Html.BeginForm("Rectifier", "Admin", FormMethod.Post, new { @class = "my_from" }))
+                @using (Html.BeginForm("Rectifier", "Admin", FormMethod.Get, new { @class = "my_from" }))
                 {
                     <div class="form-group">
                         <label for="Semaine">Semaine</label>
-                        @*@Html.DropDownList("id_semaine", ViewBag.list_semaine as SelectList, "Selectionnez un professeur", new { id = "id_semaine", @class = "form-control border" })*@
-                        <select name="semaine_id" id="semaine_id" class="form-control border">
+                        <select name="id_semaine" id="id_semaine" class="form-control border">
                             <option>Selectionnez la semaine</option>
                             @foreach (var item in Model)
                             {
@@ -54,11 +53,9 @@
     <script>
 
         $("#id_module").change(function () {
-            $.get("/Admin/GetSeances", { module_id: $("#id_module").val(), semaine_id: $("#semaine_id").val() }, function (data) {
+            $.get("/Admin/GetSeances", { module_id: $("#id_module").val(), semaine_id: $("#id_semaine").val() }, function (data) {
                 $("#id_seance").empty();
                 $.each(data, function (index, ligne) {
-                    console.log(ligne.HeurDebut);
-                    console.log(ligne.HeurFin);
                     $("#id_seance").append("<option value='" + ligne.id + "'>" + ligne.heurDebut + " - " + ligne.heurFin +"</option>")
                 });
 

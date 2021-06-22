@@ -24,24 +24,30 @@ namespace GestionDesAbsencesMigration.ServicesImpl
         {
             NPOI.SS.UserModel.ISheet sheet = workbook.GetSheetAt(0);
             IEnumerator rows = sheet.GetRowEnumerator();
-            for (int j = 0; j < (sheet.GetRow(0).LastCellNum); j++)
+            rows.MoveNext();
+            var current = (XSSFRow)rows.Current;
+            for (int j = 0; j < (current.LastCellNum - current.FirstCellNum); j++)
             {
-                dt.Columns.Add(sheet.GetRow(0).Cells[j].ToString());
+                dt.Columns.Add(current.Cells[j].StringCellValue);
             }
+
             while (rows.MoveNext())
             {
-                XSSFRow row = (XSSFRow)rows.Current;
+                XSSFRow current_row = (XSSFRow)rows.Current;
                 DataRow dr = dt.NewRow();
-                for (int i = 0; i < row.LastCellNum; i++)
+                for (int i = 0; i < (current_row.LastCellNum - current_row.FirstCellNum); i++)
                 {
-                    NPOI.SS.UserModel.ICell cell = row.GetCell(i);
+                    NPOI.SS.UserModel.ICell cell = current_row.Cells[i];
                     if (cell == null)
                     {
                         dr[i] = null;
                     }
                     else
                     {
-                        dr[i] = cell.ToString();
+                        if(cell.CellType == NPOI.SS.UserModel.CellType.String)
+                            dr[i] = cell.StringCellValue;
+                        if (cell.CellType == NPOI.SS.UserModel.CellType.Numeric)
+                            dr[i] = cell.NumericCellValue;
                     }
                 }
                 dt.Rows.Add(dr);
@@ -85,24 +91,30 @@ namespace GestionDesAbsencesMigration.ServicesImpl
         {
             NPOI.SS.UserModel.ISheet sheet = workbook.GetSheetAt(0);
             IEnumerator rows = sheet.GetRowEnumerator();
-            for (int j = 0; j < (sheet.GetRow(0).LastCellNum); j++)
+            rows.MoveNext();
+            var current = (HSSFRow)rows.Current;
+            for (int j = 0; j < (current.LastCellNum - current.FirstCellNum); j++)
             {
-                dt.Columns.Add(sheet.GetRow(0).Cells[j].ToString());
+                dt.Columns.Add(current.Cells[j].StringCellValue);
             }
+
             while (rows.MoveNext())
             {
-                HSSFRow row = (HSSFRow)rows.Current;
+                HSSFRow current_row = (HSSFRow)rows.Current;
                 DataRow dr = dt.NewRow();
-                for (int i = 0; i < row.LastCellNum; i++)
+                for (int i = 0; i < (current_row.LastCellNum - current_row.FirstCellNum); i++)
                 {
-                    NPOI.SS.UserModel.ICell cell = row.GetCell(i);
+                    NPOI.SS.UserModel.ICell cell = current_row.Cells[i];
                     if (cell == null)
                     {
                         dr[i] = null;
                     }
                     else
                     {
-                        dr[i] = cell.ToString();
+                        if (cell.CellType == NPOI.SS.UserModel.CellType.String)
+                            dr[i] = cell.StringCellValue;
+                        if (cell.CellType == NPOI.SS.UserModel.CellType.Numeric)
+                            dr[i] = cell.NumericCellValue;
                     }
                 }
                 dt.Rows.Add(dr);

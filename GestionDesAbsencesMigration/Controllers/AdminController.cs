@@ -324,7 +324,7 @@ namespace GestionDesAbsencesMigration.Controllers
 
         [ActionName("Index")]
         [HttpPost]
-        public ActionResult import(int myclass, IFormFile file)
+        public ActionResult import(int classe_id, IFormFile file)
         {
             if (file == null || file.Length <= 0)
             {
@@ -344,12 +344,12 @@ namespace GestionDesAbsencesMigration.Controllers
                     if (FileName == ".xls")
                     {
                         HSSFWorkbook workbook = new HSSFWorkbook(streamfile);
-                        dt = excelService.ImportEtudiants(dt, workbook, myclass);
+                        dt = excelService.ImportEtudiants(dt, workbook, classe_id);
                     }
                     else
                     {
                         XSSFWorkbook workbook = new XSSFWorkbook(streamfile);
-                        dt = excelService.ImportEtudiants(dt, workbook, myclass);
+                        dt = excelService.ImportEtudiants(dt, workbook, classe_id);
                     }
                     return Json("OK");
                 }

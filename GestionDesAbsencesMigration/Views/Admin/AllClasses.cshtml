@@ -1,5 +1,6 @@
 ﻿@{
     ViewBag.Title = "La liste des classes";
+    ViewBag.Nom = ViewBag.adminName;
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 
@@ -13,14 +14,14 @@
     <div class="col-md-10 pt-3">
         <div class="card bg-light shadow">
             <div class="card-body">
-                <button class="btn btn-primary mb-3" data-toggle="modal" data-target="#addStudentModal"><i class="fas fa-school"></i>Ajouter une classe</button>
+                <button class="btn btn-primary mb-3" data-toggle="modal" data-target="#addClasstModal"><i class="fas fa-plus mr-3"></i>Ajouter une classe</button>
                 <table id="myTable" class="table table-hover">
                     <thead>
                         <tr>
                             <th class="text-primary">ID</th>
                             <th class="text-primary">Nom</th>
                             <th class="text-primary">Cycle</th>
-                            <th class="text-primary">Actions</th>
+                            <th class="text-primary text-center">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -45,3 +46,127 @@
         </div>
     </div>
 </div>
+
+
+@*Add new class Modal*@
+<div class="modal fade" id="addClasstModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable" role="document">
+        <div class="modal-content">
+            <div class="modal-header text-center" style="background-color:#44bef1; text-align:center">
+                <h5 class="modal-title" style="text-align: center;" id="exampleModalScrollableTitle">Ajouter un nouveau etudiant</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                @using (Html.BeginForm("SaveClasse", "Admin", FormMethod.Post, new { @class = "my_from" }))
+                {
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="nom">Nom</label>
+                            <input type="text" class="form-control border" id="nom" name="nom" placeholder="Nom">
+                        </div>
+                        <div class="form-group">
+                            <label>Groupe</label>
+                            <select class="form-control border" id="id_cycle" name="id_cycle">
+                                <option value="1">CI</option>
+                                <option value="2">CP</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <input type="submit" class="btn btn-primary" id="submit" value="Ajouter" />
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@*delte Modal*@
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-danger">
+                <h5 class="modal-title text-white" id="exampleModalLabel">Supprimer un etudiant</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body font-weight-bold">
+                Êtes-vous sûr ?
+            </div>
+            <div class="modal-footer">
+                <a href="" id="deleteHref" class="btn btn-danger">Oui</a>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Non</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--edit etudiant Modal and button-->
+<button hidden data-toggle="modal" id="lunchModal" data-target="#editModal"></button>
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color:#44bef1;">
+                <h5 class="modal-title" id="exampleModalScrollableTitle">Éditer un etudiant</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                @using (Html.BeginForm("EditClasse", "Admin", FormMethod.Post, new { @class = "my_from" }))
+                {
+                    <div class="modal-body" id="modalEditBody">
+                    </div>
+                    <div class="modal-footer">
+                        <input type="submit" class="btn btn-primary" id="submit" value="Éditer" />
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script src="~/lib/datatables/js/jquery.dataTables.js"></script>
+    <script>
+        $(document).ready(function () {
+
+            $('#myTable').DataTable();
+
+
+
+            $("#liste_cycle").addClass("form-control");
+
+            $("#liste_cycle").change(function () {
+                $.get("/Admin/GetClass", { id: $("#liste_cycle").val() }, function (data) {
+                    $("#classe").empty();
+                    $.each(data, function (index, ligne) {
+                        $("#classe").append("<option value='" + ligne.id + "'>" + ligne.nom + "</option>")
+                    });
+
+                });
+            });
+
+            // edit classe
+            $("#myTable").on("click", ".editbutton", function () {
+                var url = "GetEditedClasse/" + $(this).attr("value");
+                $.get(url, function (data) {
+                    $('#modalEditBody').html(data);
+                    document.getElementById("lunchModal").click();
+                })
+            });
+
+            // delte classe
+            $("#myTable").on("click", ".deleteButton", function () {
+                var url = "DeleteClasse/" + $(this).attr("value");
+                $("#deleteHref").attr("href", url);
+            });
+
+        });
+    </script>
+}

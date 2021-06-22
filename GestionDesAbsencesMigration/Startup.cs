@@ -37,6 +37,7 @@ namespace GestionDesAbsencesMigration
             services.AddTransient<ISeanceService, SeanceService>();
             services.AddTransient<IRoleService, RoleService>();
             services.AddTransient<IModuleService, ModuleService>();
+            services.AddTransient<IClassService, ClassService>();
 
 
             services.AddControllersWithViews().AddNewtonsoftJson(options =>

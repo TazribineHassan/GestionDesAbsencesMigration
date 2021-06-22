@@ -275,7 +275,8 @@ namespace GestionDesAbsencesMigration.Controllers
             return View(classeService.getAll());
         }
 
-        //Save Module
+        //Save Classe
+        //DONE
         public ActionResult SaveClasse(string nom, int id_cycle)
         {
             Classe classe = new Classe();
@@ -287,6 +288,7 @@ namespace GestionDesAbsencesMigration.Controllers
 
 
         //delete Module
+        //DONE
         public ActionResult DeleteClasse(int id)
         {
             classeService.deleteClasse(id);

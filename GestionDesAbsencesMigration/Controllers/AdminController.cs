@@ -516,10 +516,10 @@ namespace GestionDesAbsencesMigration.Controllers
         }        
         
         [HttpPost]
-        public ActionResult Rectifier(int id_seance, int id_module, int id_semaine)
+        public ActionResult Rectifier(int id_seance, int id_module, int semaine_id)
         {
 
-            var listOfStudents = AdminService.GetStudentsList(id_seance, id_module, id_semaine);
+            var listOfStudents = AdminService.GetStudentsList(id_seance, id_module, semaine_id);
             return View(listOfStudents);
         }
 

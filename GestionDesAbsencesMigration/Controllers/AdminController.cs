@@ -309,7 +309,6 @@ namespace GestionDesAbsencesMigration.Controllers
         }
 
         //editClasse
-
         public ActionResult EditClasse(int id_classe, string nom, int id_cycle)
         {
             Classe classe = classeService.GetClasseById(id_classe);
@@ -503,8 +502,25 @@ namespace GestionDesAbsencesMigration.Controllers
         [HttpPost]
         public ActionResult Marquez(int id, bool presence, string url)
         {
-            AdminService.UpdateAbsence(id, presence);
+            AdminService.UpdateAbsence
+                (id, presence);
             return Redirect(url);
+        }
+
+        public ActionResult Rectification()
+        {
+            
+            ViewBag.list_Module = new SelectList(moduleService.getAll(), "Id", "NomModule");
+            
+            return View(semaineService.getSemainForCurrentYear());
+        }        
+        
+        [HttpPost]
+        public ActionResult Rectifier(int id_seance, int id_module, int id_semaine)
+        {
+
+            var listOfStudents = AdminService.GetStudentsList(id_seance, id_module, id_semaine);
+            return View(listOfStudents);
         }
 
         private Administrateur GetIdUserFromCoockie()

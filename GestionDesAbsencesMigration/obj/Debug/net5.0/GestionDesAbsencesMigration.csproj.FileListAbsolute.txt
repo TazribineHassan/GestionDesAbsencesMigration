@@ -194,3 +194,4 @@ C:\Users\admin\source\repos\GestionDesAbsencesMigration\GestionDesAbsencesMigrat
 C:\Users\admin\source\repos\GestionDesAbsencesMigration\GestionDesAbsencesMigration\obj\Debug\net5.0\GestionDesAbsencesMigration.pdb
 C:\Users\admin\source\repos\GestionDesAbsencesMigration\GestionDesAbsencesMigration\obj\Debug\net5.0\GestionDesAbsencesMigration.genruntimeconfig.cache
 C:\Users\admin\source\repos\GestionDesAbsencesMigration\GestionDesAbsencesMigration\obj\Debug\net5.0\Razor\Views\Admin\Conseil.cshtml.g.cs
+C:\Users\admin\source\repos\GestionDesAbsencesMigration\GestionDesAbsencesMigration\obj\Debug\net5.0\Razor\Views\Admin\Parametres.cshtml.g.cs

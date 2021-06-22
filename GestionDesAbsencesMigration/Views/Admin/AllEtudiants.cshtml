@@ -13,7 +13,10 @@
     <div class="col-md-10 pt-3">
         <div class="card bg-light shadow">
             <div class="card-body">
-                <button class="btn btn-primary mb-3" data-toggle="modal" data-target="#addStudentModal"><i class="fas fa-user-plus"></i> Ajouter un etudiant</button>
+                <div class="row justify-content-between">
+                    <button class="btn btn-primary mb-3 ml-2" data-toggle="modal" data-target="#addStudentModal"><i class="fas fa-user-plus"></i> Ajouter un etudiant</button>
+                    <button class="btn btn-primary mb-3 mr-2" data-toggle="modal" data-target="#excelModal"><i class="fas fa-file-import"></i> Importer un fichier excel</button>
+                </div>
                 <table id="myTable" class="table table-hover">
                     <thead>
                         <tr>
@@ -39,7 +42,7 @@
                                 <td class="text-center">
                                     <div class="btn-group">
                                         <button value="@item.Id" class="editbutton btn btn-outline-primary "> <i class="fa fa-edit"></i> </button>
-                                        <button value="@item.Id" class="deleteButton btn btn-outline-danger" data-toggle="modal" data-target="#deleteModal" > <i class="fas fa-trash-alt"></i> </button>
+                                        <button value="@item.Id" class="deleteButton btn btn-outline-danger" data-toggle="modal" data-target="#deleteModal"> <i class="fas fa-trash-alt"></i> </button>
                                     </div>
                                 </td>
                             </tr>
@@ -56,7 +59,7 @@
     <div class="modal-dialog modal-dialog-scrollable" role="document">
         <div class="modal-content">
             <div class="modal-header text-center" style="background-color:#44bef1; text-align:center">
-                <h5 class="modal-title"  style="text-align: center;" id="exampleModalScrollableTitle">Ajouter un nouveau etudiant</h5>
+                <h5 class="modal-title" style="text-align: center;" id="exampleModalScrollableTitle">Ajouter un nouveau etudiant</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -133,7 +136,7 @@
 </div>
 
 <!--edit etudiant Modal and button-->
-<button hidden data-toggle="modal" id="lunchModal" data-target="#editModal" ></button>
+<button hidden data-toggle="modal" id="lunchModal" data-target="#editModal"></button>
 <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-scrollable" role="document">
         <div class="modal-content">
@@ -159,42 +162,71 @@
 </div>
 
 
-    @section Scripts{
-        <script src="~/lib/datatables/js/jquery.dataTables.js"></script>
-        <script>
-            $(document).ready(function () {
+@*Excel Modal*@
+<div class="modal fade" id="excelModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color:#44bef1;">
+                <h5 class="modal-title text-white" id="exampleModalLabel">Importer un fichier excel</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            @using (Html.BeginForm()) 
+            {
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>Classe</label>
+                        @Html.DropDownList("id_classe", ViewBag.list_Classe as SelectList, "Selectionnez une classe", new { id = "id_classe", @class = "form-control border" })
+                    </div>
+                    <div class="custom-file">
+                        <input type="file" id="excel" name="excel" accept=".xlsx" class="custom-file-input" placeholder="Importer" >
+                        <label class="custom-file-label" for="customFile">Importer</label>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary" data-dismiss="modal">Valider</button>
+                    <button type="reset" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+                </div>
+            }
+        </div>
+    </div>
+</div>
 
-                $('#myTable').DataTable();
+@section Scripts{
+    <script src="~/lib/datatables/js/jquery.dataTables.js"></script>
+    <script>
+        $(document).ready(function () {
 
+            $('#myTable').DataTable();
 
+            $("#liste_cycle").addClass("form-control");
 
-                $("#liste_cycle").addClass("form-control");
-
-                $("#liste_cycle").change(function () {
-                    $.get("/Admin/GetClass", { id: $("#liste_cycle").val() }, function (data) {
-                        $("#classe").empty();
-                        $.each(data, function (index, ligne) {
-                            $("#classe").append("<option value='" + ligne.id + "'>" + ligne.nom + "</option>")
-                        });
-
+            $("#liste_cycle").change(function () {
+                $.get("/Admin/GetClass", { id: $("#liste_cycle").val() }, function (data) {
+                    $("#classe").empty();
+                    $.each(data, function (index, ligne) {
+                        $("#classe").append("<option value='" + ligne.id + "'>" + ligne.nom + "</option>")
                     });
-                });
 
-                // edit etudiant
-                $("#myTable").on("click", ".editbutton", function () {
-                    var url = "GetEditedEtudiant/" + $(this).attr("value");
-                    $.get(url, function (data) {
-                        $('#modalEditBody').html(data);
-                        document.getElementById("lunchModal").click();
-                    })
                 });
-
-                // delte etudiant
-                $("#myTable").on("click", ".deleteButton", function () {
-                    var url = "DeleteEtudiant/" + $(this).attr("value");
-                    $("#deleteHref").attr("href", url);
-                });
-
             });
-        </script>
-    }
+
+            // edit etudiant
+            $("#myTable").on("click", ".editbutton", function () {
+                var url = "GetEditedEtudiant/" + $(this).attr("value");
+                $.get(url, function (data) {
+                    $('#modalEditBody').html(data);
+                    document.getElementById("lunchModal").click();
+                })
+            });
+
+            // delte etudiant
+            $("#myTable").on("click", ".deleteButton", function () {
+                var url = "DeleteEtudiant/" + $(this).attr("value");
+                $("#deleteHref").attr("href", url);
+            });
+
+        });
+    </script>
+}

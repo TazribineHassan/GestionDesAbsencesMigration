@@ -1,5 +1,29 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿@model GestionDesAbsencesMigration.Models.Module
+
+<input type="hidden" class="form-control border" id="id_module" name="id_module" value="@Model.Id">
+<div class="form-group">
+    <label for="cne">Nom</label>
+    <input type="text" class="form-control border" id="nomModule" name="nomModule" value="@Model.NomModule" placeholder="Nom">
+</div>
+<div class="form-group">
+    <label>Responsable de module</label>
+    @*@Html.DropDownList("id_Professeur", ViewBag.list_profs as SelectList, "Selectionnez un professeur", new { id = "id_Professeur", @class = "form-control border" })*@
+    <select class="form-control border">
+        @foreach (var item in ViewBag.list_profs.Items)
+        {
+            if (item.Id == Model.id_Professeur)
+            {
+                <option selected value="@item.Id">@item.Nom</option>
+            }
+            else
+            {
+                <option value="@item.Id">@item.Nom</option>
+            }
+        }
+
+    </select>
+</div>
+<div class="form-group">
+    <label>Classes</label><br />
+    @Html.DropDownList("classes_ids", ViewBag.list_clesses as SelectList, "Selectionnez les classes", new { id = "classes_ids", @class = "border col-md-12", multiple = "multiple", size = "4" })
+</div>

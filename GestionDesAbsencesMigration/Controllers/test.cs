@@ -3,13 +3,11 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
 using GestionDesAbsencesMigration.Models;
 using GestionDesAbsencesMigration.Common;
 using GestionDesAbsencesMigration.services;
 using GestionDesAbsencesMigration.Services;
+using Microsoft.EntityFrameworkCore;
 
 namespace GestionDesAbsencesMigration.Controllers
 {
@@ -17,12 +15,14 @@ namespace GestionDesAbsencesMigration.Controllers
     {
         private ApplicationContext db;
         private IProfesseurService professeurService;
-        private IModuleService moduleService;
-        public testController(ApplicationContext applicationContext, IProfesseurService professeurService, IModuleService moduleService)
+        private ISemaineService semaineService;
+        private ApplicationContext context;
+        public testController(ApplicationContext context, ApplicationContext applicationContext, IProfesseurService professeurService, ISemaineService semaineService)
         {
             this.db = applicationContext;
             this.professeurService = professeurService;
-            this.moduleService = moduleService;
+            this.semaineService = semaineService;
+            this.context = context;
         }
 
 
@@ -64,9 +64,12 @@ namespace GestionDesAbsencesMigration.Controllers
         }
         public JsonResult test3()
         {
-            Module m = new Module() { NomModule = "testModule", id_Professeur = 1};
-             moduleService.Save(m , new List<int> { 1, 2 });
-            return Json("OK");
+            var absence_list = context.Etudiants.Include(e => e.Classe)
+                                                .Include(e => e.Absences).ThenInclude(a => a.Details_Emploi)
+                                                                         .ThenInclude(demp => demp.Emploi)
+                                                                         .ThenInclude(emp => emp.Semaine)
+                                                /*.Where(etud => etud.Classe.Id == id_classe)*/;
+            return Json(absence_list);
         }
 
 

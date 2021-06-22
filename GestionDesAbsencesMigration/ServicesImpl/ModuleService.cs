@@ -47,9 +47,18 @@ namespace GestionDesAbsencesMigration.ServicesImpl
             context.SaveChanges();
         }
 
-        public void updateModule(Module module)
+        public void updateModule(Module module, List<int> classes_ids)
         {
-            var newModule = context.Modules.Where(m => m.Id == module.Id).FirstOrDefault();
+            var newModule = context.Modules.Include(m => m.Professeur).Where(m => m.Id == module.Id).FirstOrDefault();
+            if(classes_ids.Count() > 0)
+            {
+
+                var classes = context.Classes.Where(c => classes_ids.Contains(c.Id));
+                newModule.Classes = new HashSet<Classe>();
+                foreach (var classe in classes)
+                    module.Classes.Add(classe);
+
+            }
             newModule.NomModule = module.NomModule;
             newModule.id_Professeur = module.id_Professeur;
             context.SaveChanges();

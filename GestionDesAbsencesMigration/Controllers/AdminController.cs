@@ -259,14 +259,14 @@ namespace GestionDesAbsencesMigration.Controllers
         }
 
         //editModule
-
-        public ActionResult EditModule(int id_module, string nomModule, int id_professeur)
+        [HttpPost]
+        public ActionResult EditModule(int id_module, string nomModule, int id_Professeur, List<int> classes_ids)
         {
 
             Module module = moduleService.GetModuleById(id_module);
             module.NomModule = nomModule;
-            module.id_Professeur = id_professeur;
-            moduleService.updateModule(module);
+            module.id_Professeur = id_Professeur;
+            moduleService.updateModule(module, classes_ids);
 
             ViewBag.list = new SelectList(professeurService.getAll(), "Id", "Nom");
             return Redirect("/Admin/AllModules");
@@ -453,16 +453,16 @@ namespace GestionDesAbsencesMigration.Controllers
         {
             int idSemaine = 1;
             ViewBag.adminName = admin_name;
-            var result3 = AdminService.statistics(idSemaine);
+            var result3 = AdminService.statistics(3, 1, 1);
             return View(result3);
         }
 
-        public ViewResult StatistiquesPDF()
+        public ViewResult ConsielPDF()
         {
             int idSemaine = 1;
             ViewBag.adminName = admin_name;
-            List<EtudiantAbsent> filtredList = AdminService.statisticsPdf();
-            return View(filtredList);
+            List<EtudiantAbsent> filtredList = AdminService.consielPdf(3, 1, 1);
+            return View("StatistiquesPDF", filtredList);
         }
 
         [Route("Admin/generatePdf")]
@@ -473,7 +473,7 @@ namespace GestionDesAbsencesMigration.Controllers
 
                 // var viewResult = StatistiquesPDF();
                 var viewResult = compositeViewEngine.FindView(ControllerContext, "StatistiquesPDF", false);
-                List<EtudiantAbsent> filtredList = AdminService.statisticsPdf();
+                List<EtudiantAbsent> filtredList = AdminService.consielPdf(3, 1, 1);
                 ViewData.Model = filtredList;
                 var viewContext = new ViewContext(ControllerContext,
                                                     viewResult.View,

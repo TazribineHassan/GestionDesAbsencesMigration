@@ -12,6 +12,6 @@ namespace GestionDesAbsencesMigration.Services
         void Save(Module module, List<int> classes_ids);
         Module GetModuleById(int id);
         void deleteModule(int id);
-        void updateModule(Module module);
+        void updateModule(Module module, List<int> classes_ids);
     }
 }

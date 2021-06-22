@@ -13,14 +13,14 @@ namespace AspNetCore
     using Microsoft.AspNetCore.Mvc.Rendering;
     using Microsoft.AspNetCore.Mvc.ViewFeatures;
 #nullable restore
-#line 1 "C:\Users\admin\source\repos\GestionDesAbsencesMigration\GestionDesAbsencesMigration\Views\_ViewImports.cshtml"
+#line 1 "D:\mini projets\GestionDesAbsencesMigration\GestionDesAbsencesMigration\Views\_ViewImports.cshtml"
 using GestionDesAbsencesMigration;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 2 "C:\Users\admin\source\repos\GestionDesAbsencesMigration\GestionDesAbsencesMigration\Views\_ViewImports.cshtml"
+#line 2 "D:\mini projets\GestionDesAbsencesMigration\GestionDesAbsencesMigration\Views\_ViewImports.cshtml"
 using GestionDesAbsencesMigration.Models;
 
 #line default
@@ -120,7 +120,7 @@ using GestionDesAbsencesMigration.Models;
                 __tagHelperExecutionContext = __tagHelperScopeManager.End();
                 WriteLiteral("\r\n\r\n    ");
 #nullable restore
-#line 13 "C:\Users\admin\source\repos\GestionDesAbsencesMigration\GestionDesAbsencesMigration\Views\Shared\_LayoutAdmin.cshtml"
+#line 13 "D:\mini projets\GestionDesAbsencesMigration\GestionDesAbsencesMigration\Views\Shared\_LayoutAdmin.cshtml"
 Write(RenderSection("Style", required: false));
 
 #line default
@@ -153,7 +153,7 @@ Write(RenderSection("Style", required: false));
             <div class=""p-4"">
                 <h1><a href=""index.html"" class=""logo"">ENSA de Safi<span>");
 #nullable restore
-#line 26 "C:\Users\admin\source\repos\GestionDesAbsencesMigration\GestionDesAbsencesMigration\Views\Shared\_LayoutAdmin.cshtml"
+#line 26 "D:\mini projets\GestionDesAbsencesMigration\GestionDesAbsencesMigration\Views\Shared\_LayoutAdmin.cshtml"
                                                                    Write(ViewBag.Nom);
 
 #line default
@@ -200,7 +200,7 @@ Write(RenderSection("Style", required: false));
         <div id=""content"" class=""px-");
                 WriteLiteral("5 pt-3\">\r\n            <nav class=\"navbar navbar-expand-lg navbar-light shadow p-3 mb-5 bg-white rounded\">\r\n                <div class=\"container-fluid\">\r\n                    <button class=\"btn  btn-primary\">\r\n                        ");
 #nullable restore
-#line 67 "C:\Users\admin\source\repos\GestionDesAbsencesMigration\GestionDesAbsencesMigration\Views\Shared\_LayoutAdmin.cshtml"
+#line 67 "D:\mini projets\GestionDesAbsencesMigration\GestionDesAbsencesMigration\Views\Shared\_LayoutAdmin.cshtml"
                    Write(ViewData["Title"]);
 
 #line default
@@ -218,7 +218,7 @@ Write(RenderSection("Style", required: false));
 
             ");
 #nullable restore
-#line 77 "C:\Users\admin\source\repos\GestionDesAbsencesMigration\GestionDesAbsencesMigration\Views\Shared\_LayoutAdmin.cshtml"
+#line 77 "D:\mini projets\GestionDesAbsencesMigration\GestionDesAbsencesMigration\Views\Shared\_LayoutAdmin.cshtml"
        Write(RenderBody());
 
 #line default
@@ -333,7 +333,7 @@ Write(RenderSection("Style", required: false));
                 __tagHelperExecutionContext = __tagHelperScopeManager.End();
                 WriteLiteral("\r\n    ");
 #nullable restore
-#line 109 "C:\Users\admin\source\repos\GestionDesAbsencesMigration\GestionDesAbsencesMigration\Views\Shared\_LayoutAdmin.cshtml"
+#line 109 "D:\mini projets\GestionDesAbsencesMigration\GestionDesAbsencesMigration\Views\Shared\_LayoutAdmin.cshtml"
 Write(RenderSection("Scripts", required: false));
 
 #line default

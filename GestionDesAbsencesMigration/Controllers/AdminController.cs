@@ -5,7 +5,6 @@ using GestionDesAbsencesMigration.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewEngines;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
@@ -32,11 +31,13 @@ namespace GestionDesAbsencesMigration.Controllers
         IExcelService excelService;
         ISeanceService seanceService;
         ICompositeViewEngine compositeViewEngine;
+        IRoleService roleService;
         private string admin_name;
         public AdminController(IAdminService AdminService, IProfesseurService professeurService, 
                                ISemaineService semaineService, ICycleService cycleService, 
                                IEtudiantService etudiantService, IExcelService excelService,
-                               ISeanceService seanceService, ICompositeViewEngine compositeViewEngine)
+                               ISeanceService seanceService, ICompositeViewEngine compositeViewEngine,
+                               IRoleService roleService)
         {
             this.professeurService = professeurService;
             this.AdminService = AdminService;
@@ -46,6 +47,7 @@ namespace GestionDesAbsencesMigration.Controllers
             this.excelService = excelService;
             this.seanceService = seanceService;
             this.compositeViewEngine = compositeViewEngine;
+            this.roleService = roleService;
         }
         // GET: Admin
         public string Index()
@@ -76,7 +78,7 @@ namespace GestionDesAbsencesMigration.Controllers
             ViewBag.adminName = admin_name;
             return View();
         }
-
+       
         public ActionResult ExcelPage()
         {
             ViewBag.adminName = admin_name;
@@ -112,6 +114,7 @@ namespace GestionDesAbsencesMigration.Controllers
             e.Nom = nom;
             e.Prenom = prenom;
             e.Email = email;
+            e.Role_Id = roleService.getRoleId("etudiant");
             e.Id_groupe = groupe;
             e.Id_classe = classe;
             e.Password = Encryption.Encrypt(cne);
@@ -167,12 +170,12 @@ namespace GestionDesAbsencesMigration.Controllers
         [HttpPost]//DONE
         public ActionResult SaveProf(string code, string nom, string prenom, string email)
         {
-
             Professeur e = new Professeur();
             e.Code_prof = code;
             e.Nom = nom;
             e.Prenom = prenom;
             e.Email = email;
+            e.Role_Id = roleService.getRoleId("professeur");
             e.Password = Encryption.Encrypt(email);
             professeurService.Save(e);
             return Redirect("/Admin/AllProfs");
@@ -365,17 +368,19 @@ namespace GestionDesAbsencesMigration.Controllers
 
             using (var s = new StringWriter()) {
 
-                var viewResult = StatistiquesPDF();
-
+                // var viewResult = StatistiquesPDF();
+                var viewResult = compositeViewEngine.FindView(ControllerContext, "StatistiquesPDF", false);
+                List<EtudiantAbsent> filtredList = AdminService.statisticsPdf();
+                ViewData.Model = filtredList;
                 var viewContext = new ViewContext(ControllerContext,
-                                                    (viewResult.ViewEngine as ViewEngineResult).View,
-                                                    viewResult.ViewData,
-                                                    viewResult.TempData,
+                                                    viewResult.View,
+                                                    ViewData,
+                                                    TempData,
                                                     s,
                                                     new HtmlHelperOptions()
                                                   );
                 
-                await (viewResult.ViewEngine as ViewEngineResult).View.RenderAsync(viewContext);
+                await viewResult.View.RenderAsync(viewContext);
 
                 SelectPdf.HtmlToPdf converter = new SelectPdf.HtmlToPdf();
                 SelectPdf.PdfDocument doc = converter.ConvertHtmlString(s.ToString());

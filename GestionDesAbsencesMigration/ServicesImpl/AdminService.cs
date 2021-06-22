@@ -45,7 +45,8 @@ namespace GestionDesAbsencesMigration.ServicesImpl
 
         public void deleteEtudiant(Etudiant e)
         {
-            Etudiant etud = context.Etudiants.Find(e.Id);
+            Etudiant etud = context.Etudiants.Include(e => e .Absences).Where(etudiant => etudiant.Id ==  e.Id).FirstOrDefault();
+            context.Absences.RemoveRange(etud.Absences);
             context.Etudiants.Remove(etud);
             context.SaveChanges();
         }

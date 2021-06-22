@@ -372,3 +372,5 @@ D:\mini projets\GestionDesAbsencesMigration\GestionDesAbsencesMigration\obj\Debu
 D:\mini projets\GestionDesAbsencesMigration\GestionDesAbsencesMigration\obj\Debug\net5.0\GestionDesAbsencesMigration.pdb
 D:\mini projets\GestionDesAbsencesMigration\GestionDesAbsencesMigration\obj\Debug\net5.0\GestionDesAbsencesMigration.genruntimeconfig.cache
 D:\mini projets\GestionDesAbsencesMigration\GestionDesAbsencesMigration\obj\Debug\net5.0\Razor\Views\Admin\GetEditedEtudiant.cshtml.g.cs
+D:\mini projets\GestionDesAbsencesMigration\GestionDesAbsencesMigration\obj\Debug\net5.0\Razor\Views\Admin\AllProfs.cshtml.g.cs
+D:\mini projets\GestionDesAbsencesMigration\GestionDesAbsencesMigration\obj\Debug\net5.0\Razor\Views\Admin\GetEditedProfesseur.cshtml.g.cs

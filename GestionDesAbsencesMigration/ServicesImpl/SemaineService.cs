@@ -21,5 +21,10 @@ namespace GestionDesAbsencesMigration.ServicesImpl
         {
             return context.Semaines;
         }
+
+        public IEnumerable<Semaine> getSemainForCurrentYear()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

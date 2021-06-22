@@ -32,12 +32,13 @@ namespace GestionDesAbsencesMigration.Controllers
         ISeanceService seanceService;
         ICompositeViewEngine compositeViewEngine;
         IRoleService roleService;
+        IModuleService moduleService;
         private string admin_name;
         public AdminController(IAdminService AdminService, IProfesseurService professeurService, 
                                ISemaineService semaineService, ICycleService cycleService, 
                                IEtudiantService etudiantService, IExcelService excelService,
                                ISeanceService seanceService, ICompositeViewEngine compositeViewEngine,
-                               IRoleService roleService)
+                               IRoleService roleService, IModuleService moduleService)
         {
             this.professeurService = professeurService;
             this.AdminService = AdminService;
@@ -48,6 +49,7 @@ namespace GestionDesAbsencesMigration.Controllers
             this.seanceService = seanceService;
             this.compositeViewEngine = compositeViewEngine;
             this.roleService = roleService;
+            this.moduleService = moduleService;
         }
         // GET: Admin
         public string Index()
@@ -217,6 +219,54 @@ namespace GestionDesAbsencesMigration.Controllers
             return Redirect("/Admin/AllProfs");
         }
 
+
+        /*  MODULE */
+
+        public ActionResult AllModules()
+        {
+            ViewBag.adminName = admin_name;
+            return View(moduleService.getAll());
+        }
+
+        //Save Module
+        public ActionResult SaveModule(string nom, int id_Professeur)
+        {
+            Module module = new Module();
+            module.NomModule = nom;
+            module.id_Professeur = id_Professeur;
+            moduleService.Save(module);
+            return Redirect("/Admin/AllModules");
+        }
+
+
+        //delete Module
+        public ActionResult DeleteModule(int id)
+        {
+            moduleService.deleteModule(id);
+            return Redirect("/Admin/AllModules");
+        }
+
+        //editProf partialview
+        public PartialViewResult GetEditedModule(int id)
+        {
+            ViewBag.e = id;
+            Module module = moduleService.GetModuleById(id);
+            return PartialView(module);
+        }
+
+        //editProf
+
+        public ActionResult EditModule(int id_module, string nomModule, int id_professeur)
+        {
+
+            Module module = moduleService.GetModuleById(id_module);
+            module.NomModule = nomModule;
+            module.id_Professeur = id_professeur;
+            moduleService.updateModule(module);
+
+            ViewBag.list = new SelectList(professeurService.getAll(), "Id", "Nom");
+            return Redirect("/Admin/AllModules");
+        }
 
 
         [ActionName("Index")]

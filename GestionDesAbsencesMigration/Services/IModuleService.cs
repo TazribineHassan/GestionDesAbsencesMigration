@@ -9,7 +9,7 @@ namespace GestionDesAbsencesMigration.Services
     public interface IModuleService
     {
         IEnumerable<Module> getAll();
-        void Save(Module module);
+        void Save(Module module, List<int> classes_ids);
         Module GetModuleById(int id);
         void deleteModule(int id);
         void updateModule(Module module);

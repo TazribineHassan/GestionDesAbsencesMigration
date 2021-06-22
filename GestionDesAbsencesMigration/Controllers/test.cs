@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using GestionDesAbsencesMigration.Models;
 using GestionDesAbsencesMigration.Common;
 using GestionDesAbsencesMigration.services;
+using GestionDesAbsencesMigration.Services;
 
 namespace GestionDesAbsencesMigration.Controllers
 {
@@ -16,10 +17,12 @@ namespace GestionDesAbsencesMigration.Controllers
     {
         private ApplicationContext db;
         private IProfesseurService professeurService;
-        public testController(ApplicationContext applicationContext, IProfesseurService professeurService)
+        private IModuleService moduleService;
+        public testController(ApplicationContext applicationContext, IProfesseurService professeurService, IModuleService moduleService)
         {
             this.db = applicationContext;
             this.professeurService = professeurService;
+            this.moduleService = moduleService;
         }
 
 
@@ -58,6 +61,12 @@ namespace GestionDesAbsencesMigration.Controllers
                                                         ReferenceLoopHandling = ReferenceLoopHandling.Ignore
                                                     });
             return str;
+        }
+        public JsonResult test3()
+        {
+            Module m = new Module() { NomModule = "testModule", id_Professeur = 1};
+             moduleService.Save(m , new List<int> { 1, 2 });
+            return Json("OK");
         }
 
 

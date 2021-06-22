@@ -182,7 +182,6 @@ namespace GestionDesAbsencesMigration.Controllers
             return Redirect("/Admin/AllProfs");
         }
 
-
         //delete Prof
         //DONE
         public ActionResult DeleteProf(int id)
@@ -228,12 +227,12 @@ namespace GestionDesAbsencesMigration.Controllers
         }
 
         //Save Module
-        public ActionResult SaveModule(string nom, int id_Professeur)
+        public ActionResult SaveModule(string nom, int id_Professeur, List<int> classes_ids)
         {
             Module module = new Module();
             module.NomModule = nom;
             module.id_Professeur = id_Professeur;
-            moduleService.Save(module);
+            moduleService.Save(module, classes_ids);
             return Redirect("/Admin/AllModules");
         }
 
@@ -245,7 +244,7 @@ namespace GestionDesAbsencesMigration.Controllers
             return Redirect("/Admin/AllModules");
         }
 
-        //editProf partialview
+        //editModule partialview
         public PartialViewResult GetEditedModule(int id)
         {
             ViewBag.e = id;
@@ -295,7 +294,7 @@ namespace GestionDesAbsencesMigration.Controllers
             return Redirect("/Admin/AllClasses");
         }
 
-        //editProf partialview
+        //editClasse partialview
         public PartialViewResult GetEditedClasse(int id)
         {
             ViewBag.e = id;
@@ -303,7 +302,7 @@ namespace GestionDesAbsencesMigration.Controllers
             return PartialView(classe);
         }
 
-        //editModule
+        //editClasse
 
         public ActionResult EditClasse(int id_classe, string nom, int id_cycle)
         {

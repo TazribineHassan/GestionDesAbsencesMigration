@@ -27,12 +27,12 @@ namespace GestionDesAbsencesMigration.ServicesImpl
 
         public IEnumerable<Classe> getAll()
         {
-            return context.Classes.Include( c => c.Cycle);
+            return context.Classes.Include(c => c.Cycle);
         }
 
         public Classe GetClasseById(int id)
         {
-            return context.Classes.Where(c => c.Id == id).FirstOrDefault();
+            return context.Classes.Include(c => c.Cycle).Where(c => c.Id == id).FirstOrDefault();
         }
 
         public void Save(Classe classe)

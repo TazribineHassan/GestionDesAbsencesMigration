@@ -33,12 +33,14 @@ namespace GestionDesAbsencesMigration.Controllers
         ICompositeViewEngine compositeViewEngine;
         IRoleService roleService;
         IModuleService moduleService;
+        IClassService classeService;
         private string admin_name;
         public AdminController(IAdminService AdminService, IProfesseurService professeurService, 
                                ISemaineService semaineService, ICycleService cycleService, 
                                IEtudiantService etudiantService, IExcelService excelService,
                                ISeanceService seanceService, ICompositeViewEngine compositeViewEngine,
-                               IRoleService roleService, IModuleService moduleService)
+                               IRoleService roleService, IModuleService moduleService,
+                               IClassService classeService)
         {
             this.professeurService = professeurService;
             this.AdminService = AdminService;
@@ -50,6 +52,7 @@ namespace GestionDesAbsencesMigration.Controllers
             this.compositeViewEngine = compositeViewEngine;
             this.roleService = roleService;
             this.moduleService = moduleService;
+            this.classeService = classeService;
         }
         // GET: Admin
         public string Index()
@@ -254,7 +257,7 @@ namespace GestionDesAbsencesMigration.Controllers
             return PartialView(module);
         }
 
-        //editProf
+        //editModule
 
         public ActionResult EditModule(int id_module, string nomModule, int id_professeur)
         {
@@ -266,6 +269,53 @@ namespace GestionDesAbsencesMigration.Controllers
 
             ViewBag.list = new SelectList(professeurService.getAll(), "Id", "Nom");
             return Redirect("/Admin/AllModules");
+        }
+
+        /*  CLASSE */
+
+        public ActionResult AllClasses()
+        {
+            ViewBag.adminName = admin_name;
+            return View(classeService.getAll());
+        }
+
+        //Save Module
+        public ActionResult SaveClasse(string nom, int id_cycle)
+        {
+            Classe classe = new Classe();
+            classe.Nom = nom;
+            classe.id_cycle = id_cycle;
+            classeService.Save(classe);
+            return Redirect("/Admin/AllClasses");
+        }
+
+
+        //delete Module
+        public ActionResult DeleteClasse(int id)
+        {
+            classeService.deleteClasse(id);
+            return Redirect("/Admin/AllClasses");
+        }
+
+        //editProf partialview
+        public PartialViewResult GetEditedClasse(int id)
+        {
+            ViewBag.e = id;
+            Classe classe = classeService.GetClasseById(id);
+            return PartialView(classe);
+        }
+
+        //editModule
+
+        public ActionResult EditClasse(int id_classe, string nom, int id_cycle)
+        {
+            Classe classe = classeService.GetClasseById(id_classe);
+            classe.Nom = nom;
+            classe.id_cycle = id_cycle;
+            classeService.updateClasse(classe);
+
+            ViewBag.list = new SelectList(cycleService.getAll(), "Id", "Nom");
+            return Redirect("/Admin/AllClasses");
         }
 
 

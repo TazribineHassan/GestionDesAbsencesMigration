@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GestionDesAbsencesMigration.Services
 {
-    interface IClassService
+    public interface IClassService
     {
         IEnumerable<Classe> getAll();
         void Save(Classe classe);

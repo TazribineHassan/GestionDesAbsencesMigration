@@ -17,12 +17,12 @@ namespace GestionDesAbsencesMigration.Controllers
     {
         private ApplicationContext db;
         private IProfesseurService professeurService;
-        private IModuleService moduleService;
-        public testController(ApplicationContext applicationContext, IProfesseurService professeurService, IModuleService moduleService)
+        private ISemaineService semaineService;
+        public testController(ApplicationContext applicationContext, IProfesseurService professeurService, ISemaineService semaineService)
         {
             this.db = applicationContext;
             this.professeurService = professeurService;
-            this.moduleService = moduleService;
+            this.semaineService = semaineService;
         }
 
 
@@ -64,9 +64,8 @@ namespace GestionDesAbsencesMigration.Controllers
         }
         public JsonResult test3()
         {
-            Module m = new Module() { NomModule = "testModule", id_Professeur = 1};
-             moduleService.Save(m , new List<int> { 1, 2 });
-            return Json("OK");
+            var x = semaineService.getSemainForCurrentYear();
+            return Json(x);
         }
 
 

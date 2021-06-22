@@ -9,6 +9,6 @@ namespace GestionDesAbsencesMigration.Services
     public interface ISemaineService
     {
         IEnumerable<Semaine> getAll();
-        object getSemainForCurrentYear();
+        IEnumerable<Semaine> getSemainForCurrentYear();
     }
 }

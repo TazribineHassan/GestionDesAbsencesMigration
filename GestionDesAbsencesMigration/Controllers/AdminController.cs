@@ -259,14 +259,14 @@ namespace GestionDesAbsencesMigration.Controllers
         }
 
         //editModule
-
-        public ActionResult EditModule(int id_module, string nomModule, int id_professeur)
+        [HttpPost]
+        public ActionResult EditModule(int id_module, string nomModule, int id_Professeur, List<int> classes_ids)
         {
 
             Module module = moduleService.GetModuleById(id_module);
             module.NomModule = nomModule;
-            module.id_Professeur = id_professeur;
-            moduleService.updateModule(module);
+            module.id_Professeur = id_Professeur;
+            moduleService.updateModule(module, classes_ids);
 
             ViewBag.list = new SelectList(professeurService.getAll(), "Id", "Nom");
             return Redirect("/Admin/AllModules");

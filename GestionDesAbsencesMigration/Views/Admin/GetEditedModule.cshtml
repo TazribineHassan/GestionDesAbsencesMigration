@@ -8,7 +8,7 @@
 <div class="form-group">
     <label>Responsable de module</label>
     @*@Html.DropDownList("id_Professeur", ViewBag.list_profs as SelectList, "Selectionnez un professeur", new { id = "id_Professeur", @class = "form-control border" })*@
-    <select class="form-control border">
+    <select class="form-control border" name="id_Professeur">
         @foreach (var item in ViewBag.list_profs.Items)
         {
             if (item.Id == Model.id_Professeur)

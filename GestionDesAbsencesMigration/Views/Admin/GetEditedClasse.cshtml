@@ -1,0 +1,26 @@
+﻿@model GestionDesAbsencesMigration.Models.Classe
+
+<input type="hidden" class="form-control border" id="id_classe" name="id_classe" value="@Model.Id">
+<div class="form-group">
+    <label for="nom">Nom</label>
+    <input type="text" class="form-control border" id="nom" name="nom" value="@Model.Nom" placeholder="Nom">
+</div>
+<div class="form-group">
+    <label>Groupe</label>
+    <select class="form-control border" id="id_cycle" name="id_cycle">
+        @{
+            if (Model.id_cycle == 1)
+            {
+                <option selected value="1">CI</option>
+                <option value="2">CP</option>
+
+            }
+            else
+            {
+                <option value="1">CI</option>
+                <option selected value="2">CP</option>
+            }
+        }
+
+    </select>
+</div>

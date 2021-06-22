@@ -95,10 +95,6 @@ namespace GestionDesAbsencesMigration.Controllers
         public JsonResult GetClass(int id)
         {
             var classes = cycleService.GetCycleById(id).Classes;
-            //foreach(var classe in classes)
-            //{
-            //    classe.Cycle = null;
-            //}
             return Json(classes);
 
         }
@@ -279,6 +275,7 @@ namespace GestionDesAbsencesMigration.Controllers
         }
 
         //Save Classe
+        //DONE
         public ActionResult SaveClasse(string nom, int id_cycle)
         {
             Classe classe = new Classe();
@@ -289,7 +286,8 @@ namespace GestionDesAbsencesMigration.Controllers
         }
 
 
-        //delete Classe
+        //delete Module
+        //DONE
         public ActionResult DeleteClasse(int id)
         {
             classeService.deleteClasse(id);

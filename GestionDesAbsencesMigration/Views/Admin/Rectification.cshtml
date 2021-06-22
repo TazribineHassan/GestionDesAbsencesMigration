@@ -1,0 +1,24 @@
+﻿@{
+    ViewBag.Title = "Rectification des absences";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="row justify-content-center ">
+    <div class="col-md-10 pt-3">
+        <div class="card bg-light shadow">
+            <div class="card-body">
+                @using (Html.BeginForm("Rectifier", "Admin", FormMethod.Post, new { @class = "my_from" }))
+                {
+                    <div class="form-group">
+                        <label for="cne">Nom</label>
+                        <input type="text" class="form-control border" id="nomModule" name="nomModule" value="@Model.NomModule" placeholder="Nom">
+                    </div>
+                    <div class="modal-footer">
+                        <input type="submit" class="btn btn-primary" id="submit" value="Valider" />
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

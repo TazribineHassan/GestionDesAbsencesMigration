@@ -507,6 +507,19 @@ namespace GestionDesAbsencesMigration.Controllers
             return Redirect(url);
         }
 
+        public ActionResult Rectification()
+        {
+            return View();
+        }        
+        
+        [HttpPost]
+        public ActionResult Rectifier(int id_seance, int id_module, int id_semaine)
+        {
+
+            var listOfStudents = professeurService.GetStudentsList(id_seance, id_module, id_semaine);
+            return View(listOfStudents);
+        }
+
         private Administrateur GetIdUserFromCoockie()
         {
             var userEmail = this.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;

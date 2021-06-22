@@ -98,7 +98,7 @@ namespace GestionDesAbsencesMigration.Controllers
             return Json(classes);
 
         }
-
+        //DONE
         public ActionResult AllEtudiants()
         {
             ViewBag.adminName = admin_name;
@@ -219,14 +219,17 @@ namespace GestionDesAbsencesMigration.Controllers
 
 
         /*  MODULE */
-
+        //DONE
         public ActionResult AllModules()
         {
             ViewBag.adminName = admin_name;
+            ViewBag.list_profs = new SelectList(professeurService.getAll(), "Id", "Nom");
+            ViewBag.list_clesses = new SelectList(classeService.getAll(), "Id", "Nom");
             return View(moduleService.getAll());
         }
 
         //Save Module
+        //DONE
         public ActionResult SaveModule(string nom, int id_Professeur, List<int> classes_ids)
         {
             Module module = new Module();
@@ -238,6 +241,7 @@ namespace GestionDesAbsencesMigration.Controllers
 
 
         //delete Module
+        //DONE
         public ActionResult DeleteModule(int id)
         {
             moduleService.deleteModule(id);
@@ -248,6 +252,8 @@ namespace GestionDesAbsencesMigration.Controllers
         public PartialViewResult GetEditedModule(int id)
         {
             ViewBag.e = id;
+            ViewBag.list_profs = new SelectList(professeurService.getAll(), "Id", "Nom");
+            ViewBag.list_clesses = new SelectList(classeService.getAll(), "Id", "Nom");
             Module module = moduleService.GetModuleById(id);
             return PartialView(module);
         }

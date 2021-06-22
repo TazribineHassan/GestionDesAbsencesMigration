@@ -1,5 +1,164 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@{
+    ViewBag.Title = "La liste des modules";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+@model IEnumerable<GestionDesAbsencesMigration.Models.Module>
+
+@section Style {
+    <link href="~/lib/datatables/css/jquery.dataTables.css" rel="stylesheet" />
+}
+<div class="row justify-content-center ">
+    <div class="col-md-10 pt-3">
+        <div class="card bg-light shadow">
+            <div class="card-body">
+                <button class="btn btn-primary mb-3" data-toggle="modal" data-target="#addModuleModal"><i class="fas fa-plus"></i> Ajouter un module</button>
+                <table id="myTable" class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th class="text-primary">ID</th>
+                            <th class="text-primary">Nom</th>
+                            <th class="text-primary">Responsable de module</th>
+                            <th class="text-primary">Classes</th>
+                            <th class="text-primary text-center">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@Html.DisplayFor(c => item.Id)</td>
+                                <td>@Html.DisplayFor(c => item.NomModule)</td>
+                                <td>@Html.DisplayFor(c => item.Professeur.Nom)</td>
+                                <td>
+                                    <ul>
+                                        @foreach (var classe in item.Classes)
+                                        {
+                                            <li>@classe.Nom</li>
+                                        }
+                                    </ul>
+
+                                </td>
+                                <td class="text-center">
+                                    <div class="btn-group">
+                                        <button value="@item.Id" class="editbutton btn btn-outline-primary "> <i class="fa fa-edit"></i> </button>
+                                        <button value="@item.Id" class="deleteButton btn btn-outline-danger" data-toggle="modal" data-target="#deleteModal"> <i class="fas fa-trash-alt"></i> </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+@*Add new Module Modal*@
+<div class="modal fade" id="addModuleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable" role="document">
+        <div class="modal-content">
+            <div class="modal-header text-center" style="background-color:#44bef1; text-align:center">
+                <h5 class="modal-title" style="text-align: center;" id="exampleModalScrollableTitle">Ajouter un nouveau module</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                @using (Html.BeginForm("SaveModule", "Admin", FormMethod.Post, new { @class = "my_from" }))
+                {
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="cne">Nom</label>
+                            <input type="text" class="form-control border" id="" name="nom" placeholder="Nom">
+                        </div>
+                        <div class="form-group">
+                            <label>Responsable de module</label>
+                            @Html.DropDownList("id_Professeur", ViewBag.list_profs as SelectList, "Selectionnez un professeur", new { id = "id_Professeur", @class = "form-control border" })
+                        </div>
+                        <div class="form-group">
+                            <label>Classes</label><br />
+                            @Html.DropDownList("classes_ids", ViewBag.list_clesses as SelectList, "Selectionnez les classes", new { id = "classes_ids", @class = "border col-md-12", multiple = "multiple", size = "4" })
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <input type="submit" class="btn btn-primary" id="submit" value="Ajouter" />
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@*delte Modal*@
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-danger">
+                <h5 class="modal-title text-white" id="exampleModalLabel">Supprimer un module</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body font-weight-bold">
+                Êtes-vous sûr ?
+            </div>
+            <div class="modal-footer">
+                <a href="" id="deleteHref" class="btn btn-danger">Oui</a>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Non</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--edit module Modal and button-->
+<button hidden data-toggle="modal" id="lunchModal" data-target="#editModal"></button>
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color:#44bef1;">
+                <h5 class="modal-title" id="exampleModalScrollableTitle">Éditer un etudiant</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                @using (Html.BeginForm("EditModule", "Admin", FormMethod.Post, new { @class = "my_from" }))
+                {
+                    <div class="modal-body" id="modalEditBody">
+                    </div>
+                    <div class="modal-footer">
+                        <input type="submit" class="btn btn-primary" id="submit" value="Éditer" />
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script src="~/lib/datatables/js/jquery.dataTables.js"></script>
+    <script>
+        $(document).ready(function () {
+
+            $('#myTable').DataTable();
+
+            // edit module
+            $("#myTable").on("click", ".editbutton", function () {
+                var url = "GetEditedModule/" + $(this).attr("value");
+                $.get(url, function (data) {
+                    $('#modalEditBody').html(data);
+                    document.getElementById("lunchModal").click();
+                })
+            });
+
+            // delte module
+            $("#myTable").on("click", ".deleteButton", function () {
+                var url = "DeleteModule/" + $(this).attr("value");
+                $("#deleteHref").attr("href", url);
+            });
+
+        });
+    </script>
 }

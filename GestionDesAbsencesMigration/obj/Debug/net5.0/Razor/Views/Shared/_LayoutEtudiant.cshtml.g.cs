@@ -13,14 +13,14 @@ namespace AspNetCore
     using Microsoft.AspNetCore.Mvc.Rendering;
     using Microsoft.AspNetCore.Mvc.ViewFeatures;
 #nullable restore
-#line 1 "C:\Users\admin\source\repos\GestionDesAbsencesMigration\GestionDesAbsencesMigration\Views\_ViewImports.cshtml"
+#line 1 "D:\mini projets\GestionDesAbsencesMigration\GestionDesAbsencesMigration\Views\_ViewImports.cshtml"
 using GestionDesAbsencesMigration;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 2 "C:\Users\admin\source\repos\GestionDesAbsencesMigration\GestionDesAbsencesMigration\Views\_ViewImports.cshtml"
+#line 2 "D:\mini projets\GestionDesAbsencesMigration\GestionDesAbsencesMigration\Views\_ViewImports.cshtml"
 using GestionDesAbsencesMigration.Models;
 
 #line default
@@ -147,7 +147,7 @@ using GestionDesAbsencesMigration.Models;
 ");
                 WriteLiteral("        <!-- Page Content  -->\r\n        <div id=\"content\" class=\"p-4 p-md-5 pt-5\">\r\n            ");
 #nullable restore
-#line 49 "C:\Users\admin\source\repos\GestionDesAbsencesMigration\GestionDesAbsencesMigration\Views\Shared\_LayoutEtudiant.cshtml"
+#line 49 "D:\mini projets\GestionDesAbsencesMigration\GestionDesAbsencesMigration\Views\Shared\_LayoutEtudiant.cshtml"
        Write(RenderBody());
 
 #line default

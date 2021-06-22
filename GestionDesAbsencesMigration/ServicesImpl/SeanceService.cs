@@ -22,7 +22,6 @@ namespace GestionDesAbsencesMigration.ServicesImpl
         {
             return context.details_Emplois.Include(d_emp => d_emp.Emploi).ThenInclude(emp => emp.Semaine)
                                           .Include(d_emp => d_emp.Module)
-                                          .Include(d_emp => d_emp.Module)
                                           .Where(d_emp => d_emp.Emploi.Semaine.id == semaine_id && d_emp.Module.Id == module_id)
                                           .Select(d_emp => d_emp.Seance);
         }

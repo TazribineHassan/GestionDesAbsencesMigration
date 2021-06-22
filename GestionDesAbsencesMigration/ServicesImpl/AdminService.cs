@@ -2,6 +2,7 @@
 using GestionDesAbsencesMigration.Models.Context;
 using GestionDesAbsencesMigration.services;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -136,6 +137,9 @@ namespace GestionDesAbsencesMigration.ServicesImpl
 
         public List<EtudiantAbsent> consielPdf(int id_semaine_debut, int id_semaine_fin, int id_classe)
         {
+            DateTime date_debut = context.Semaines.Find(id_semaine_debut).Date_debut;
+            DateTime date_fin = context.Semaines.Find(id_semaine_fin).Date_fin;
+
             var absence_list = context.Etudiants.Include(e => e.Classe)
                                                 .Include(e => e.Absences).ThenInclude(a => a.Details_Emploi)
                                                                          .ThenInclude(demp => demp.Emploi)
@@ -146,8 +150,8 @@ namespace GestionDesAbsencesMigration.ServicesImpl
                                                     nom = etudiant.Nom,
                                                     prenom = etudiant.Prenom,
                                                     absence_count = etudiant.Absences.Where(absence => !absence.EstPresent
-                                                                                            /*&& absence.Details_Emploi.Emploi.Semaine.id >= id_semaine_debut
-                                                                                            && absence.Details_Emploi.Emploi.Semaine.id <= id_semaine_fin*/).Count()
+                                                                                            && absence.Details_Emploi.Emploi.Semaine.Date_debut.CompareTo(date_debut) >= 0
+                                                                                            && absence.Details_Emploi.Emploi.Semaine.Date_fin.CompareTo(date_fin) <= 0).Count()
                                                 })
                                                 .Where(etud_abs => etud_abs.absence_count >= 2)
                                                 .ToList();

@@ -110,6 +110,55 @@ namespace GestionDesAbsencesMigration.ServicesImpl
             user.Password = newPass;
             context.SaveChanges();
         }
+
+        public int GetCurrentDayAbsencesCount()
+        {
+            string[] jours = { "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche" };
+
+            //get the curren semaine 
+            DateTime aujourdhui = DateTime.Parse("1/5/2021");
+            Semaine semaine_courante;
+            semaine_courante = context.Semaines.Where(s => s.Date_debut.CompareTo(aujourdhui) <= 0
+                                                          && s.Date_fin.CompareTo(aujourdhui) >= 0).FirstOrDefault();
+            var current_day_index = aujourdhui.Day;
+
+            var absCount = context.Absences.Include(abs => abs.Details_Emploi).ThenInclude(demp => demp.Emploi).ThenInclude(emp => emp.Semaine)
+                                           .Include(abs => abs.Details_Emploi).ThenInclude(demp => demp.Seance)
+                                           .Where(abs => abs.Details_Emploi.Emploi.Semaine.id == semaine_courante.id
+                                                         && abs.Details_Emploi.Seance.Jour.Equals(jours[current_day_index]))
+                                           .ToList().Count();
+            return absCount;
+        }
+
+        public int GetCurrentSemaineAbsencesCount()
+        {
+
+            var current_day = DateTime.Now;
+
+            return 0;
+        }
+
+        public int GetCurrentSemaineAbsencesCountByClasse()
+        {
+
+            var current_day = DateTime.Now;
+
+            return 0;
+        }
+
+        public int GetCurrentSemaineAbsencesCountByCycle()
+        {
+            var current_day = DateTime.Now;
+
+            return 0;
+        }
+
+        public int GetCurrentSemaineAbsencesCountByDay()
+        {
+            var current_day = DateTime.Now;
+
+            return 0;
+        }
     }
 
 }

@@ -18,5 +18,11 @@ namespace GestionDesAbsencesMigration.services
         void UpdateEtudiant(Etudiant etudiant);
 
         void ResetPassword(int Id, string newPass);
+
+        int GetCurrentDayAbsencesCount();
+        int GetCurrentSemaineAbsencesCount();
+        int GetCurrentSemaineAbsencesCountByClasse();
+        int GetCurrentSemaineAbsencesCountByCycle();
+        int GetCurrentSemaineAbsencesCountByDay();
     }
 }

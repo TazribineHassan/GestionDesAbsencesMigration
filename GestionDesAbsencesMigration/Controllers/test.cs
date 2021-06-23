@@ -8,6 +8,7 @@ using GestionDesAbsencesMigration.Common;
 using GestionDesAbsencesMigration.services;
 using GestionDesAbsencesMigration.Services;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 namespace GestionDesAbsencesMigration.Controllers
 {
@@ -64,15 +65,23 @@ namespace GestionDesAbsencesMigration.Controllers
         }
         public JsonResult test3()
         {
-            var absence_list = context.Etudiants.Include(e => e.Classe)
-                                                .Include(e => e.Absences).ThenInclude(a => a.Details_Emploi)
-                                                                         .ThenInclude(demp => demp.Emploi)
-                                                                         .ThenInclude(emp => emp.Semaine)
-                                                /*.Where(etud => etud.Classe.Id == id_classe)*/;
-            return Json(absence_list);
+            string[] jours = { "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche" };
+
+            //get the curren semaine 
+            DateTime aujourdhui = DateTime.Parse("1/5/2021");
+            Semaine semaine_courante;
+            semaine_courante = context.Semaines.Where(s => s.Date_debut.CompareTo(aujourdhui) <= 0
+                                                          && s.Date_fin.CompareTo(aujourdhui) >= 0).FirstOrDefault();
+            var current_day_index = aujourdhui.Day - 1;
+
+            var absCount = context.details_Emplois.Include(demp => demp.Emploi).ThenInclude(emp => emp.Semaine)
+                                           .Include(demp => demp.Seance)
+                                           .Include(demp => demp.Absences)
+                                           .Where(demp => demp.Emploi.Semaine.id == semaine_courante.id
+                                                         /*&& demp.Seance.Jour.Equals(jours[current_day_index])*/)
+                                           ;
+            return Json(absCount);
         }
-
-
 
         public string testData()
         {

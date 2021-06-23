@@ -53,7 +53,7 @@ namespace GestionDesAbsencesMigration.ServicesImpl
             semaine_courante = context.Semaines.Where(s => s.Date_debut.CompareTo(aujourdhui) <= 0
                                                           && s.Date_fin.CompareTo(aujourdhui) >= 0).FirstOrDefault();
             
-            long jour_indexer = (long)(aujourdhui - semaine_courante.Date_debut).TotalDays;
+            long jour_indexer = aujourdhui.Day - 1;
             string aujourdhui_string = jours[jour_indexer];
             List<SeancesForProf> listSeeances = new List<SeancesForProf>();
 

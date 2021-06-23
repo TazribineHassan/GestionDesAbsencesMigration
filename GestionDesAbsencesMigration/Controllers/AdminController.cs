@@ -520,7 +520,7 @@ namespace GestionDesAbsencesMigration.Controllers
         public ActionResult Rectifier(int id_seance, int id_module, int id_semaine)
         {
 
-            var listOfStudents = AdminService.GetStudentsList(id_seance, id_module, semaine_id);
+            var listOfStudents = AdminService.GetStudentsList(id_seance, id_module, id_semaine);
             return View(listOfStudents);
         }
 

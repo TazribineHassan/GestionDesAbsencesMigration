@@ -68,18 +68,17 @@ namespace GestionDesAbsencesMigration.Controllers
             string[] jours = { "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche" };
 
             //get the curren semaine 
-            DateTime aujourdhui = DateTime.Parse("1/5/2021");
+            DateTime aujourdhui = DateTime.Parse("15/5/2021");
             Semaine semaine_courante;
             semaine_courante = context.Semaines.Where(s => s.Date_debut.CompareTo(aujourdhui) <= 0
                                                           && s.Date_fin.CompareTo(aujourdhui) >= 0).FirstOrDefault();
-            var current_day_index = aujourdhui.Day - 1;
 
-            var absCount = context.details_Emplois.Include(demp => demp.Emploi).ThenInclude(emp => emp.Semaine)
-                                           .Include(demp => demp.Seance)
-                                           .Include(demp => demp.Absences)
-                                           .Where(demp => demp.Emploi.Semaine.id == semaine_courante.id
-                                                         /*&& demp.Seance.Jour.Equals(jours[current_day_index])*/)
-                                           ;
+            var absCount = context.Modules.Include(mod => mod.Details_Emplois).ThenInclude(demp => demp.Absences)
+                                           .Include(mod => mod.Details_Emplois).ThenInclude(demp => demp.Emploi)
+                                                                                .ThenInclude(emp => emp.Semaine)
+                                           .Include(mod => mod.Classes).ThenInclude(classe => classe.Cycle)
+                                           .Select(mod => new { cycle = mod.Classes.Select(classe => classe.Cycle.Nom),
+                                                                abs_count = mod.Details_Emplois.Select(emp => emp.Absences.Where(abs => !abs.EstPresent).Count()).ToList()});
             return Json(absCount);
         }
 

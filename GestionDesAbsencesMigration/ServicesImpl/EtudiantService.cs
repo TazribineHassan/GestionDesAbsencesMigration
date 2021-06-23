@@ -113,20 +113,24 @@ namespace GestionDesAbsencesMigration.ServicesImpl
 
         public int GetCurrentDayAbsencesCount()
         {
+
             string[] jours = { "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche" };
 
             //get the curren semaine 
-            DateTime aujourdhui = DateTime.Parse("1/5/2021");
+            DateTime aujourdhui = DateTime.Parse("15/5/2021");
             Semaine semaine_courante;
             semaine_courante = context.Semaines.Where(s => s.Date_debut.CompareTo(aujourdhui) <= 0
                                                           && s.Date_fin.CompareTo(aujourdhui) >= 0).FirstOrDefault();
-            var current_day_index = aujourdhui.Day;
+            var current_day_index = 0;
 
-            var absCount = context.Absences.Include(abs => abs.Details_Emploi).ThenInclude(demp => demp.Emploi).ThenInclude(emp => emp.Semaine)
-                                           .Include(abs => abs.Details_Emploi).ThenInclude(demp => demp.Seance)
-                                           .Where(abs => abs.Details_Emploi.Emploi.Semaine.id == semaine_courante.id
-                                                         && abs.Details_Emploi.Seance.Jour.Equals(jours[current_day_index]))
-                                           .ToList().Count();
+            var absCount = context.details_Emplois.Include(demp => demp.Emploi).ThenInclude(emp => emp.Semaine)
+                                           .Include(demp => demp.Seance)
+                                           .Include(demp => demp.Absences)
+                                           .Where(demp => demp.Emploi.Semaine.id == semaine_courante.id
+                                                         && demp.Seance.Jour.Equals(jours[current_day_index]))
+                                           .Select(demp => demp.Absences.Where(abs => !abs.EstPresent).Count())
+                                           .ToList()
+                                           .Sum();
             return absCount;
         }
 

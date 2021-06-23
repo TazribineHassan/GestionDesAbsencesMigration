@@ -69,6 +69,7 @@ namespace GestionDesAbsencesMigration.Controllers
         public ActionResult Home()
         {
             ViewBag.adminName = admin_name;
+            ViewBag.absence_count = etudiantService.GetCurrentDayAbsencesCount();
             return View();
         }
 
@@ -324,17 +325,16 @@ namespace GestionDesAbsencesMigration.Controllers
         }
 
 
-        [ActionName("Index")]
         [HttpPost]
-        public ActionResult import(int classe_id, IFormFile file)
+        public ActionResult importStudents(int id_classe, IFormFile excel)
         {
-            if (file == null || file.Length <= 0)
+            if (excel == null || excel.Length <= 0)
             {
                 return Json("please select excel file");
             }
-            Stream streamfile = file.OpenReadStream();
+            Stream streamfile = excel.OpenReadStream();
             DataTable dt = new DataTable();
-            string FileName = Path.GetExtension(file.FileName);
+            string FileName = Path.GetExtension(excel.FileName);
             if (FileName != ".xls" && FileName != ".xlsx")
             {
                 return Json("Only excel file");
@@ -346,12 +346,12 @@ namespace GestionDesAbsencesMigration.Controllers
                     if (FileName == ".xls")
                     {
                         HSSFWorkbook workbook = new HSSFWorkbook(streamfile);
-                        dt = excelService.ImportEtudiants(dt, workbook, classe_id);
+                        dt = excelService.ImportEtudiants(dt, workbook, id_classe);
                     }
                     else
                     {
                         XSSFWorkbook workbook = new XSSFWorkbook(streamfile);
-                        dt = excelService.ImportEtudiants(dt, workbook, classe_id);
+                        dt = excelService.ImportEtudiants(dt, workbook, id_classe);
                     }
                     return Json("OK");
                 }
@@ -366,15 +366,15 @@ namespace GestionDesAbsencesMigration.Controllers
         }
 
         [HttpPost]
-        public ActionResult AddProfs(IFormFile file)
+        public ActionResult AddProfesseurs(IFormFile excel)
         {
-            if (file == null || file.Length <= 0)
+            if (excel == null || excel.Length <= 0)
             {
                 return Json("please select excel file");
             }
-            Stream streamfile = file.OpenReadStream();
+            Stream streamfile = excel.OpenReadStream();
             DataTable dt = new DataTable();
-            string FileName = Path.GetExtension(file.FileName);
+            string FileName = Path.GetExtension(excel.FileName);
             if (FileName != ".xls" && FileName != ".xlsx")
             {
                 return Json("Only excel file");

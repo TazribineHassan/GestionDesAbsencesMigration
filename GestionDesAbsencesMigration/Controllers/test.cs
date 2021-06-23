@@ -52,19 +52,14 @@ namespace GestionDesAbsencesMigration.Controllers
         }
 
 
-        public string test2()
+        public JsonResult test2()
         {
-
-            var result3 = professeurService.GetSeancesForProf(1);
-            var str = JsonConvert.SerializeObject(result3, Formatting.Indented,
-                                                    new JsonSerializerSettings
-                                                    {
-                                                        ReferenceLoopHandling = ReferenceLoopHandling.Ignore
-                                                    });
-            return str;
+            var x = context.Cycles.Include(c => c.Classes).Select(c => new { nom_cycle = c.Nom, classes = c.Classes });
+            return Json(x);
         }
         public JsonResult test3()
         {
+
             string[] jours = { "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche" };
 
             //get the curren semaine 
@@ -73,13 +68,35 @@ namespace GestionDesAbsencesMigration.Controllers
             semaine_courante = context.Semaines.Where(s => s.Date_debut.CompareTo(aujourdhui) <= 0
                                                           && s.Date_fin.CompareTo(aujourdhui) >= 0).FirstOrDefault();
 
-            var absCount = context.Modules.Include(mod => mod.Details_Emplois).ThenInclude(demp => demp.Absences)
-                                           .Include(mod => mod.Details_Emplois).ThenInclude(demp => demp.Emploi)
-                                                                                .ThenInclude(emp => emp.Semaine)
-                                           .Include(mod => mod.Classes).ThenInclude(classe => classe.Cycle)
-                                           .Select(mod => new { cycle = mod.Classes.Select(classe => classe.Cycle.Nom),
-                                                                abs_count = mod.Details_Emplois.Select(emp => emp.Absences.Where(abs => !abs.EstPresent).Count()).ToList()});
-            return Json(absCount);
+            // get all module absences and cycle names for today
+            var absCounts = context.Modules.Include(mod => mod.Details_Emplois).ThenInclude(demp => demp.Absences)
+                                          .Include(mod => mod.Details_Emplois).ThenInclude(demp => demp.Emploi)
+                                                                              .ThenInclude(emp => emp.Semaine)
+                                          .Include(mod => mod.Classes).ThenInclude(classe => classe.Cycle)
+                                          .Select(mod => new {
+                                              cycles = mod.Classes.Select(classe => classe.Cycle.Nom),
+                                              module = mod.NomModule,
+                                              abs_count = mod.Details_Emplois.Select(emp => emp.Absences.Where(abs => !abs.EstPresent).Count()).ToList()
+                                          }).ToList();
+
+            //generate a dictionary {nom_cycle => absence_count}
+            var result = new Dictionary<string, int>();
+            foreach (var absence in absCounts)
+            {
+                foreach (var cycle in absence.cycles)
+                {
+                    if (result.Keys.Contains(cycle))
+                    {
+                        result[cycle] += absence.abs_count.Sum();
+                    }
+                    else
+                    {
+                        result.Add(cycle, absence.abs_count.Sum());
+                    }
+
+                }
+            }
+            return Json(result);
         }
 
         public string testData()

@@ -70,8 +70,10 @@ namespace GestionDesAbsencesMigration.Controllers
         {
             ViewBag.adminName = admin_name;
             ViewBag.absence_count = etudiantService.GetCurrentDayAbsencesCount();
+            ViewBag.absence_count_by_cycle = etudiantService.GetCurrentSemaineAbsencesCountByCycle();
             return View();
         }
+
 
         public ActionResult AllFilieres()
         {
@@ -337,7 +339,7 @@ namespace GestionDesAbsencesMigration.Controllers
             string FileName = Path.GetExtension(excel.FileName);
             if (FileName != ".xls" && FileName != ".xlsx")
             {
-                return Json("Only excel file");
+                return RedirectToAction("AllEtudiants", new { msg = "only excel files are allowed" });
             }
             else
             {
@@ -353,13 +355,13 @@ namespace GestionDesAbsencesMigration.Controllers
                         XSSFWorkbook workbook = new XSSFWorkbook(streamfile);
                         dt = excelService.ImportEtudiants(dt, workbook, id_classe);
                     }
-                    return Json("OK");
+                    return RedirectToAction("AllEtudiants");
                 }
 
                 catch (Exception e)
                 {
 
-                    return Json(e.ToString());
+                    return RedirectToAction("AllEtudiants", new { msg = "importing failed, error occured"});
                 }
             }
             // return View();
@@ -377,7 +379,7 @@ namespace GestionDesAbsencesMigration.Controllers
             string FileName = Path.GetExtension(excel.FileName);
             if (FileName != ".xls" && FileName != ".xlsx")
             {
-                return Json("Only excel file");
+                return RedirectToAction("AllProfs", new { msg = "only excel files are allowed" });
             }
             else
             {
@@ -393,13 +395,13 @@ namespace GestionDesAbsencesMigration.Controllers
                         XSSFWorkbook workbook = new XSSFWorkbook(streamfile);
                         dt = excelService.ImportProfesseurs(dt, workbook);
                     }
-                    return Json("OK");
+                    return RedirectToAction("AllProfs");
                 }
 
                 catch (Exception e)
                 {
 
-                    return Json(e.ToString());
+                    return RedirectToAction("AllProfs", new { msg = "importing failed, error occured" });
                 }
             }
             // return View();
@@ -562,10 +564,7 @@ namespace GestionDesAbsencesMigration.Controllers
 
         public JsonResult CycleChart()
         {
-            Dictionary<string, int> cycles = new Dictionary<string, int>();
-            cycles.Add("CP", 43);
-            cycles.Add("CI", 83);
-
+            Dictionary<string, int> cycles = etudiantService.GetCurrentSemaineAbsencesCountByCycle();
             return Json(cycles);
         }
 

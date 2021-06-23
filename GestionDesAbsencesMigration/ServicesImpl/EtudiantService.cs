@@ -150,11 +150,45 @@ namespace GestionDesAbsencesMigration.ServicesImpl
             return 0;
         }
 
-        public int GetCurrentSemaineAbsencesCountByCycle()
+        public Dictionary<string, int> GetCurrentSemaineAbsencesCountByCycle()
         {
-            var current_day = DateTime.Now;
+            string[] jours = { "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche" };
 
-            return 0;
+            //get the curren semaine 
+            DateTime aujourdhui = DateTime.Parse("15/5/2021");
+            Semaine semaine_courante;
+            semaine_courante = context.Semaines.Where(s => s.Date_debut.CompareTo(aujourdhui) <= 0
+                                                          && s.Date_fin.CompareTo(aujourdhui) >= 0).FirstOrDefault();
+
+            // get all module absences and cycle names for today
+            var absCounts = context.Modules.Include(mod => mod.Details_Emplois).ThenInclude(demp => demp.Absences)
+                                          .Include(mod => mod.Details_Emplois).ThenInclude(demp => demp.Emploi)
+                                                                              .ThenInclude(emp => emp.Semaine)
+                                          .Include(mod => mod.Classes).ThenInclude(classe => classe.Cycle)
+                                          .Select(mod => new {
+                                               cycles = mod.Classes.Select(classe => classe.Cycle.Nom),
+                                               module = mod.NomModule,
+                                               abs_count = mod.Details_Emplois.Select(emp => emp.Absences.Where(abs => !abs.EstPresent).Count()).ToList()
+                                           }).ToList();
+
+            //generate a dictionary {nom_cycle => absence_count}
+            var result = new Dictionary<string, int>();
+            foreach (var absence in absCounts)
+            {
+                foreach (var cycle in absence.cycles)
+                {
+                    if (result.Keys.Contains(cycle))
+                    {
+                        result[cycle] += absence.abs_count.Sum();
+                    }
+                    else
+                    {
+                        result.Add(cycle, absence.abs_count.Sum());
+                    }
+
+                }
+            }
+            return result;
         }
 
         public int GetCurrentSemaineAbsencesCountByDay()

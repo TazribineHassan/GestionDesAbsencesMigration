@@ -76,7 +76,9 @@ namespace GestionDesAbsencesMigration.Controllers
                                           .Select(mod => new {
                                               cycles = mod.Classes.Select(classe => classe.Cycle.Nom),
                                               module = mod.NomModule,
-                                              abs_count = mod.Details_Emplois.Select(emp => emp.Absences.Where(abs => !abs.EstPresent).Count()).ToList()
+                                              abs_count = mod.Details_Emplois.Where(emp => emp.Emploi.Semaine.id == semaine_courante.id)
+                                                                             .Select(emp => emp.Absences.Where(abs => !abs.EstPresent)
+                                                                             .Count()).ToList()
                                           }).ToList();
 
             //generate a dictionary {nom_cycle => absence_count}

@@ -61,11 +61,13 @@
                     var dataArray = new google.visualization.DataTable();
                     dataArray.addColumn('string', 'Cycle');
                     dataArray.addColumn('number', 'Nombre absence');
-                    dataArray.addRows([
-                        ['CP', data.CP],
-                        ['CI', data.CI]
-                    ]);
-
+                    for (var key in data) {
+                        if (data.hasOwnProperty(key)) {
+                            dataArray.addRows([
+                                [key, data[key]]
+                            ]);
+                        }
+                    }
                     var options = {
                         'title': 'Nombres absence par cycle',
                         'is3D': true
@@ -91,7 +93,6 @@
                     dataArray.addColumn('number', 'Nombre absence');
                     for (var key in data) {
                         if (data.hasOwnProperty(key)) {
-                            console.log(key + " -> " + data[key]);
                             dataArray.addRows([
                                 [key, data[key]]
                             ]);

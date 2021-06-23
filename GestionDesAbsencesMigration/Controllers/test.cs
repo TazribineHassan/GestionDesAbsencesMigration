@@ -72,9 +72,9 @@ namespace GestionDesAbsencesMigration.Controllers
             var absCounts = context.Modules.Include(mod => mod.Details_Emplois).ThenInclude(demp => demp.Absences)
                                           .Include(mod => mod.Details_Emplois).ThenInclude(demp => demp.Emploi)
                                                                               .ThenInclude(emp => emp.Semaine)
-                                          .Include(mod => mod.Classes).ThenInclude(classe => classe.Cycle)
+                                          .Include(mod => mod.Classes)
                                           .Select(mod => new {
-                                              cycles = mod.Classes.Select(classe => classe.Cycle.Nom),
+                                              classes = mod.Classes.Select(classe => classe.Nom).ToList(),
                                               module = mod.NomModule,
                                               abs_count = mod.Details_Emplois.Where(emp => emp.Emploi.Semaine.id == semaine_courante.id)
                                                                              .Select(emp => emp.Absences.Where(abs => !abs.EstPresent)
@@ -85,15 +85,15 @@ namespace GestionDesAbsencesMigration.Controllers
             var result = new Dictionary<string, int>();
             foreach (var absence in absCounts)
             {
-                foreach (var cycle in absence.cycles)
+                foreach (var classe in absence.classes)
                 {
-                    if (result.Keys.Contains(cycle))
+                    if (result.Keys.Contains(classe))
                     {
-                        result[cycle] += absence.abs_count.Sum();
+                        result[classe] += absence.abs_count.Sum();
                     }
                     else
                     {
-                        result.Add(cycle, absence.abs_count.Sum());
+                        result.Add(classe, absence.abs_count.Sum());
                     }
 
                 }
@@ -103,8 +103,6 @@ namespace GestionDesAbsencesMigration.Controllers
 
         public string testData()
         {
-
-
             {
 
                 // La table Role 

@@ -570,16 +570,7 @@ namespace GestionDesAbsencesMigration.Controllers
 
         public JsonResult ClasseChart()
         {
-            Dictionary<string, int> classes = new Dictionary<string, int>();
-            classes.Add("CP 1", 13);
-            classes.Add("CP 2", 17);
-            classes.Add("4 GINFO", 5);
-            classes.Add("3 GTR", 1);
-            classes.Add("4 GTR", 30);
-            classes.Add("4 GPMC", 3);
-            classes.Add("3 GPMC", 2);
-            classes.Add("4 INDUS", 5);
-            classes.Add("3 INDUS", 4);
+            Dictionary<string, int> classes = etudiantService.GetCurrentSemaineAbsencesCountByClasse();
             
             return Json(classes);
         }

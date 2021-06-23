@@ -21,7 +21,7 @@ namespace GestionDesAbsencesMigration.services
 
         int GetCurrentDayAbsencesCount();
         int GetCurrentSemaineAbsencesCount();
-        int GetCurrentSemaineAbsencesCountByClasse();
+        Dictionary<string, int> GetCurrentSemaineAbsencesCountByClasse();
         Dictionary<string, int> GetCurrentSemaineAbsencesCountByCycle();
         int GetCurrentSemaineAbsencesCountByDay();
     }

@@ -103,6 +103,7 @@ namespace GestionDesAbsencesMigration.Controllers
         {
             ViewBag.adminName = admin_name;
             ViewBag.list = new SelectList(cycleService.getAll(), "Id", "Nom");
+            ViewBag.list_Classe = new SelectList(classeService.getAll(), "Id", "Nom");
             return View(etudiantService.getAll());
         }
 
@@ -462,19 +463,19 @@ namespace GestionDesAbsencesMigration.Controllers
         {
             int idSemaine = 1;
             ViewBag.adminName = admin_name;
-            List<EtudiantAbsent> filtredList = AdminService.consielPdf(3, 1, 1);
+            List<EtudiantAbsent> filtredList = AdminService.consielPdf(3, 1, 1, 1);
             return View("StatistiquesPDF", filtredList);
         }
 
-        [Route("Admin/generatePdf")]
-        public async Task<ActionResult> generatePdfAsync()
+        [Route("Admin/GeneratePdf")]
+        public async Task<ActionResult> generatePdfAsync(int id_semaine_dep, int id_semaine_fin, int id_classe, int nbAbsence)
         {
 
             using (var s = new StringWriter()) {
 
                 // var viewResult = StatistiquesPDF();
                 var viewResult = compositeViewEngine.FindView(ControllerContext, "StatistiquesPDF", false);
-                List<EtudiantAbsent> filtredList = AdminService.consielPdf(3, 1, 1);
+                List<EtudiantAbsent> filtredList = AdminService.consielPdf(id_semaine_dep, id_semaine_fin, id_classe, nbAbsence);
                 ViewData.Model = filtredList;
                 var viewContext = new ViewContext(ControllerContext,
                                                     viewResult.View,
@@ -501,13 +502,8 @@ namespace GestionDesAbsencesMigration.Controllers
             return View(listOfStudents);
         }
 
-        [HttpPost]
-        public ActionResult Marquez(int id, bool presence, string url)
-        {
-            AdminService.UpdateAbsence(id, presence);
-            return Redirect(url);
-        }
 
+        //DONE
         public ActionResult Rectification()
         {
             
@@ -516,7 +512,7 @@ namespace GestionDesAbsencesMigration.Controllers
             return View(semaineService.getSemainForCurrentYear());
         }        
         
-        [HttpGet]
+        [HttpGet]//DONE
         public ActionResult Rectifier(int id_seance, int id_module, int id_semaine)
         {
 
@@ -524,12 +520,53 @@ namespace GestionDesAbsencesMigration.Controllers
             return View(listOfStudents);
         }
 
+        //DONE
+        [HttpPost]
+        public ActionResult Marquez(int id, bool presence, string url)
+        {
+            AdminService.UpdateAbsence(id, presence);
+            return Redirect(url);
+        }
+
 
         // Conseil
 
         public ActionResult Conseil()
         {
+            ViewBag.list_Classe = new SelectList(classeService.getAll(), "Id", "Nom");
+            return View(semaineService.getSemainForCurrentYear());
+        }
+
+        public ActionResult Parametres()
+        {
             return View();
+        }
+
+
+        [HttpPost]
+        public ActionResult ResetPassword(string currentPassword, string newPassword, string url)
+        {
+            var user = GetIdUserFromCoockie();
+            if (Encryption.Decrypt(user.Password).Equals(currentPassword))
+            {
+                AdminService.ResetPassword(user.Id, Encryption.Encrypt(newPassword));
+                ViewBag.Msg = "Le mot de passe a été bien changé";
+            }
+            else
+            {
+                ViewBag.Msg = "Votre mot de passe actuel est inccorect";
+            }
+            return Redirect(url);
+        }
+
+
+        public JsonResult CycleChart()
+        {
+            Dictionary<string, int> cycles = new Dictionary<string, int>();
+            cycles.Add("CP", 43);
+            cycles.Add("CI", 83);
+
+            return Json(cycles);
         }
 
         private Administrateur GetIdUserFromCoockie()
@@ -538,6 +575,5 @@ namespace GestionDesAbsencesMigration.Controllers
             var user = AdminService.GetAdminByEmail(userEmail);
             return user;
         }
-
     }
 }

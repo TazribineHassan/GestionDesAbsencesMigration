@@ -26,7 +26,7 @@ using GestionDesAbsencesMigration.Models;
 #line default
 #line hidden
 #nullable disable
-    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"143624c1cc88045548cf1a9fa4aa9f51a7a78b9b", @"/Views/Shared/_LayoutAdmin.cshtml")]
+    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"4686f9004226a7424ebf422f71891d92389aec84", @"/Views/Shared/_LayoutAdmin.cshtml")]
     [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"430ddb756b39511dc01748ceee86d9af80471367", @"/Views/_ViewImports.cshtml")]
     public class Views_Shared__LayoutAdmin : global::Microsoft.AspNetCore.Mvc.Razor.RazorPage<dynamic>
     {
@@ -40,6 +40,7 @@ using GestionDesAbsencesMigration.Models;
         private static readonly global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute __tagHelperAttribute_7 = new global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute("src", new global::Microsoft.AspNetCore.Html.HtmlString("~/js/popper.js"), global::Microsoft.AspNetCore.Razor.TagHelpers.HtmlAttributeValueStyle.DoubleQuotes);
         private static readonly global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute __tagHelperAttribute_8 = new global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute("src", new global::Microsoft.AspNetCore.Html.HtmlString("~/js/bootstrap.min.js"), global::Microsoft.AspNetCore.Razor.TagHelpers.HtmlAttributeValueStyle.DoubleQuotes);
         private static readonly global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute __tagHelperAttribute_9 = new global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute("src", new global::Microsoft.AspNetCore.Html.HtmlString("~/js/main_admin.js"), global::Microsoft.AspNetCore.Razor.TagHelpers.HtmlAttributeValueStyle.DoubleQuotes);
+        private static readonly global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute __tagHelperAttribute_10 = new global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute("src", new global::Microsoft.AspNetCore.Html.HtmlString("~/js/site.js"), global::Microsoft.AspNetCore.Razor.TagHelpers.HtmlAttributeValueStyle.DoubleQuotes);
         #line hidden
         #pragma warning disable 0649
         private global::Microsoft.AspNetCore.Razor.Runtime.TagHelpers.TagHelperExecutionContext __tagHelperExecutionContext;
@@ -162,7 +163,7 @@ Write(RenderSection("Style", required: false));
                 WriteLiteral(@"</span></a></h1>
                 <ul class=""list-unstyled components mb-5"">
                     <li class=""active"">
-                        <a href=""#""><span class=""fa fa-home mr-4""></span>Home</a>
+                        <a href=""/Admin/Home""><span class=""fa fa-home mr-4""></span>Home</a>
                     </li>
                     <li>
                         <a href=""/Admin/AllEtudiants""><span class=""fas fa-users mr-3""></span>Etudiants</a>
@@ -175,13 +176,16 @@ Write(RenderSection("Style", required: false));
                     </li>
                     <li>
                         <a href=""/Admin/AllModules""><span class=""fas fa-book mr-4""></span>Modules</a>
-                    </li>                          
-                    <li>                           
-                        <a href=""/Admin/Rectification""><span class=""");
-                WriteLiteral(@"fas fa-calendar-check mr-4""></span>Rectification</a>
-                    </li>                    
-                    <li>                           
+                    </li>
+                    <li>
+                        <a href=""/Admin/Rectification""><span class=""fas fa-calendar-check mr-4""></span>Rectific");
+                WriteLiteral(@"ation</a>
+                    </li>
+                    <li>
                         <a href=""/Admin/Conseil""><span class=""fas fa-calendar-alt mr-4""></span>Conseil disciplinaire</a>
+                    </li>
+                    <li>
+                        <a href=""/Admin/Parametres""><span class=""fas fa-cogs mr-4""></span>Paramètres</a>
                     </li>
                     <li>
                         <a href=""http://www.ensas.uca.ma/"" target=""_blank""><span class=""fa fa-paper-plane mr-3""></span> Contacts</a>
@@ -191,10 +195,10 @@ Write(RenderSection("Style", required: false));
                     <p>
                         <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
                         Copyright &copy;
-                        <script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class=""icon-heart"" aria-hidden=""true""></i> by <a href=""https://colorlib.com"" target=""_blank"">Colorlib.com</a>
-                        <!-- Link back to Colorl");
-                WriteLiteral(@"ib can't be removed. Template is licensed under CC BY 3.0. -->
-                    </p>
+                        <script>document.write(new Date().getFullYear());</script> ENSA de Safi</a>
+                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+            ");
+                WriteLiteral(@"        </p>
                 </div>
 
             </div>
@@ -331,6 +335,20 @@ Write(RenderSection("Style", required: false));
                 __Microsoft_AspNetCore_Mvc_Razor_TagHelpers_UrlResolutionTagHelper = CreateTagHelper<global::Microsoft.AspNetCore.Mvc.Razor.TagHelpers.UrlResolutionTagHelper>();
                 __tagHelperExecutionContext.Add(__Microsoft_AspNetCore_Mvc_Razor_TagHelpers_UrlResolutionTagHelper);
                 __tagHelperExecutionContext.AddHtmlAttribute(__tagHelperAttribute_9);
+                await __tagHelperRunner.RunAsync(__tagHelperExecutionContext);
+                if (!__tagHelperExecutionContext.Output.IsContentModified)
+                {
+                    await __tagHelperExecutionContext.SetOutputContentAsync();
+                }
+                Write(__tagHelperExecutionContext.Output);
+                __tagHelperExecutionContext = __tagHelperScopeManager.End();
+                WriteLiteral("\r\n    ");
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("script", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "4686f9004226a7424ebf422f71891d92389aec8425045", async() => {
+                }
+                );
+                __Microsoft_AspNetCore_Mvc_Razor_TagHelpers_UrlResolutionTagHelper = CreateTagHelper<global::Microsoft.AspNetCore.Mvc.Razor.TagHelpers.UrlResolutionTagHelper>();
+                __tagHelperExecutionContext.Add(__Microsoft_AspNetCore_Mvc_Razor_TagHelpers_UrlResolutionTagHelper);
+                __tagHelperExecutionContext.AddHtmlAttribute(__tagHelperAttribute_10);
                 await __tagHelperRunner.RunAsync(__tagHelperExecutionContext);
                 if (!__tagHelperExecutionContext.Output.IsContentModified)
                 {

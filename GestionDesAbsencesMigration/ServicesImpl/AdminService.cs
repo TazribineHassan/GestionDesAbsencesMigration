@@ -135,7 +135,7 @@ namespace GestionDesAbsencesMigration.ServicesImpl
             return final_result;
         }
 
-        public List<EtudiantAbsent> consielPdf(int id_semaine_debut, int id_semaine_fin, int id_classe)
+        public List<EtudiantAbsent> consielPdf(int id_semaine_debut, int id_semaine_fin, int id_classe, int nbAbsence)
         {
             DateTime date_debut = context.Semaines.Find(id_semaine_debut).Date_debut;
             DateTime date_fin = context.Semaines.Find(id_semaine_fin).Date_fin;
@@ -151,9 +151,10 @@ namespace GestionDesAbsencesMigration.ServicesImpl
                                                     prenom = etudiant.Prenom,
                                                     absence_count = etudiant.Absences.Where(absence => !absence.EstPresent
                                                                                             && absence.Details_Emploi.Emploi.Semaine.Date_debut.CompareTo(date_debut) >= 0
-                                                                                            && absence.Details_Emploi.Emploi.Semaine.Date_fin.CompareTo(date_fin) <= 0).Count()
+                                                                                            && absence.Details_Emploi.Emploi.Semaine.Date_fin.CompareTo(date_fin) <= 0).Count(),
+                                                    classe = etudiant.Classe.Nom
                                                 })
-                                                .Where(etud_abs => etud_abs.absence_count >= 2)
+                                                .Where(etud_abs => etud_abs.absence_count >= nbAbsence)
                                                 .ToList();
             return absence_list;
         }
@@ -162,6 +163,13 @@ namespace GestionDesAbsencesMigration.ServicesImpl
         {
 
             return null;
+        }
+
+        public void ResetPassword(int Id, string newPass)
+        {
+            var user = context.Administrateurs.Find(Id);
+            user.Password = newPass;
+            context.SaveChanges();
         }
     }
 

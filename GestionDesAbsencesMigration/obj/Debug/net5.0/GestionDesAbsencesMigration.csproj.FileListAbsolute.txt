@@ -193,6 +193,7 @@ C:\Users\admin\source\repos\GestionDesAbsencesMigration\GestionDesAbsencesMigrat
 C:\Users\admin\source\repos\GestionDesAbsencesMigration\GestionDesAbsencesMigration\obj\Debug\net5.0\ref\GestionDesAbsencesMigration.dll
 C:\Users\admin\source\repos\GestionDesAbsencesMigration\GestionDesAbsencesMigration\obj\Debug\net5.0\GestionDesAbsencesMigration.pdb
 C:\Users\admin\source\repos\GestionDesAbsencesMigration\GestionDesAbsencesMigration\obj\Debug\net5.0\GestionDesAbsencesMigration.genruntimeconfig.cache
+<<<<<<< HEAD
 D:\mini projets\GestionDesAbsencesMigration\GestionDesAbsencesMigration\bin\Debug\net5.0\Select.Html.dep
 D:\mini projets\GestionDesAbsencesMigration\GestionDesAbsencesMigration\bin\Debug\net5.0\appsettings.Development.json
 D:\mini projets\GestionDesAbsencesMigration\GestionDesAbsencesMigration\bin\Debug\net5.0\appsettings.json
@@ -389,3 +390,7 @@ D:\mini projets\GestionDesAbsencesMigration\GestionDesAbsencesMigration\obj\Debu
 D:\mini projets\GestionDesAbsencesMigration\GestionDesAbsencesMigration\obj\Debug\net5.0\GestionDesAbsencesMigration.pdb
 D:\mini projets\GestionDesAbsencesMigration\GestionDesAbsencesMigration\obj\Debug\net5.0\GestionDesAbsencesMigration.genruntimeconfig.cache
 D:\mini projets\GestionDesAbsencesMigration\GestionDesAbsencesMigration\obj\Debug\net5.0\Razor\Views\Admin\Conseil.cshtml.g.cs
+=======
+C:\Users\admin\source\repos\GestionDesAbsencesMigration\GestionDesAbsencesMigration\obj\Debug\net5.0\Razor\Views\Admin\Conseil.cshtml.g.cs
+C:\Users\admin\source\repos\GestionDesAbsencesMigration\GestionDesAbsencesMigration\obj\Debug\net5.0\Razor\Views\Admin\Parametres.cshtml.g.cs
+>>>>>>> 21b22814ba674158c3cfaa9db24fff880b2746f6

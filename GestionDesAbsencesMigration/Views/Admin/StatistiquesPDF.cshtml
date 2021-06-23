@@ -14,7 +14,6 @@
         justify-content: center;
         text-align: center;
     }
-
     table {
         border-collapse: collapse;
         width: 80%;
@@ -27,12 +26,20 @@
         justify-content:center;
     }
 
-    th, td {
-        padding: 8px;
-        text-align: left;
-        border-bottom: 1px solid #ddd;
+    th {
+        background-color: lightskyblue;
+        padding: 20px 10px;
+        font-size: 20px;
+        font-weight:bold;
+        text-align: center;
+        border-bottom: 1px solid black;
     }
-
+    td {
+        text-align:center;
+        padding-top: 15px;
+        padding-bottom: 15px;
+        font-size: 18px
+    }
     tr:hover {
         background-color: #f5f5f5;
     }
@@ -41,27 +48,27 @@
 
     <div class="imgs">
         <p>
-            <img src="data:image/png;base64, @ensas_logo_code" alt="logoensas" height="100" width="160" style="margin-right : 630px;" />
+            <img src="data:image/png;base64, @ensas_logo_code" alt="logoensas" height="100" width="160" style=" margin-left:20px; margin-right: 800px; margin-top:20px" />
 
-            <img src="data:image/png;base64, @uca_logo_code" alt="logoensas" height="100" width="80" />
+            <img src="data:image/png;base64, @uca_logo_code" alt="logoensas" height="100" width="80" style="margin-top: 20px" />
         </p>
     </div>
     <br />
         <h2>Liste des Etudiants convoqués au conseil disciplinaire</h2>
     <br />
+    <h1 style="text-align:center; color:blue"> @Model.First().classe</h1>
     <p> </p>
-    <div class="container">
-
-        <table class="table">
+    <div class="container" style="margin-left:70px; margin-top:100px;">
+        <table class="table" border="1">
             <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.nom)
+                <th >
+                    Nom
+                </th>
+                <th >
+                    Prénom
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.prenom)
-                </th>
-                <th>
-                    Absence
+                    Nombre d'absence
                 </th>
             </tr>
 
@@ -74,7 +81,7 @@
                     <td>
                         @Html.DisplayFor(modelItem => item.prenom)
                     </td>
-                    <td>
+                    <td style="color:red;font-size:20px; font-weight:bold">
                         @Html.DisplayFor(modelItem => item.absence_count)
                     </td>
 

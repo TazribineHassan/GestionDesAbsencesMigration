@@ -13,20 +13,20 @@ namespace AspNetCore
     using Microsoft.AspNetCore.Mvc.Rendering;
     using Microsoft.AspNetCore.Mvc.ViewFeatures;
 #nullable restore
-#line 1 "D:\mini projets\GestionDesAbsencesMigration\GestionDesAbsencesMigration\Views\_ViewImports.cshtml"
+#line 1 "C:\Users\admin\source\repos\GestionDesAbsencesMigration\GestionDesAbsencesMigration\Views\_ViewImports.cshtml"
 using GestionDesAbsencesMigration;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 2 "D:\mini projets\GestionDesAbsencesMigration\GestionDesAbsencesMigration\Views\_ViewImports.cshtml"
+#line 2 "C:\Users\admin\source\repos\GestionDesAbsencesMigration\GestionDesAbsencesMigration\Views\_ViewImports.cshtml"
 using GestionDesAbsencesMigration.Models;
 
 #line default
 #line hidden
 #nullable disable
-    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"674ea7b87d994169279a77affb35c136c3ab243d", @"/Views/Shared/_LayoutEtudiant.cshtml")]
+    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"da3eca5241a8df73c7f82859154ae5e8f3e57ebc", @"/Views/Shared/_LayoutEtudiant.cshtml")]
     [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"430ddb756b39511dc01748ceee86d9af80471367", @"/Views/_ViewImports.cshtml")]
     public class Views_Shared__LayoutEtudiant : global::Microsoft.AspNetCore.Mvc.Razor.RazorPage<dynamic>
     {
@@ -137,17 +137,34 @@ using GestionDesAbsencesMigration.Models;
                 <li>
                     <a href=""http://www.ensas.uca.ma/#/"" target=""_blank""><span class=""fa fa-paper-plane mr-3""></span>Contacts</a>
                 </li>
-                <li>
-                    <a href=""#"" target=""_blank"" data-toggle=""modal"" data-target=""#exitModal""><span class=""fas fa-sign-out-alt mr-3""></span>Se déconnecter</a>
-                </li>
             </ul>
 
         </nav>
 
-");
-                WriteLiteral("        <!-- Page Content  -->\r\n        <div id=\"content\" class=\"p-4 p-md-5 pt-5\">\r\n            ");
+        <!-- Page Content  -->
+        <div id=""content"" class=""p-4 px-md-5 pt-2"">
+            <nav class=""navbar navbar-expand-lg navbar-light shadow p-3 ml-3 mb-5 bg-white rounded"">
+                <");
+                WriteLiteral("div class=\"container-fluid\">\r\n                    <button class=\"btn  btn-primary\">\r\n                        ");
 #nullable restore
-#line 49 "D:\mini projets\GestionDesAbsencesMigration\GestionDesAbsencesMigration\Views\Shared\_LayoutEtudiant.cshtml"
+#line 49 "C:\Users\admin\source\repos\GestionDesAbsencesMigration\GestionDesAbsencesMigration\Views\Shared\_LayoutEtudiant.cshtml"
+                   Write(ViewData["Title"]);
+
+#line default
+#line hidden
+#nullable disable
+                WriteLiteral(@"
+                    </button>
+
+                    <button class=""btn btn-primary"" data-toggle=""modal"" data-target=""#exitModal"">
+                        <i class=""fas fa-sign-out-alt""></i>
+                    </button>
+
+                </div>
+            </nav>
+            ");
+#nullable restore
+#line 58 "C:\Users\admin\source\repos\GestionDesAbsencesMigration\GestionDesAbsencesMigration\Views\Shared\_LayoutEtudiant.cshtml"
        Write(RenderBody());
 
 #line default

@@ -13,14 +13,14 @@ namespace AspNetCore
     using Microsoft.AspNetCore.Mvc.Rendering;
     using Microsoft.AspNetCore.Mvc.ViewFeatures;
 #nullable restore
-#line 1 "D:\mini projets\GestionDesAbsencesMigration\GestionDesAbsencesMigration\Views\_ViewImports.cshtml"
+#line 1 "C:\Users\admin\source\repos\GestionDesAbsencesMigration\GestionDesAbsencesMigration\Views\_ViewImports.cshtml"
 using GestionDesAbsencesMigration;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 2 "D:\mini projets\GestionDesAbsencesMigration\GestionDesAbsencesMigration\Views\_ViewImports.cshtml"
+#line 2 "C:\Users\admin\source\repos\GestionDesAbsencesMigration\GestionDesAbsencesMigration\Views\_ViewImports.cshtml"
 using GestionDesAbsencesMigration.Models;
 
 #line default
@@ -34,7 +34,7 @@ using GestionDesAbsencesMigration.Models;
         public async override global::System.Threading.Tasks.Task ExecuteAsync()
         {
 #nullable restore
-#line 1 "D:\mini projets\GestionDesAbsencesMigration\GestionDesAbsencesMigration\Views\Admin\Home.cshtml"
+#line 1 "C:\Users\admin\source\repos\GestionDesAbsencesMigration\GestionDesAbsencesMigration\Views\Admin\Home.cshtml"
   
     ViewBag.Title = "Home";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
@@ -46,13 +46,13 @@ using GestionDesAbsencesMigration.Models;
 <div class=""container-fluid"">
     <!-- Solde -->
     <div class=""row"">
-        <div class=""col-md-5 mb-4"" >
+        <div class=""col-md-5 mb-4 "" style=""height:140px;"">
             <div class=""card shadow h-100 py-2"" style=""border-left: 5px solid #3445b4"">
                 <div class=""card-body"">
                     <div class=""row no-gutters align-items-center"">
                         <div class=""col mr-2"">
-                            <div class=""text-xs font-weight-bold text-gray-800 text-uppercase mb-1"">
-                                Nombre d'absences d'aujourd'huit
+                            <div class=""text-xs font-weight-bold text-gray-800 text-uppercase mb-3"">
+                                Nombre d'absences d'aujourd'hui
                             </div>
                             <div class=""h5 mb-0 font-weight-bold text-danger"">");
 #nullable restore
@@ -65,7 +65,7 @@ using GestionDesAbsencesMigration.Models;
             WriteLiteral(@"</div>
                         </div>
                         <div class=""col-auto"">
-                            <i class=""fas fa-calendar-times fa-2x text-danger""></i>
+                            <i class=""fas fa-calendar-times fa-2x text-danger mt-5""></i>
                         </div>
                     </div>
                 </div>
@@ -88,6 +88,8 @@ using GestionDesAbsencesMigration.Models;
     <script>
         var jasonData = {}; 
         google.charts.load('current', { 'packages': ['corechart'] });
+
+        //Pie chart
         google.charts.setOnLoadCallback(function () {
 
             $.ajax({
@@ -107,16 +109,50 @@ using GestionDesAbsencesMigration.Models;
                         ['CI', data.CI]
                     ]);
 
-                    var options = ");
-                WriteLiteral(@"{
-                        'title': 'Nombres absence par semaine',
+           ");
+                WriteLiteral(@"         var options = {
+                        'title': 'Nombres absence par cycle',
+                        'is3D': true
                     };
-                    var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
+                    var chart = new google.visualization.PieChart(document.getElementById('pie_chart'));
                     chart.draw(dataArray, options);
                 }
             });
         });
 
+        google.charts.setOnLoadCallback(function () {
+            $.ajax({
+                url: 'ClasseChart',
+                dataType: ""json"",
+                type: ""GET"",
+                error: function (xhr, status, error) {
+                    var err = eval(""("" + xhr.responseText + "")"");
+                    toastr.error(err.message);
+                },
+                success: function (data) {
+                    var dataArray = new google.visualization.DataTable();
+                    dataArray.addColumn('string', 'Classe');
+                    dataArray.addColumn('number', 'Nombre absence');
+                    for (var key in data) ");
+                WriteLiteral(@"{
+                        if (data.hasOwnProperty(key)) {
+                            console.log(key + "" -> "" + data[key]);
+                            dataArray.addRows([
+                                [key, data[key]]
+                            ]);
+                        }
+                    }
+
+                    var options = {
+                        title: 'Nombres absence par classe',
+                        height: 280,
+                        colors: [""#3366cc""]
+                    };
+                    var chart = new google.visualization.ColumnChart(document.getElementById('bar_chart'));
+                    chart.draw(dataArray, options);
+                }
+            });
+        });
     </script>
 ");
             }

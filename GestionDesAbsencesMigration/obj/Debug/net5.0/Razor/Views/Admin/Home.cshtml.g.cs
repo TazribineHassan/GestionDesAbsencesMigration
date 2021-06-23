@@ -13,14 +13,14 @@ namespace AspNetCore
     using Microsoft.AspNetCore.Mvc.Rendering;
     using Microsoft.AspNetCore.Mvc.ViewFeatures;
 #nullable restore
-#line 1 "C:\Users\admin\source\repos\GestionDesAbsencesMigration\GestionDesAbsencesMigration\Views\_ViewImports.cshtml"
+#line 1 "D:\mini projets\GestionDesAbsencesMigration\GestionDesAbsencesMigration\Views\_ViewImports.cshtml"
 using GestionDesAbsencesMigration;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 2 "C:\Users\admin\source\repos\GestionDesAbsencesMigration\GestionDesAbsencesMigration\Views\_ViewImports.cshtml"
+#line 2 "D:\mini projets\GestionDesAbsencesMigration\GestionDesAbsencesMigration\Views\_ViewImports.cshtml"
 using GestionDesAbsencesMigration.Models;
 
 #line default
@@ -34,7 +34,7 @@ using GestionDesAbsencesMigration.Models;
         public async override global::System.Threading.Tasks.Task ExecuteAsync()
         {
 #nullable restore
-#line 1 "C:\Users\admin\source\repos\GestionDesAbsencesMigration\GestionDesAbsencesMigration\Views\Admin\Home.cshtml"
+#line 1 "D:\mini projets\GestionDesAbsencesMigration\GestionDesAbsencesMigration\Views\Admin\Home.cshtml"
   
     ViewBag.Title = "Home";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
@@ -54,7 +54,15 @@ using GestionDesAbsencesMigration.Models;
                             <div class=""text-xs font-weight-bold text-gray-800 text-uppercase mb-3"">
                                 Nombre d'absences d'aujourd'hui
                             </div>
-                            <div class=""h5 mb-0 font-weight-bold text-danger"">20</div> 
+                            <div class=""h5 mb-0 font-weight-bold text-danger"">");
+#nullable restore
+#line 17 "D:\mini projets\GestionDesAbsencesMigration\GestionDesAbsencesMigration\Views\Admin\Home.cshtml"
+                                                                         Write(ViewBag.absence_count);
+
+#line default
+#line hidden
+#nullable disable
+            WriteLiteral(@"</div>
                         </div>
                         <div class=""col-auto"">
                             <i class=""fas fa-calendar-times fa-2x text-danger mt-5""></i>
@@ -64,8 +72,7 @@ using GestionDesAbsencesMigration.Models;
             </div>
         </div>
         <div class=""col-md-1""></div>
-        <div class=""c");
-            WriteLiteral(@"ol-md-6 shadow text-center"" >
+        <div class=""col-md-6 shadow text-center"" >
             <div id=""pie_chart"" class=""text-center""></div>
         </div>
     </div>

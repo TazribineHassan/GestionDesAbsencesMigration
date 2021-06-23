@@ -8,6 +8,7 @@ using GestionDesAbsencesMigration.Common;
 using GestionDesAbsencesMigration.services;
 using GestionDesAbsencesMigration.Services;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 namespace GestionDesAbsencesMigration.Controllers
 {
@@ -51,33 +52,57 @@ namespace GestionDesAbsencesMigration.Controllers
         }
 
 
-        public string test2()
+        public JsonResult test2()
         {
-
-            var result3 = professeurService.GetSeancesForProf(1);
-            var str = JsonConvert.SerializeObject(result3, Formatting.Indented,
-                                                    new JsonSerializerSettings
-                                                    {
-                                                        ReferenceLoopHandling = ReferenceLoopHandling.Ignore
-                                                    });
-            return str;
+            var x = context.Cycles.Include(c => c.Classes).Select(c => new { nom_cycle = c.Nom, classes = c.Classes });
+            return Json(x);
         }
         public JsonResult test3()
         {
-            var absence_list = context.Etudiants.Include(e => e.Classe)
-                                                .Include(e => e.Absences).ThenInclude(a => a.Details_Emploi)
-                                                                         .ThenInclude(demp => demp.Emploi)
-                                                                         .ThenInclude(emp => emp.Semaine)
-                                                /*.Where(etud => etud.Classe.Id == id_classe)*/;
-            return Json(absence_list);
+
+            string[] jours = { "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche" };
+
+            //get the curren semaine 
+            DateTime aujourdhui = DateTime.Parse("15/5/2021");
+            Semaine semaine_courante;
+            semaine_courante = context.Semaines.Where(s => s.Date_debut.CompareTo(aujourdhui) <= 0
+                                                          && s.Date_fin.CompareTo(aujourdhui) >= 0).FirstOrDefault();
+
+            // get all module absences and cycle names for today
+            var absCounts = context.Modules.Include(mod => mod.Details_Emplois).ThenInclude(demp => demp.Absences)
+                                          .Include(mod => mod.Details_Emplois).ThenInclude(demp => demp.Emploi)
+                                                                              .ThenInclude(emp => emp.Semaine)
+                                          .Include(mod => mod.Classes)
+                                          .Select(mod => new {
+                                              classes = mod.Classes.Select(classe => classe.Nom).ToList(),
+                                              module = mod.NomModule,
+                                              abs_count = mod.Details_Emplois.Where(emp => emp.Emploi.Semaine.id == semaine_courante.id)
+                                                                             .Select(emp => emp.Absences.Where(abs => !abs.EstPresent)
+                                                                             .Count()).ToList()
+                                          }).ToList();
+
+            //generate a dictionary {nom_cycle => absence_count}
+            var result = new Dictionary<string, int>();
+            foreach (var absence in absCounts)
+            {
+                foreach (var classe in absence.classes)
+                {
+                    if (result.Keys.Contains(classe))
+                    {
+                        result[classe] += absence.abs_count.Sum();
+                    }
+                    else
+                    {
+                        result.Add(classe, absence.abs_count.Sum());
+                    }
+
+                }
+            }
+            return Json(result);
         }
-
-
 
         public string testData()
         {
-
-
             {
 
                 // La table Role 

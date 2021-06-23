@@ -69,8 +69,11 @@ namespace GestionDesAbsencesMigration.Controllers
         public ActionResult Home()
         {
             ViewBag.adminName = admin_name;
+            ViewBag.absence_count = etudiantService.GetCurrentDayAbsencesCount();
+            ViewBag.absence_count_by_cycle = etudiantService.GetCurrentSemaineAbsencesCountByCycle();
             return View();
         }
+
 
         public ActionResult AllFilieres()
         {
@@ -324,20 +327,19 @@ namespace GestionDesAbsencesMigration.Controllers
         }
 
 
-        [ActionName("Index")]
         [HttpPost]
-        public ActionResult import(int classe_id, IFormFile file)
+        public ActionResult importStudents(int id_classe, IFormFile excel)
         {
-            if (file == null || file.Length <= 0)
+            if (excel == null || excel.Length <= 0)
             {
                 return Json("please select excel file");
             }
-            Stream streamfile = file.OpenReadStream();
+            Stream streamfile = excel.OpenReadStream();
             DataTable dt = new DataTable();
-            string FileName = Path.GetExtension(file.FileName);
+            string FileName = Path.GetExtension(excel.FileName);
             if (FileName != ".xls" && FileName != ".xlsx")
             {
-                return Json("Only excel file");
+                return RedirectToAction("AllEtudiants", new { msg = "only excel files are allowed" });
             }
             else
             {
@@ -346,38 +348,38 @@ namespace GestionDesAbsencesMigration.Controllers
                     if (FileName == ".xls")
                     {
                         HSSFWorkbook workbook = new HSSFWorkbook(streamfile);
-                        dt = excelService.ImportEtudiants(dt, workbook, classe_id);
+                        dt = excelService.ImportEtudiants(dt, workbook, id_classe);
                     }
                     else
                     {
                         XSSFWorkbook workbook = new XSSFWorkbook(streamfile);
-                        dt = excelService.ImportEtudiants(dt, workbook, classe_id);
+                        dt = excelService.ImportEtudiants(dt, workbook, id_classe);
                     }
-                    return Json("OK");
+                    return RedirectToAction("AllEtudiants");
                 }
 
                 catch (Exception e)
                 {
 
-                    return Json(e.ToString());
+                    return RedirectToAction("AllEtudiants", new { msg = "importing failed, error occured"});
                 }
             }
             // return View();
         }
 
         [HttpPost]
-        public ActionResult AddProfs(IFormFile file)
+        public ActionResult AddProfesseurs(IFormFile excel)
         {
-            if (file == null || file.Length <= 0)
+            if (excel == null || excel.Length <= 0)
             {
                 return Json("please select excel file");
             }
-            Stream streamfile = file.OpenReadStream();
+            Stream streamfile = excel.OpenReadStream();
             DataTable dt = new DataTable();
-            string FileName = Path.GetExtension(file.FileName);
+            string FileName = Path.GetExtension(excel.FileName);
             if (FileName != ".xls" && FileName != ".xlsx")
             {
-                return Json("Only excel file");
+                return RedirectToAction("AllProfs", new { msg = "only excel files are allowed" });
             }
             else
             {
@@ -393,13 +395,13 @@ namespace GestionDesAbsencesMigration.Controllers
                         XSSFWorkbook workbook = new XSSFWorkbook(streamfile);
                         dt = excelService.ImportProfesseurs(dt, workbook);
                     }
-                    return Json("OK");
+                    return RedirectToAction("AllProfs");
                 }
 
                 catch (Exception e)
                 {
 
-                    return Json(e.ToString());
+                    return RedirectToAction("AllProfs", new { msg = "importing failed, error occured" });
                 }
             }
             // return View();
@@ -562,25 +564,13 @@ namespace GestionDesAbsencesMigration.Controllers
 
         public JsonResult CycleChart()
         {
-            Dictionary<string, int> cycles = new Dictionary<string, int>();
-            cycles.Add("CP", 43);
-            cycles.Add("CI", 83);
-
+            Dictionary<string, int> cycles = etudiantService.GetCurrentSemaineAbsencesCountByCycle();
             return Json(cycles);
         }
 
         public JsonResult ClasseChart()
         {
-            Dictionary<string, int> classes = new Dictionary<string, int>();
-            classes.Add("CP 1", 13);
-            classes.Add("CP 2", 17);
-            classes.Add("4 GINFO", 5);
-            classes.Add("3 GTR", 1);
-            classes.Add("4 GTR", 30);
-            classes.Add("4 GPMC", 3);
-            classes.Add("3 GPMC", 2);
-            classes.Add("4 INDUS", 5);
-            classes.Add("3 INDUS", 4);
+            Dictionary<string, int> classes = etudiantService.GetCurrentSemaineAbsencesCountByClasse();
             
             return Json(classes);
         }

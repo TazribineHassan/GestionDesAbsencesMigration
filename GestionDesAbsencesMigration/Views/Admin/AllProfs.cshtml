@@ -143,7 +143,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            @using (Html.BeginForm())
+            @using (Html.BeginForm("AddProfesseurs", "Admin", FormMethod.Post, new { id = "excel_submit_form", enctype = "multipart/form-data" }))
             {
                 <div class="modal-body">
                     <div class="custom-file">
@@ -152,7 +152,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary" data-dismiss="modal">Valider</button>
+                    <button type="submit" id="excel_submit_button" class="btn btn-primary" data-dismiss="modal">Valider</button>
                     <button type="reset" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
                 </div>
             }
@@ -181,6 +181,16 @@
             $("#myTable").on("click", ".deleteButton", function () {
                 var url = "DeleteProf/" + $(this).attr("value");
                 $("#deleteHref").attr("href", url);
+            });
+
+            //submit excel form 
+            $("#excel_submit_button").click(function () {
+                if (document.getElementById("excel").files.length == 0) {
+                    console.log("no excel selected");
+                    return;
+                } else {
+                    $("#excel_submit_form").submit();
+                }
             });
         });
     </script>

@@ -37,15 +37,24 @@
                 <li>
                     <a href="http://www.ensas.uca.ma/#/" target="_blank"><span class="fa fa-paper-plane mr-3"></span>Contacts</a>
                 </li>
-                <li>
-                    <a href="#" target="_blank" data-toggle="modal" data-target="#exitModal"><span class="fas fa-sign-out-alt mr-3"></span>Se déconnecter</a>
-                </li>
             </ul>
 
         </nav>
 
         <!-- Page Content  -->
-        <div id="content" class="p-4 p-md-5 pt-5">
+        <div id="content" class="p-4 px-md-5 pt-2">
+            <nav class="navbar navbar-expand-lg navbar-light shadow p-3 ml-3 mb-5 bg-white rounded">
+                <div class="container-fluid">
+                    <button class="btn  btn-primary">
+                        @ViewData["Title"]
+                    </button>
+
+                    <button class="btn btn-primary" data-toggle="modal" data-target="#exitModal">
+                        <i class="fas fa-sign-out-alt"></i>
+                    </button>
+
+                </div>
+            </nav>
             @RenderBody()
         </div>
     </div>

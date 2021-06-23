@@ -84,7 +84,6 @@ namespace GestionDesAbsencesMigration.Controllers
 
         public ActionResult Admin()
         {
-
             /* CHECK IF USER ALREADY SIGNED IN */
             var userEmail = this.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
             var user = loginService.getUser(userEmail);
@@ -96,7 +95,7 @@ namespace GestionDesAbsencesMigration.Controllers
             if (user is Administrateur) return RedirectToAction("Home", "Admin");
 
             ViewBag.action = "/Login/CheckAdmin";
-            return View("Index");
+            return View();
         }
 
         public ActionResult AdminMsg(string msg)

@@ -230,7 +230,7 @@ namespace GestionDesAbsencesMigration.Migrations
                     b.Property<string>("NomModule")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("id_Professeur")
+                    b.Property<int?>("id_Professeur")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -440,9 +440,7 @@ namespace GestionDesAbsencesMigration.Migrations
                 {
                     b.HasOne("GestionDesAbsencesMigration.Models.Professeur", "Professeur")
                         .WithMany("Modules")
-                        .HasForeignKey("id_Professeur")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("id_Professeur");
 
                     b.Navigation("Professeur");
                 });

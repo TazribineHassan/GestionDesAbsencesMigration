@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30907.101
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GestionDesAbsencesMigration", "GestionDesAbsencesMigration\GestionDesAbsencesMigration.csproj", "{A7853134-6D35-47DE-82B7-0A314D59A5A0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GestionDesAbsencesMigration", "GestionDesAbsencesMigration\GestionDesAbsencesMigration.csproj", "{A7853134-6D35-47DE-82B7-0A314D59A5A0}"
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{5B858966-9A14-4AE5-A95E-83B96CB763F1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{A7853134-6D35-47DE-82B7-0A314D59A5A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A7853134-6D35-47DE-82B7-0A314D59A5A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A7853134-6D35-47DE-82B7-0A314D59A5A0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5B858966-9A14-4AE5-A95E-83B96CB763F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5B858966-9A14-4AE5-A95E-83B96CB763F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5B858966-9A14-4AE5-A95E-83B96CB763F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5B858966-9A14-4AE5-A95E-83B96CB763F1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

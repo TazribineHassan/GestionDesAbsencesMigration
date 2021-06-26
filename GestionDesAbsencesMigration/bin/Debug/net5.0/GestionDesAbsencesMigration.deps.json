@@ -25,6 +25,7 @@
     ".NETCoreApp,Version=v5.0": {
       "GestionDesAbsencesMigration/1.0.0": {
         "dependencies": {
+          "DevExpress.CrossPlatform.Printing.DrawingEngine": "1.0.11",
           "Microsoft.AspNet.Mvc": "5.2.7",
           "Microsoft.AspNetCore.Mvc.NewtonsoftJson": "5.0.7",
           "Microsoft.EntityFrameworkCore": "5.0.7",
@@ -349,6 +350,35 @@
         },
         "compile": {
           "lib/netstandard1.5/Castle.Core.dll": {}
+        }
+      },
+      "DevExpress.CrossPlatform.Printing.DrawingEngine/1.0.11": {
+        "dependencies": {
+          "System.Drawing.Common": "4.7.0"
+        },
+        "runtime": {
+          "lib/netstandard2.0/CairoSharp.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          },
+          "lib/netstandard2.0/DevExpress.CrossPlatform.Printing.DrawingEngine.dll": {
+            "assemblyVersion": "1.0.11.0",
+            "fileVersion": "1.0.11.0"
+          },
+          "lib/netstandard2.0/GLibSharp.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          },
+          "lib/netstandard2.0/PangoSharp.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        },
+        "compile": {
+          "lib/netstandard2.0/CairoSharp.dll": {},
+          "lib/netstandard2.0/DevExpress.CrossPlatform.Printing.DrawingEngine.dll": {},
+          "lib/netstandard2.0/GLibSharp.dll": {},
+          "lib/netstandard2.0/PangoSharp.dll": {}
         }
       },
       "Humanizer.Core/2.8.26": {
@@ -4455,6 +4485,13 @@
       "sha512": "sha512-zanbjWC0Y05gbx4eGXkzVycOQqVOFVeCjVsDSyuao9P4mtN1w3WxxTo193NGC7j3o2u3AJRswaoC6hEbnGACnQ==",
       "path": "castle.core/4.4.1",
       "hashPath": "castle.core.4.4.1.nupkg.sha512"
+    },
+    "DevExpress.CrossPlatform.Printing.DrawingEngine/1.0.11": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-iCw6/XemWn96wAQ6ze7borpZTcyUHaiV8UU3oUG36KBic8Wu7Li9qMns+9cCLIQ27p91LEYQL1p5QETYHwX9rQ==",
+      "path": "devexpress.crossplatform.printing.drawingengine/1.0.11",
+      "hashPath": "devexpress.crossplatform.printing.drawingengine.1.0.11.nupkg.sha512"
     },
     "Humanizer.Core/2.8.26": {
       "type": "package",

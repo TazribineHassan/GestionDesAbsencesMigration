@@ -463,7 +463,6 @@ namespace GestionDesAbsencesMigration.Controllers
 
         public ViewResult ConsielPDF()
         {
-            int idSemaine = 1;
             ViewBag.adminName = admin_name;
             List<EtudiantAbsent> filtredList = AdminService.consielPdf(3, 1, 1, 1);
             return View("StatistiquesPDF", filtredList);

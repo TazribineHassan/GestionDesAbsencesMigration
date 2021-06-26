@@ -1,0 +1,1 @@
+C:\Users\admin\Desktop\GestionDesAbsencesMigration\obj\Debug\docker-compose.dcproj.CoreCompileInputs.cache

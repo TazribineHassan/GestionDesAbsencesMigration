@@ -43,7 +43,7 @@
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     
     <script>
-        var jasonData = {}; 
+
         google.charts.load('current', { 'packages': ['corechart'] });
 
         //Pie chart
@@ -78,6 +78,7 @@
             });
         });
 
+        // Bars chart
         google.charts.setOnLoadCallback(function () {
             $.ajax({
                 url: 'ClasseChart',

@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using GestionDesAbsencesMigration.services;
 using GestionDesAbsencesMigration.ServicesImpl;
 using GestionDesAbsencesMigration.Services;
+using System.Runtime.InteropServices;
 
 namespace GestionDesAbsencesMigration
 {
@@ -24,8 +25,11 @@ namespace GestionDesAbsencesMigration
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
+           
             services.AddDbContext<ApplicationContext>(options =>
-            options.UseSqlServer(Configuration.GetConnectionString("GestionDesAbsencesMigration")));
+            options.UseSqlServer(Configuration.GetConnectionString("GestionDesAbsencesMigration"))
+            );
             // services
             services.AddTransient<IProfesseurService, ProfesseurService>();
             services.AddTransient<IAdminService, AdminService>();
@@ -41,7 +45,7 @@ namespace GestionDesAbsencesMigration
 
 
             services.AddControllersWithViews().AddNewtonsoftJson(options =>
-    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+            options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
             services.AddControllersWithViews();
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                      .AddCookie(options => {
@@ -54,6 +58,7 @@ namespace GestionDesAbsencesMigration
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            //DatabaseManagmentService.MigrationInitialLisation(app);
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -73,8 +78,6 @@ namespace GestionDesAbsencesMigration
 
             app.UseEndpoints(endpoints =>
             {
-                //endpoints.MapRazorPages();
-                //endpoints.MapBlazorHub();
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Login}/{action=Index}/{id?}");

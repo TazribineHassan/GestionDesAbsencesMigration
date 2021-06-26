@@ -1,0 +1,24 @@
+version: '3.4'
+
+services:
+  db:
+    image: "microsoft/mssql-server-linux"
+    ports:
+      - "1433:1433"
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=1996@Hassan
+
+  gestiondesabsencesmigration:
+    image: ${DOCKER_REGISTRY-d}gestiondesabsencesmigration
+    build:
+      context: .
+      dockerfile: GestionDesAbsencesMigration/Dockerfile
+    ports:
+      - "8089:80"
+    depends_on:
+        - db
+networks:
+  default:
+    external:
+      name: ensas-net

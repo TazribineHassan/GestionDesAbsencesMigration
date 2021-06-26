@@ -1,0 +1,33 @@
+networks:
+  default:
+    external: true
+    name: ensas-net
+services:
+  db:
+    environment:
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: 1996@Hassan
+    image: microsoft/mssql-server-linux
+    ports:
+    - published: 1433
+      target: 1433
+  gestiondesabsencesmigration:
+    build:
+      context: C:\Users\admin\Desktop\GestionDesAbsencesMigration
+      dockerfile: GestionDesAbsencesMigration/Dockerfile
+    depends_on:
+      db:
+        condition: service_started
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_URLS: https://+:443;http://+:80
+    image: dgestiondesabsencesmigration
+    ports:
+    - published: 8089
+      target: 80
+    - target: 80
+    - target: 443
+    volumes:
+    - C:\Users\admin\AppData\Roaming\ASP.NET\Https:/root/.aspnet/https:ro
+    - C:\Users\admin\AppData\Roaming\Microsoft\UserSecrets:/root/.microsoft/usersecrets:ro
+version: '3.4'

@@ -24,8 +24,12 @@ namespace GestionDesAbsencesMigration
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
+            //var connectionString = @"Server=db;Database=GestionDesAbsencesMigration;User=sa;Password=1998@hassan;";
             services.AddDbContext<ApplicationContext>(options =>
-            options.UseSqlServer(Configuration.GetConnectionString("GestionDesAbsencesMigration")));
+            //options.UseSqlServer(Configuration.GetConnectionString(connectionString))
+            options.UseSqlServer(Configuration.GetConnectionString("GestionDesAbsencesMigration"))
+            );
             // services
             services.AddTransient<IProfesseurService, ProfesseurService>();
             services.AddTransient<IAdminService, AdminService>();
@@ -41,7 +45,7 @@ namespace GestionDesAbsencesMigration
 
 
             services.AddControllersWithViews().AddNewtonsoftJson(options =>
-    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+            options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
             services.AddControllersWithViews();
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                      .AddCookie(options => {
@@ -54,6 +58,7 @@ namespace GestionDesAbsencesMigration
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            //DatabaseManagmentService.MigrationInitialLisation(app);
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

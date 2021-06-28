@@ -55,6 +55,10 @@
               "target": "Package",
               "version": "[5.0.7, )"
             },
+            "Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation": {
+              "target": "Package",
+              "version": "[5.0.7, )"
+            },
             "Microsoft.EntityFrameworkCore": {
               "target": "Package",
               "version": "[5.0.7, )"
@@ -106,6 +110,10 @@
             "Select.HtmlToPdf.NetCore": {
               "target": "Package",
               "version": "[21.1.0, )"
+            },
+            "Wkhtmltopdf.NetCore": {
+              "target": "Package",
+              "version": "[3.0.2, )"
             }
           },
           "imports": [

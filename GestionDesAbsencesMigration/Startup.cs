@@ -9,6 +9,8 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using GestionDesAbsencesMigration.services;
 using GestionDesAbsencesMigration.ServicesImpl;
 using GestionDesAbsencesMigration.Services;
+using Rotativa.AspNetCore;
+using Wkhtmltopdf.NetCore;
 
 namespace GestionDesAbsencesMigration
 {
@@ -38,7 +40,7 @@ namespace GestionDesAbsencesMigration
             services.AddTransient<IRoleService, RoleService>();
             services.AddTransient<IModuleService, ModuleService>();
             services.AddTransient<IClassService, ClassService>();
-
+            services.AddWkhtmltopdf();
 
             services.AddControllersWithViews().AddNewtonsoftJson(options =>
     options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
@@ -49,6 +51,7 @@ namespace GestionDesAbsencesMigration
                          options.AccessDeniedPath = "/Login?accessDenied";
                          
                      });
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

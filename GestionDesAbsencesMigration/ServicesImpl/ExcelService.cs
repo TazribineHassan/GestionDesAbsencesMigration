@@ -192,7 +192,7 @@ namespace GestionDesAbsencesMigration.ServicesImpl
                     Professeur p = new Professeur();
                     p.Nom = dt.Rows[i]["Nom"].ToString();
                     p.Prenom = dt.Rows[i]["Prenom"].ToString();
-                    p.Code_prof = dt.Rows[i]["Code"].ToString();
+                    p.Code_prof = dt.Rows[i]["CNE"].ToString();
                     p.Email = dt.Rows[i]["Email"].ToString();
                     p.Password = Common.Encryption.Encrypt(dt.Rows[i]["Nom"].ToString());
                     p.Role_Id = 2;
@@ -256,7 +256,7 @@ namespace GestionDesAbsencesMigration.ServicesImpl
                     Professeur p = new Professeur();
                     p.Nom = dt.Rows[i]["Nom"].ToString();
                     p.Prenom = dt.Rows[i]["Prenom"].ToString();
-                    p.Code_prof = dt.Rows[i]["Code"].ToString();
+                    p.Code_prof = dt.Rows[i]["CNE"].ToString();
                     p.Email = dt.Rows[i]["Email"].ToString();
                     p.Password = Common.Encryption.Encrypt(dt.Rows[i]["Nom"].ToString());
                     p.Role_Id = 2;

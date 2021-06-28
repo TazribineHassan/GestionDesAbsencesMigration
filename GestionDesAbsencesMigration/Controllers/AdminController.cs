@@ -6,8 +6,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.AspNetCore.Mvc.ViewEngines;
-using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using NPOI.HSSF.UserModel;
 using NPOI.XSSF.UserModel;
 using System;
@@ -17,6 +15,7 @@ using System.IO;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Wkhtmltopdf.NetCore;
 
 namespace GestionDesAbsencesMigration.Controllers
 {
@@ -30,7 +29,7 @@ namespace GestionDesAbsencesMigration.Controllers
         IEtudiantService etudiantService;
         IExcelService excelService;
         ISeanceService seanceService;
-        ICompositeViewEngine compositeViewEngine;
+        IGeneratePdf generatePdf;
         IRoleService roleService;
         IModuleService moduleService;
         IClassService classeService;
@@ -38,9 +37,9 @@ namespace GestionDesAbsencesMigration.Controllers
         public AdminController(IAdminService AdminService, IProfesseurService professeurService, 
                                ISemaineService semaineService, ICycleService cycleService, 
                                IEtudiantService etudiantService, IExcelService excelService,
-                               ISeanceService seanceService, ICompositeViewEngine compositeViewEngine,
-                               IRoleService roleService, IModuleService moduleService,
-                               IClassService classeService)
+                               ISeanceService seanceService, IRoleService roleService, 
+                               IModuleService moduleService, IClassService classeService, 
+                               IGeneratePdf generatePdf)
         {
             this.professeurService = professeurService;
             this.AdminService = AdminService;
@@ -49,10 +48,10 @@ namespace GestionDesAbsencesMigration.Controllers
             this.etudiantService = etudiantService;
             this.excelService = excelService;
             this.seanceService = seanceService;
-            this.compositeViewEngine = compositeViewEngine;
             this.roleService = roleService;
             this.moduleService = moduleService;
             this.classeService = classeService;
+            this.generatePdf = generatePdf;
         }
         // GET: Admin
         public string Index()
@@ -463,39 +462,17 @@ namespace GestionDesAbsencesMigration.Controllers
 
         public ViewResult ConsielPDF()
         {
-            int idSemaine = 1;
             ViewBag.adminName = admin_name;
             List<EtudiantAbsent> filtredList = AdminService.consielPdf(3, 1, 1, 1);
             return View("StatistiquesPDF", filtredList);
         }
 
         [Route("Admin/GeneratePdf")]
-        public async Task<ActionResult> generatePdfAsync(int id_semaine_dep, int id_semaine_fin, int id_classe, int nbAbsence)
+        public async Task<IActionResult> generatePdfAsync(int id_semaine_dep, int id_semaine_fin, int id_classe, int nbAbsence)
         {
 
-            using (var s = new StringWriter()) {
-
-                // var viewResult = StatistiquesPDF();
-                var viewResult = compositeViewEngine.FindView(ControllerContext, "StatistiquesPDF", false);
-                List<EtudiantAbsent> filtredList = AdminService.consielPdf(id_semaine_dep, id_semaine_fin, id_classe, nbAbsence);
-                ViewData.Model = filtredList;
-                var viewContext = new ViewContext(ControllerContext,
-                                                    viewResult.View,
-                                                    ViewData,
-                                                    TempData,
-                                                    s,
-                                                    new HtmlHelperOptions()
-                                                  );
-                
-                await viewResult.View.RenderAsync(viewContext);
-
-                SelectPdf.HtmlToPdf converter = new SelectPdf.HtmlToPdf();
-                SelectPdf.PdfDocument doc = converter.ConvertHtmlString(s.ToString());
-                var pdf = doc.Save();
-                doc.Close();
-                return File(pdf, "application/pdf");
-            }
-
+            List<EtudiantAbsent> filtredList = AdminService.consielPdf(id_semaine_dep, id_semaine_fin, id_classe, nbAbsence);
+            return await generatePdf.GetPdf("Admin/StatistiquesPDF", filtredList);
         }
 
         public ActionResult ListeEtudiants(int id_seance, int id_modules, int id_semaine)

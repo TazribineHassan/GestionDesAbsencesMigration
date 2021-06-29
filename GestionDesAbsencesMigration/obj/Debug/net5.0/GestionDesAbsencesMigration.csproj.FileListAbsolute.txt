@@ -193,7 +193,6 @@ D:\mini projets\GestionDesAbsencesMigration\GestionDesAbsencesMigration\obj\Debu
 D:\mini projets\GestionDesAbsencesMigration\GestionDesAbsencesMigration\obj\Debug\net5.0\ref\GestionDesAbsencesMigration.dll
 D:\mini projets\GestionDesAbsencesMigration\GestionDesAbsencesMigration\obj\Debug\net5.0\GestionDesAbsencesMigration.pdb
 D:\mini projets\GestionDesAbsencesMigration\GestionDesAbsencesMigration\obj\Debug\net5.0\GestionDesAbsencesMigration.genruntimeconfig.cache
-D:\mini projets\GestionDesAbsencesMigration\GestionDesAbsencesMigration\obj\Debug\net5.0\GestionDesAbsencesMigration.csprojAssemblyReference.cache
 D:\mini projets\GestionDesAbsencesMigration\GestionDesAbsencesMigration\obj\Debug\net5.0\Razor\Views\Login\Admin.cshtml.g.cs
 D:\mini projets\GestionDesAbsencesMigration\GestionDesAbsencesMigration\bin\Debug\net5.0\refs\Microsoft.AspNetCore.Antiforgery.dll
 D:\mini projets\GestionDesAbsencesMigration\GestionDesAbsencesMigration\bin\Debug\net5.0\refs\Microsoft.AspNetCore.Authentication.Abstractions.dll

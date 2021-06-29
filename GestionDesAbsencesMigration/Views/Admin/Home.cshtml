@@ -43,7 +43,7 @@
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     
     <script>
-        var jasonData = {}; 
+
         google.charts.load('current', { 'packages': ['corechart'] });
 
         //Pie chart
@@ -61,11 +61,13 @@
                     var dataArray = new google.visualization.DataTable();
                     dataArray.addColumn('string', 'Cycle');
                     dataArray.addColumn('number', 'Nombre absence');
-                    dataArray.addRows([
-                        ['CP', data.CP],
-                        ['CI', data.CI]
-                    ]);
-
+                    for (var key in data) {
+                        if (data.hasOwnProperty(key)) {
+                            dataArray.addRows([
+                                [key, data[key]]
+                            ]);
+                        }
+                    }
                     var options = {
                         'title': 'Nombres absence par cycle',
                         'is3D': true
@@ -76,6 +78,7 @@
             });
         });
 
+        // Bars chart
         google.charts.setOnLoadCallback(function () {
             $.ajax({
                 url: 'ClasseChart',
@@ -91,7 +94,6 @@
                     dataArray.addColumn('number', 'Nombre absence');
                     for (var key in data) {
                         if (data.hasOwnProperty(key)) {
-                            console.log(key + " -> " + data[key]);
                             dataArray.addRows([
                                 [key, data[key]]
                             ]);

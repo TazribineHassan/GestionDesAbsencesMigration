@@ -47,6 +47,19 @@
                         <a href="/Admin/Conseil"><span class="fas fa-calendar-alt mr-4"></span>Conseil disciplinaire</a>
                     </li>
                     <li>
+                        <div id="accordion">
+                            <a style="cursor:pointer" data-toggle="collapse" data-target="#collapseOne" id="clicked_btn" aria-expanded="false" aria-controls="collapseOne">
+                                <span class="fas fa-database mr-4"></span>
+                                Implémentations
+                            </a>
+
+                            <ul id="collapseOne" style="list-style:none" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+                                <li style="font-size:14px;cursor:pointer;" class="border-bottom mt-2 pb-2" data-toggle="modal" data-target="#ajouterSemaine">Ajouter Semaine</li>
+                                <li style="font-size:14px;cursor:pointer;" class="border-bottom mt-2 pb-2" data-toggle="modal" data-target="#ajouterEmploi">Ajouter emploi du temps</li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li>
                         <a href="/Admin/Parametres"><span class="fas fa-cogs mr-4"></span>Paramètres</a>
                     </li>
                     <li>
@@ -84,7 +97,7 @@
         </div>
     </div>
 
-    <!-- Modal -->
+    <!-- Exit Modal -->
     <div class="modal fade" id="exitModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -104,6 +117,65 @@
             </div>
         </div>
     </div>
+
+    @*Ajouter semaine Modal*@
+    <div class="modal fade" id="ajouterSemaine" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header" style="background-color:#44bef1;">
+                    <h5 class="modal-title text-white" id="exampleModalLabel">Semaine</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                @using (Html.BeginForm("#", "Admin", FormMethod.Post, new { id = "excel_submit_form", enctype = "multipart/form-data" }))
+                {
+                    <div class="modal-body">
+                        <div class="custom-file">
+                            <input type="file" id="excel" name="excel" accept=".xlsx" class="custom-file-input" placeholder="Importer">
+                            <label class="custom-file-label" for="customFile">Importer un fichier</label>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" id="excel_submit_button" class="btn btn-primary" data-dismiss="modal">Valider</button>
+                        <button type="reset" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+@*Ajouter emploi du temps Modal*@
+<div class="modal fade" id="ajouterEmploi" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color:#44bef1;">
+                <h5 class="modal-title text-white" id="exampleModalLabel">Emploi du temps</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            @using (Html.BeginForm("#", "Admin", FormMethod.Post, new { id = "excel_submit_form", enctype = "multipart/form-data" }))
+            {
+                <div class="modal-body">
+                    <!--<div class="form-group">
+                        <label>Semaine</label>-->
+                        @*@Html.DropDownList("id_classe", ViewBag.List_semaine as SelectList, "Selectionnez une semaine", new { id = "id_classe", @class = "form-control border" })*@
+                    <!--</div>-->
+                    <div class="custom-file">
+                        <input type="file" id="excel" name="excel" accept=".xlsx" class="custom-file-input">
+                        <label class="custom-file-label" for="customFile">Importer</label>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" id="excel_submit_button" class="btn btn-primary" data-dismiss="modal">Valider</button>
+                    <button type="reset" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
 
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script src="~/js/jquery.min.js"></script>

@@ -54,14 +54,14 @@ namespace GestionDesAbsencesMigration.Controllers
             this.generatePdf = generatePdf;
         }
         // GET: Admin
-        public string Index()
+        public ActionResult Index()
         {
 
             var user = GetIdUserFromCoockie();
             this.admin_name = user.Nom = " " + user.Prenom;
             ViewBag.adminName = admin_name;
 
-            return admin_name;
+            return View("Home");
         }
 
 
@@ -70,6 +70,7 @@ namespace GestionDesAbsencesMigration.Controllers
             ViewBag.adminName = admin_name;
             ViewBag.absence_count = etudiantService.GetCurrentDayAbsencesCount();
             ViewBag.absence_count_by_cycle = etudiantService.GetCurrentSemaineAbsencesCountByCycle();
+            ViewBag.list_semaine = new SelectList(semaineService.getAll(), "Id", "Nom");
             return View();
         }
 
@@ -279,7 +280,6 @@ namespace GestionDesAbsencesMigration.Controllers
 
         public ActionResult AllClasses()
         {
-            ViewBag.adminName = admin_name;
             return View(classeService.getAll());
         }
 

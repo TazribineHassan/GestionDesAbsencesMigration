@@ -14,7 +14,10 @@
     <div class="col-md-10 pt-3">
         <div class="card bg-light shadow">
             <div class="card-body">
-                <button class="btn btn-primary mb-3" data-toggle="modal" data-target="#addClasstModal"><i class="fas fa-plus mr-3"></i>Ajouter une classe</button>
+                <div class="row justify-content-between">
+                    <button class="btn btn-primary mb-3 ml-2" data-toggle="modal" data-target="#addClasstModal"><i class="fas fa-plus mr-3"></i>Ajouter une classe</button>
+                    <button class="btn btn-primary mb-3 mr-2" data-toggle="modal" data-target="#excelModal"><i class="fas fa-file-import"></i> Importer un fichier excel</button>
+                </div>
                 <table id="myTable" class="table table-hover">
                     <thead>
                         <tr>
@@ -67,7 +70,7 @@
                             <input type="text" class="form-control border" id="nom" name="nom" placeholder="Nom">
                         </div>
                         <div class="form-group">
-                            <label>Groupe</label>
+                            <label>Cycle</label>
                             <select class="form-control border" id="id_cycle" name="id_cycle">
                                 <option value="1">CI</option>
                                 <option value="2">CP</option>
@@ -127,6 +130,33 @@
                     </div>
                 }
             </div>
+        </div>
+    </div>
+</div>
+
+@*Excel Modal*@
+<div class="modal fade" id="excelModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color:#44bef1;">
+                <h5 class="modal-title text-white" id="exampleModalLabel">Importer un fichier excel</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            @using (Html.BeginForm("#", "Admin", FormMethod.Post, new { id = "excel_submit_form", enctype = "multipart/form-data" }))
+            {
+                <div class="modal-body">
+                    <div class="custom-file">
+                        <input type="file" id="excel" name="excel" accept=".xlsx" class="custom-file-input" placeholder="Importer">
+                        <label class="custom-file-label" for="customFile">Importer un fichier</label>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" id="excel_submit_button" class="btn btn-primary" data-dismiss="modal">Valider</button>
+                    <button type="reset" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+                </div>
+            }
         </div>
     </div>
 </div>

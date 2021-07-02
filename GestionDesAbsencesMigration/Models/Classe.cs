@@ -12,6 +12,7 @@ namespace GestionDesAbsencesMigration.Models
         {
             Etudiants = new HashSet<Etudiant>();
             Modules = new HashSet<Module>();
+            Emplois = new HashSet<Emploi>();
         }
 
         public int Id { get; set; }
@@ -23,5 +24,6 @@ namespace GestionDesAbsencesMigration.Models
         public virtual Cycle Cycle { get; set; }
         public virtual ICollection<Etudiant> Etudiants { get; set; }
         public virtual ICollection<Module> Modules { get; set; }
+        public virtual ICollection<Emploi> Emplois { get; set; }
     }
 }

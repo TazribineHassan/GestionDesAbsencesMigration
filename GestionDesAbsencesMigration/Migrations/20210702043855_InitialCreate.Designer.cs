@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GestionDesAbsencesMigration.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20210702005806_initialCreate")]
-    partial class initialCreate
+    [Migration("20210702043855_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -185,10 +185,15 @@ namespace GestionDesAbsencesMigration.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int>("Classe_Id")
+                        .HasColumnType("int");
+
                     b.Property<int>("Semaine_Id")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Classe_Id");
 
                     b.HasIndex("Semaine_Id");
 
@@ -729,11 +734,19 @@ namespace GestionDesAbsencesMigration.Migrations
 
             modelBuilder.Entity("GestionDesAbsencesMigration.Models.Emploi", b =>
                 {
+                    b.HasOne("GestionDesAbsencesMigration.Models.Classe", "Classe")
+                        .WithMany("Emplois")
+                        .HasForeignKey("Classe_Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("GestionDesAbsencesMigration.Models.Semaine", "Semaine")
                         .WithMany("Emplois")
                         .HasForeignKey("Semaine_Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Classe");
 
                     b.Navigation("Semaine");
                 });
@@ -779,6 +792,8 @@ namespace GestionDesAbsencesMigration.Migrations
 
             modelBuilder.Entity("GestionDesAbsencesMigration.Models.Classe", b =>
                 {
+                    b.Navigation("Emplois");
+
                     b.Navigation("Etudiants");
                 });
 

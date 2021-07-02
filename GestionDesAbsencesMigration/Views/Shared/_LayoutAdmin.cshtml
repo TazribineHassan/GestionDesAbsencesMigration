@@ -128,16 +128,16 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                @using (Html.BeginForm("AddSemaines", "Admin", FormMethod.Post, new { id = "excel_submit_form", enctype = "multipart/form-data" }))
+                @using (Html.BeginForm("AddSemaines", "Admin", FormMethod.Post, new { id = "_submit_form", enctype = "multipart/form-data" }))
                 {
                     <div class="modal-body">
                         <div class="custom-file">
-                            <input type="file" id="excel" name="excel" accept=".xlsx" class="custom-file-input" placeholder="Importer" required>
+                            <input type="file" id="excel_semaine" name="excel" accept=".xlsx" class="custom-file-input" placeholder="Importer" required>
                             <label class="custom-file-label" for="customFile">Importer un fichier</label>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" id="excel_submit_button" class="btn btn-primary" data-dismiss="modal">Valider</button>
+                        <button type="submit" id="_submit" class="btn btn-primary" data-dismiss="modal">Valider</button>
                         <button type="reset" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
                     </div>
                 }
@@ -145,33 +145,29 @@
         </div>
     </div>
 
-@*Ajouter emploi du temps Modal*@
-<div class="modal fade" id="ajouterEmploi" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header" style="background-color:#44bef1;">
-                <h5 class="modal-title text-white" id="exampleModalLabel">Emploi du temps</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+    @*Ajouter emploi du temps Modal*@
+    <div class="modal fade" id="ajouterEmploi" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header" style="background-color:#44bef1;">
+                    <h5 class="modal-title text-white" id="exampleModalLabel">Emploi du temps</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+    @using (Html.BeginForm("AddSeances", "Admin", FormMethod.Post, new { id = "_submit_form_seance", enctype = "multipart/form-data" }))
+    {
+        <div class="modal-body">
+            <div class="custom-file">
+                <input type="file" id="excel_seance" name="excel" accept=".xlsx" class="custom-file-input" required>
+                <label class="custom-file-label" for="customFile">Importer</label>
             </div>
-            @using (Html.BeginForm("#", "Admin", FormMethod.Post, new { id = "", enctype = "multipart/form-data" }))
-            {
-                <div class="modal-body">
-                    <!--<div class="form-group">
-                        <label>Semaine</label>-->
-                        @*@Html.DropDownList("id_classe", ViewBag.List_semaine as SelectList, "Selectionnez une semaine", new { id = "id_classe", @class = "form-control border" })*@
-                    <!--</div>-->
-                    <div class="custom-file">
-                        <input type="file" id="excel" name="excel" accept=".xlsx" class="custom-file-input" required>
-                        <label class="custom-file-label" for="customFile">Importer</label>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" id="excel_submit_button" class="btn btn-primary" data-dismiss="modal">Valider</button>
-                    <button type="reset" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
-                </div>
-            }
+        </div>
+        <div class="modal-footer">
+            <button type="submit" id="_submit_seance" class="btn btn-primary" data-dismiss="modal">Valider</button>
+            <button type="reset" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+        </div>
+    }
         </div>
     </div>
 </div>
@@ -185,19 +181,6 @@
     <script src="~/js/bootstrap.min.js"></script>
     <script src="~/js/main_admin.js"></script>
     <script src="~/js/site.js"></script>
-    <script>
-        $(document).ready(function () {
-            //submit excel form 
-            $("#excel_submit_button").click(function () {
-                if (document.getElementById("excel").files.length == 0) {
-                    console.log("no excel selected");
-                    return;
-                } else {
-                    $("#excel_submit_form").submit();
-                }
-            });
-        });
-    </script>
     @RenderSection("Scripts", required: false)
 </body>
 </html>

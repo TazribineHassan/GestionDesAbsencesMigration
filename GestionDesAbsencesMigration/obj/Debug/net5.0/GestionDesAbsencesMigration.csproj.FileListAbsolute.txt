@@ -478,3 +478,4 @@ C:\Users\admin\OneDrive\Documents\GestionDesAbsencesMigration\GestionDesAbsences
 C:\Users\admin\OneDrive\Documents\GestionDesAbsencesMigration\GestionDesAbsencesMigration\obj\Debug\net5.0\ref\GestionDesAbsencesMigration.dll
 C:\Users\admin\OneDrive\Documents\GestionDesAbsencesMigration\GestionDesAbsencesMigration\obj\Debug\net5.0\GestionDesAbsencesMigration.pdb
 C:\Users\admin\OneDrive\Documents\GestionDesAbsencesMigration\GestionDesAbsencesMigration\obj\Debug\net5.0\GestionDesAbsencesMigration.genruntimeconfig.cache
+C:\Users\admin\OneDrive\Documents\GestionDesAbsencesMigration\GestionDesAbsencesMigration\bin\Debug\net5.0\log4net.dll

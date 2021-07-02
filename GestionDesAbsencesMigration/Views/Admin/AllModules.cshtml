@@ -150,16 +150,16 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            @using (Html.BeginForm("AddModules", "Admin", FormMethod.Post, new { id = "excel_submit_form", enctype = "multipart/form-data" }))
+            @using (Html.BeginForm("AddModules", "Admin", FormMethod.Post, new { id = "_submit_form_module", enctype = "multipart/form-data" }))
             {
                 <div class="modal-body">
                     <div class="custom-file">
-                        <input type="file" id="excel" name="excel" accept=".xlsx" class="custom-file-input">
+                        <input type="file" id="excel_module" name="excel" accept=".xlsx" class="custom-file-input">
                         <label class="custom-file-label" for="customFile">Importer un fichier</label>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" id="excel_submit_button" class="btn btn-primary" data-dismiss="modal">Valider</button>
+                    <button type="submit" id="_submit_module" class="btn btn-primary" data-dismiss="modal">Valider</button>
                     <button type="reset" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
                 </div>
             }
@@ -190,12 +190,11 @@
             });
 
             //submit excel form 
-            $("#excel_submit_button").click(function () {
-                if (document.getElementById("excel").files.length == 0) {
-                    console.log("no excel selected");
+            $("#_submit_module").click(function () {
+                if (document.getElementById("excel_module").files.length == 0) {
                     return;
                 } else {
-                    $("#excel_submit_form").submit();
+                    $("#_submit_form_module").submit();
                 }
             });
         });

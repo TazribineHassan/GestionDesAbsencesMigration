@@ -111,6 +111,10 @@
             "Wkhtmltopdf.NetCore": {
               "target": "Package",
               "version": "[3.0.2, )"
+            },
+            "log4net": {
+              "target": "Package",
+              "version": "[2.0.12, )"
             }
           },
           "imports": [

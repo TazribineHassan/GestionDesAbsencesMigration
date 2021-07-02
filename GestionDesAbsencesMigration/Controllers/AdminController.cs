@@ -2,6 +2,7 @@
 using GestionDesAbsencesMigration.Models;
 using GestionDesAbsencesMigration.services;
 using GestionDesAbsencesMigration.Services;
+using log4net;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -34,6 +35,8 @@ namespace GestionDesAbsencesMigration.Controllers
         IModuleService moduleService;
         IClassService classeService;
         private string admin_name;
+        private static readonly ILog log = LogManager.GetLogger(typeof(AdminController));
+
         public AdminController(IAdminService AdminService, IProfesseurService professeurService,
                                ISemaineService semaineService, ICycleService cycleService,
                                IEtudiantService etudiantService, IExcelService excelService,
@@ -453,6 +456,7 @@ namespace GestionDesAbsencesMigration.Controllers
         [HttpPost]
         public ActionResult AddModules(IFormFile excel)
         {
+  
             if (excel == null || excel.Length <= 0)
             {
                 return Json("please select excel file");
@@ -483,12 +487,9 @@ namespace GestionDesAbsencesMigration.Controllers
 
                 catch (Exception e)
                 {
-
                     return RedirectToAction("AllModules", new { msg = "importing failed, error occured" });
                 }
             }
-            // return View();
-
         }
 
         [HttpPost]

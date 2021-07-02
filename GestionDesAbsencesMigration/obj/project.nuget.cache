@@ -1,11 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "KYAlL2hV0vgF+tH81JRJN++shiaCrSdoKY70Slp/5P3tKE7mFQPWJuAxh/Bk8dASQMIRc0TRlc4N+X6NLEp2zw==",
+  "dgSpecHash": "H824M7bWki1AlpOslw5eGWojD4J2/GYONaKhFOrrAwPRMOcf7FRhGh7o0ucJfCCeDAf7PNae3WCOKSkxHbHA8w==",
   "success": true,
   "projectFilePath": "C:\\Users\\admin\\OneDrive\\Documents\\GestionDesAbsencesMigration\\GestionDesAbsencesMigration\\GestionDesAbsencesMigration.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\admin\\.nuget\\packages\\castle.core\\4.4.1\\castle.core.4.4.1.nupkg.sha512",
     "C:\\Users\\admin\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
+    "C:\\Users\\admin\\.nuget\\packages\\log4net\\2.0.12\\log4net.2.0.12.nupkg.sha512",
     "C:\\Users\\admin\\.nuget\\packages\\microsoft.aspnet.mvc\\5.2.7\\microsoft.aspnet.mvc.5.2.7.nupkg.sha512",
     "C:\\Users\\admin\\.nuget\\packages\\microsoft.aspnet.razor\\3.2.7\\microsoft.aspnet.razor.3.2.7.nupkg.sha512",
     "C:\\Users\\admin\\.nuget\\packages\\microsoft.aspnet.webpages\\3.2.7\\microsoft.aspnet.webpages.3.2.7.nupkg.sha512",

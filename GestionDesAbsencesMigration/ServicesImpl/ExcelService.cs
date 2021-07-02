@@ -433,9 +433,9 @@ namespace GestionDesAbsencesMigration.ServicesImpl
                     Professeur p = new Professeur();
                     p.Nom = dt.Rows[i]["Nom"].ToString();
                     p.Prenom = dt.Rows[i]["Prenom"].ToString();
-                    p.Code_prof = dt.Rows[i]["CNE"].ToString();
+                    p.Code_prof = dt.Rows[i]["CIN"].ToString();
                     p.Email = dt.Rows[i]["Email"].ToString();
-                    p.Password = Common.Encryption.Encrypt(dt.Rows[i]["Nom"].ToString());
+                    p.Password = Common.Encryption.Encrypt(dt.Rows[i]["CIN"].ToString());
                     p.Role_Id = 2;
 
                     var flag = context.Professeurs.Where(x => x.Nom == p.Nom).FirstOrDefault();

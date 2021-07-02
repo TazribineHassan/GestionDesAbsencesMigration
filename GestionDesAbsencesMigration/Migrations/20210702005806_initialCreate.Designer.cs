@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GestionDesAbsencesMigration.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20210617111749_intialCreate")]
-    partial class intialCreate
+    [Migration("20210702005806_initialCreate")]
+    partial class initialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -91,6 +91,17 @@ namespace GestionDesAbsencesMigration.Migrations
                     b.HasIndex("Role_Id");
 
                     b.ToTable("Administrateurs");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Email = "admin@gmail.com",
+                            Nom = "Admin",
+                            Password = "YWRtaW5Dc3JzeDgmYW1wO0dvRDN5dEBZSmhTQ2JHUTF1",
+                            Prenom = "admin",
+                            Role_Id = 1
+                        });
                 });
 
             modelBuilder.Entity("GestionDesAbsencesMigration.Models.Classe", b =>
@@ -126,6 +137,18 @@ namespace GestionDesAbsencesMigration.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Cycles");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Nom = "CP"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Nom = "CI"
+                        });
                 });
 
             modelBuilder.Entity("GestionDesAbsencesMigration.Models.Details_Emploi", b =>
@@ -158,9 +181,16 @@ namespace GestionDesAbsencesMigration.Migrations
             modelBuilder.Entity("GestionDesAbsencesMigration.Models.Emploi", b =>
                 {
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("Semaine_Id")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Semaine_Id");
 
                     b.ToTable("Emplois");
                 });
@@ -220,6 +250,33 @@ namespace GestionDesAbsencesMigration.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Groupes");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Nom = "Groupe 1"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Nom = "Groupe 2"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Nom = "Groupe 3"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Nom = "Groupe 4"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Nom = "Groupe 5"
+                        });
                 });
 
             modelBuilder.Entity("GestionDesAbsencesMigration.Models.Module", b =>
@@ -232,7 +289,7 @@ namespace GestionDesAbsencesMigration.Migrations
                     b.Property<string>("NomModule")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("id_Professeur")
+                    b.Property<int?>("id_Professeur")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -287,6 +344,23 @@ namespace GestionDesAbsencesMigration.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Roles");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Nom = "admin"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Nom = "professeur"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Nom = "etudiant"
+                        });
                 });
 
             modelBuilder.Entity("GestionDesAbsencesMigration.Models.Seance", b =>
@@ -308,11 +382,258 @@ namespace GestionDesAbsencesMigration.Migrations
                     b.HasKey("id");
 
                     b.ToTable("Seances");
+
+                    b.HasData(
+                        new
+                        {
+                            id = 1,
+                            HeurDebut = "08:00",
+                            HeurFin = "10:00",
+                            Jour = "Lundi"
+                        },
+                        new
+                        {
+                            id = 2,
+                            HeurDebut = "10:00",
+                            HeurFin = "12:00",
+                            Jour = "Lundi"
+                        },
+                        new
+                        {
+                            id = 3,
+                            HeurDebut = "12:00",
+                            HeurFin = "14:00",
+                            Jour = "Lundi"
+                        },
+                        new
+                        {
+                            id = 4,
+                            HeurDebut = "14:00",
+                            HeurFin = "16:00",
+                            Jour = "Lundi"
+                        },
+                        new
+                        {
+                            id = 5,
+                            HeurDebut = "16:00",
+                            HeurFin = "18:00",
+                            Jour = "Lundi"
+                        },
+                        new
+                        {
+                            id = 6,
+                            HeurDebut = "08:00",
+                            HeurFin = "10:00",
+                            Jour = "Mardi"
+                        },
+                        new
+                        {
+                            id = 7,
+                            HeurDebut = "10:00",
+                            HeurFin = "12:00",
+                            Jour = "Mardi"
+                        },
+                        new
+                        {
+                            id = 8,
+                            HeurDebut = "12:00",
+                            HeurFin = "14:00",
+                            Jour = "Mardi"
+                        },
+                        new
+                        {
+                            id = 9,
+                            HeurDebut = "14:00",
+                            HeurFin = "16:00",
+                            Jour = "Mardi"
+                        },
+                        new
+                        {
+                            id = 10,
+                            HeurDebut = "16:00",
+                            HeurFin = "18:00",
+                            Jour = "Mardi"
+                        },
+                        new
+                        {
+                            id = 11,
+                            HeurDebut = "08:00",
+                            HeurFin = "10:00",
+                            Jour = "Mercredi"
+                        },
+                        new
+                        {
+                            id = 12,
+                            HeurDebut = "10:00",
+                            HeurFin = "12:00",
+                            Jour = "Mercredi"
+                        },
+                        new
+                        {
+                            id = 13,
+                            HeurDebut = "12:00",
+                            HeurFin = "14:00",
+                            Jour = "Mercredi"
+                        },
+                        new
+                        {
+                            id = 14,
+                            HeurDebut = "14:00",
+                            HeurFin = "16:00",
+                            Jour = "Mercredi"
+                        },
+                        new
+                        {
+                            id = 15,
+                            HeurDebut = "16:00",
+                            HeurFin = "18:00",
+                            Jour = "Mercredi"
+                        },
+                        new
+                        {
+                            id = 16,
+                            HeurDebut = "08:00",
+                            HeurFin = "10:00",
+                            Jour = "Jeudi"
+                        },
+                        new
+                        {
+                            id = 17,
+                            HeurDebut = "10:00",
+                            HeurFin = "12:00",
+                            Jour = "Jeudi"
+                        },
+                        new
+                        {
+                            id = 18,
+                            HeurDebut = "12:00",
+                            HeurFin = "14:00",
+                            Jour = "Jeudi"
+                        },
+                        new
+                        {
+                            id = 19,
+                            HeurDebut = "14:00",
+                            HeurFin = "16:00",
+                            Jour = "Jeudi"
+                        },
+                        new
+                        {
+                            id = 20,
+                            HeurDebut = "16:00",
+                            HeurFin = "18:00",
+                            Jour = "Jeudi"
+                        },
+                        new
+                        {
+                            id = 21,
+                            HeurDebut = "08:00",
+                            HeurFin = "10:00",
+                            Jour = "Vendredi"
+                        },
+                        new
+                        {
+                            id = 22,
+                            HeurDebut = "10:00",
+                            HeurFin = "12:00",
+                            Jour = "Vendredi"
+                        },
+                        new
+                        {
+                            id = 23,
+                            HeurDebut = "12:00",
+                            HeurFin = "14:00",
+                            Jour = "Vendredi"
+                        },
+                        new
+                        {
+                            id = 24,
+                            HeurDebut = "14:00",
+                            HeurFin = "16:00",
+                            Jour = "Vendredi"
+                        },
+                        new
+                        {
+                            id = 25,
+                            HeurDebut = "16:00",
+                            HeurFin = "18:00",
+                            Jour = "Vendredi"
+                        },
+                        new
+                        {
+                            id = 26,
+                            HeurDebut = "08:00",
+                            HeurFin = "10:00",
+                            Jour = "Samedi"
+                        },
+                        new
+                        {
+                            id = 27,
+                            HeurDebut = "10:00",
+                            HeurFin = "12:00",
+                            Jour = "Samedi"
+                        },
+                        new
+                        {
+                            id = 28,
+                            HeurDebut = "12:00",
+                            HeurFin = "14:00",
+                            Jour = "Samedi"
+                        },
+                        new
+                        {
+                            id = 29,
+                            HeurDebut = "14:00",
+                            HeurFin = "16:00",
+                            Jour = "Samedi"
+                        },
+                        new
+                        {
+                            id = 30,
+                            HeurDebut = "16:00",
+                            HeurFin = "18:00",
+                            Jour = "Samedi"
+                        },
+                        new
+                        {
+                            id = 31,
+                            HeurDebut = "08:00",
+                            HeurFin = "10:00",
+                            Jour = "Dimanche"
+                        },
+                        new
+                        {
+                            id = 32,
+                            HeurDebut = "10:00",
+                            HeurFin = "12:00",
+                            Jour = "Dimanche"
+                        },
+                        new
+                        {
+                            id = 33,
+                            HeurDebut = "12:00",
+                            HeurFin = "14:00",
+                            Jour = "Dimanche"
+                        },
+                        new
+                        {
+                            id = 34,
+                            HeurDebut = "14:00",
+                            HeurFin = "16:00",
+                            Jour = "Dimanche"
+                        },
+                        new
+                        {
+                            id = 35,
+                            HeurDebut = "16:00",
+                            HeurFin = "18:00",
+                            Jour = "Dimanche"
+                        });
                 });
 
             modelBuilder.Entity("GestionDesAbsencesMigration.Models.Semaine", b =>
                 {
-                    b.Property<int>("id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -326,7 +647,7 @@ namespace GestionDesAbsencesMigration.Migrations
                     b.Property<DateTime>("Date_fin")
                         .HasColumnType("datetime2");
 
-                    b.HasKey("id");
+                    b.HasKey("Id");
 
                     b.ToTable("Semaines");
                 });
@@ -409,8 +730,8 @@ namespace GestionDesAbsencesMigration.Migrations
             modelBuilder.Entity("GestionDesAbsencesMigration.Models.Emploi", b =>
                 {
                     b.HasOne("GestionDesAbsencesMigration.Models.Semaine", "Semaine")
-                        .WithOne("Emploi")
-                        .HasForeignKey("GestionDesAbsencesMigration.Models.Emploi", "Id")
+                        .WithMany("Emplois")
+                        .HasForeignKey("Semaine_Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -442,9 +763,7 @@ namespace GestionDesAbsencesMigration.Migrations
                 {
                     b.HasOne("GestionDesAbsencesMigration.Models.Professeur", "Professeur")
                         .WithMany("Modules")
-                        .HasForeignKey("id_Professeur")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("id_Professeur");
 
                     b.Navigation("Professeur");
                 });
@@ -514,7 +833,7 @@ namespace GestionDesAbsencesMigration.Migrations
 
             modelBuilder.Entity("GestionDesAbsencesMigration.Models.Semaine", b =>
                 {
-                    b.Navigation("Emploi");
+                    b.Navigation("Emplois");
                 });
 #pragma warning restore 612, 618
         }

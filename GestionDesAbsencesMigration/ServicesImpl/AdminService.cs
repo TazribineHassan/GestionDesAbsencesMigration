@@ -67,7 +67,7 @@ namespace GestionDesAbsencesMigration.ServicesImpl
                                          .Include(seance => seance.Absences)
                                          .Where(r => (r.Module_Id == id_module
                                            && r.Seance_Id == id_seance
-                                           && r.Emploi.Semaine.id == id_semaine)).FirstOrDefault();
+                                           && r.Emploi.Semaine.Id == id_semaine)).FirstOrDefault();
 
             var students_by_classe = context.Modules
                             .Include(m => m.Classes).ThenInclude(classe => classe.Etudiants)

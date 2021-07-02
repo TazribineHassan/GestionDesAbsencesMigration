@@ -9,11 +9,16 @@ namespace GestionDesAbsencesMigration.Models
     public class Semaine
     {
 
-        public int id { get; set; }
+        public Semaine()
+        {
+            this.Emplois = new HashSet<Emploi>();
+        }
+
+        public int Id { get; set; }
         public string Code { get; set; }
         public DateTime Date_debut { get; set; }
         public DateTime Date_fin { get; set; }
 
-        public virtual Emploi Emploi { get; set; }
+        public virtual ICollection<Emploi> Emplois { get; set; }
     }
 }

@@ -128,7 +128,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                @using (Html.BeginForm("#", "Admin", FormMethod.Post, new { id = "excel_submit_form", enctype = "multipart/form-data" }))
+                @using (Html.BeginForm("AddSemaines", "Admin", FormMethod.Post, new { id = "excel_submit_form", enctype = "multipart/form-data" }))
                 {
                     <div class="modal-body">
                         <div class="custom-file">
@@ -185,6 +185,19 @@
     <script src="~/js/bootstrap.min.js"></script>
     <script src="~/js/main_admin.js"></script>
     <script src="~/js/site.js"></script>
+    <script>
+        $(document).ready(function () {
+            //submit excel form 
+            $("#excel_submit_button").click(function () {
+                if (document.getElementById("excel").files.length == 0) {
+                    console.log("no excel selected");
+                    return;
+                } else {
+                    $("#excel_submit_form").submit();
+                }
+            });
+        });
+    </script>
     @RenderSection("Scripts", required: false)
 </body>
 </html>

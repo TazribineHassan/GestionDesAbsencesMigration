@@ -43,7 +43,7 @@
 
                     @using (Html.BeginForm("Notez", "Professeur", FormMethod.Get))
                     {
-                        <input type="hidden" name="id_semaine" value="@Model.First().Semaine.id" />
+                        <input type="hidden" name="id_semaine" value="@Model.First().Semaine.Id" />
                         <input type="hidden" name="id_seance" value="@item.Seance.id" />
                         <input type="hidden" name="id_module" value="@item.Module.Id" />
                         <input type="submit" class="btn btn-outline-@color_list[@i]" name="name" value="Notez" />

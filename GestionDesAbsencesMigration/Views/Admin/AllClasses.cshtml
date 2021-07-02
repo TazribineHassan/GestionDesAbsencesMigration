@@ -144,7 +144,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            @using (Html.BeginForm("#", "Admin", FormMethod.Post, new { id = "excel_submit_form", enctype = "multipart/form-data" }))
+            @using (Html.BeginForm("AddClasses", "Admin", FormMethod.Post, new { id = "excel_submit_form", enctype = "multipart/form-data" }))
             {
                 <div class="modal-body">
                     <div class="custom-file">
@@ -181,6 +181,16 @@
             $("#myTable").on("click", ".deleteButton", function () {
                 var url = "DeleteClasse/" + $(this).attr("value");
                 $("#deleteHref").attr("href", url);
+            });
+
+            //submit excel form 
+            $("#excel_submit_button").click(function () {
+                if (document.getElementById("excel").files.length == 0) {
+                    console.log("no excel selected");
+                    return;
+                } else {
+                    $("#excel_submit_form").submit();
+                }
             });
 
         });

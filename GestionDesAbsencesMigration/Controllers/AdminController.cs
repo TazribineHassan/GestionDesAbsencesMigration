@@ -491,6 +491,45 @@ namespace GestionDesAbsencesMigration.Controllers
 
         }
 
+        //[HttpPost]
+        //public ActionResult AddSemaines(IFormFile excel)
+        //{
+        //    if (excel == null || excel.Length <= 0)
+        //    {
+        //        return Json("please select excel file");
+        //    }
+        //    Stream streamfile = excel.OpenReadStream();
+        //    DataTable dt = new DataTable();
+        //    string FileName = Path.GetExtension(excel.FileName);
+        //    if (FileName != ".xls" && FileName != ".xlsx")
+        //    {
+        //        return RedirectToAction("AllProfs", new { msg = "only excel files are allowed" });
+        //    }
+        //    else
+        //    {
+        //        try
+        //        {
+        //            if (FileName == ".xls")
+        //            {
+        //                HSSFWorkbook workbook = new HSSFWorkbook(streamfile);
+        //                dt = excelService.ImportSemaines(workbook);
+        //            }
+        //            else
+        //            {
+        //                XSSFWorkbook workbook = new XSSFWorkbook(streamfile);
+        //                dt = excelService.ImportSemaines(workbook);
+        //            }
+        //            return RedirectToAction("AllProfs");
+        //        }
+
+        //        catch (Exception e)
+        //        {
+
+        //            return RedirectToAction("AllProfs", new { msg = "importing failed, error occured" });
+        //        }
+        //    }
+        //}
+
         [HttpPost]
         public ActionResult AddSemaines(IFormFile excel)
         {

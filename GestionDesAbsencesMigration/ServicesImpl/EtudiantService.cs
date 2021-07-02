@@ -114,6 +114,8 @@ namespace GestionDesAbsencesMigration.ServicesImpl
         public int GetCurrentDayAbsencesCount()
         {
 
+            if (context.Absences.Count() == 0) return 0;
+
             string[] jours = { "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche" };
 
             //get the curren semaine 
@@ -144,6 +146,8 @@ namespace GestionDesAbsencesMigration.ServicesImpl
 
         public Dictionary<string, int> GetCurrentSemaineAbsencesCountByClasse()
         {
+
+            if (context.Absences.Count() == 0) return new Dictionary<string, int>();
 
             string[] jours = { "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche" };
 
@@ -188,6 +192,9 @@ namespace GestionDesAbsencesMigration.ServicesImpl
 
         public Dictionary<string, int> GetCurrentSemaineAbsencesCountByCycle()
         {
+
+            if (context.Absences.Count() == 0) return new Dictionary<string, int>();
+
             string[] jours = { "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche" };
 
             //get the curren semaine 

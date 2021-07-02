@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace GestionDesAbsencesMigration.Migrations
 {
-    public partial class initialCreate : Migration
+    public partial class InitialCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -149,11 +149,18 @@ namespace GestionDesAbsencesMigration.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Semaine_Id = table.Column<int>(type: "int", nullable: false)
+                    Semaine_Id = table.Column<int>(type: "int", nullable: false),
+                    Classe_Id = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Emplois", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Emplois_Classes_Classe_Id",
+                        column: x => x.Classe_Id,
+                        principalTable: "Classes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Emplois_Semaines_Semaine_Id",
                         column: x => x.Semaine_Id,
@@ -436,6 +443,11 @@ namespace GestionDesAbsencesMigration.Migrations
                 column: "Seance_Id");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Emplois_Classe_Id",
+                table: "Emplois",
+                column: "Classe_Id");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Emplois_Semaine_Id",
                 table: "Emplois",
                 column: "Semaine_Id");
@@ -493,10 +505,10 @@ namespace GestionDesAbsencesMigration.Migrations
                 name: "Seances");
 
             migrationBuilder.DropTable(
-                name: "Classes");
+                name: "Groupes");
 
             migrationBuilder.DropTable(
-                name: "Groupes");
+                name: "Classes");
 
             migrationBuilder.DropTable(
                 name: "Semaines");

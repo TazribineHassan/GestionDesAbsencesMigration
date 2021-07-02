@@ -29,5 +29,9 @@ namespace GestionDesAbsencesMigration.Services
         // Import Semaines
         DataTable ImportSemaines(XSSFWorkbook workbook);
         DataTable ImportSemaines(HSSFWorkbook workbook);
+
+        // Import Seances
+        DataTable ImportSeances(XSSFWorkbook workbook);
+        DataTable ImportSeances(HSSFWorkbook workbook);
     }
 }

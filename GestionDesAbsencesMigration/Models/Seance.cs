@@ -13,6 +13,7 @@ namespace GestionDesAbsencesMigration.Models
         {
             this.Details_Emplois = new HashSet<Details_Emploi>();
         }
+        
         [Key]
         public int id { get; set; }
         public string Jour { get; set; }

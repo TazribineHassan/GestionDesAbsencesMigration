@@ -119,7 +119,7 @@ namespace GestionDesAbsencesMigration.ServicesImpl
             string[] jours = { "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche" };
 
             //get the curren semaine 
-            DateTime aujourdhui = DateTime.Parse("15/05/2021");
+            DateTime aujourdhui = DateTime.Now;
             Semaine semaine_courante;
             semaine_courante = context.Semaines.Where(s => s.Date_debut.CompareTo(aujourdhui) <= 0
                                                           && s.Date_fin.CompareTo(aujourdhui) >= 0).FirstOrDefault();
@@ -152,7 +152,7 @@ namespace GestionDesAbsencesMigration.ServicesImpl
             string[] jours = { "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche" };
 
             //get the curren semaine 
-            DateTime aujourdhui = DateTime.Parse("15/05/2021");
+            DateTime aujourdhui = DateTime.Now;
             Semaine semaine_courante;
             semaine_courante = context.Semaines.Where(s => s.Date_debut.CompareTo(aujourdhui) <= 0
                                                           && s.Date_fin.CompareTo(aujourdhui) >= 0).FirstOrDefault();
@@ -198,7 +198,7 @@ namespace GestionDesAbsencesMigration.ServicesImpl
             string[] jours = { "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche" };
 
             //get the curren semaine 
-            DateTime aujourdhui = DateTime.Parse("15/05/2021");
+            DateTime aujourdhui = DateTime.Now;
             Semaine semaine_courante;
             semaine_courante = context.Semaines.Where(s => s.Date_debut.CompareTo(aujourdhui) <= 0
                                                           && s.Date_fin.CompareTo(aujourdhui) >= 0).FirstOrDefault();

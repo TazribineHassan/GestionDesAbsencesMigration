@@ -308,7 +308,8 @@ namespace GestionDesAbsencesMigration.ServicesImpl
                     Semaine semaine = context.Semaines.Where(semaine => semaine.Code.Equals(semaine_code)).FirstOrDefault();
                     if (semaine == null) throw new Exception("La Semaine " + semaine_code + " n'existe pas!");
 
-                    Emploi emploi = context.Emplois.Where(emp => emp.Classe.Nom.Equals(nom_classe)).FirstOrDefault();
+                    Emploi emploi = context.Emplois.Where(emp => emp.Classe.Id == classe.Id
+                                                                 && emp.Semaine.Id == semaine.Id).FirstOrDefault();
                     if (emploi == null) {
                         emploi = new Emploi() { Classe = classe, Semaine = semaine };
                         context.Emplois.Add(emploi);

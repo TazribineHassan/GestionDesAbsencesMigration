@@ -34,11 +34,11 @@ namespace GestionDesAbsencesMigration.Controllers
         IModuleService moduleService;
         IClassService classeService;
         private string admin_name;
-        public AdminController(IAdminService AdminService, IProfesseurService professeurService, 
-                               ISemaineService semaineService, ICycleService cycleService, 
+        public AdminController(IAdminService AdminService, IProfesseurService professeurService,
+                               ISemaineService semaineService, ICycleService cycleService,
                                IEtudiantService etudiantService, IExcelService excelService,
-                               ISeanceService seanceService, IRoleService roleService, 
-                               IModuleService moduleService, IClassService classeService, 
+                               ISeanceService seanceService, IRoleService roleService,
+                               IModuleService moduleService, IClassService classeService,
                                IGeneratePdf generatePdf)
         {
             this.professeurService = professeurService;
@@ -86,7 +86,7 @@ namespace GestionDesAbsencesMigration.Controllers
             ViewBag.adminName = admin_name;
             return View();
         }
-       
+
         public ActionResult ExcelPage()
         {
             ViewBag.adminName = admin_name;
@@ -209,7 +209,7 @@ namespace GestionDesAbsencesMigration.Controllers
         public ActionResult EditProfesseur(int editidinput, string editcode, string editnom, string editprenom, string editemail, string editcycle)
         {
 
-            Professeur newE =professeurService.GetProfesseurById(editidinput);
+            Professeur newE = professeurService.GetProfesseurById(editidinput);
             newE.Code_prof = editcode;
             newE.Nom = editnom;
             newE.Prenom = editprenom;
@@ -327,7 +327,7 @@ namespace GestionDesAbsencesMigration.Controllers
 
 
 
-                                /* IMPORT WITH EXCEL FILE */
+        /* IMPORT WITH EXCEL FILE */
         [HttpPost]
         public ActionResult importStudents(int id_classe, IFormFile excel)
         {
@@ -362,7 +362,7 @@ namespace GestionDesAbsencesMigration.Controllers
                 catch (Exception e)
                 {
 
-                    return RedirectToAction("AllEtudiants", new { msg = "importing failed, error occured"});
+                    return RedirectToAction("AllEtudiants", new { msg = "importing failed, error occured" });
                 }
             }
             // return View();
@@ -492,6 +492,48 @@ namespace GestionDesAbsencesMigration.Controllers
         }
 
         [HttpPost]
+        public ActionResult AddSemaines(IFormFile excel)
+        {
+            if (excel == null || excel.Length <= 0)
+            {
+                return Json("please select excel file");
+            }
+            Stream streamfile = excel.OpenReadStream();
+            DataTable dt = new DataTable();
+            string FileName = Path.GetExtension(excel.FileName);
+            if (FileName != ".xls" && FileName != ".xlsx")
+            {
+                return RedirectToAction("AllProfs", new { msg = "only excel files are allowed" });
+            }
+            else
+            {
+                try
+                {
+                    if (FileName == ".xls")
+                    {
+                        HSSFWorkbook workbook = new HSSFWorkbook(streamfile);
+                        dt = excelService.ImportSemaines(workbook);
+                    }
+                    else
+                    {
+                        XSSFWorkbook workbook = new XSSFWorkbook(streamfile);
+                        dt = excelService.ImportSemaines(workbook);
+                    }
+                    return RedirectToAction("AllProfs");
+                }
+
+                catch (Exception e)
+                {
+
+                    return RedirectToAction("AllProfs", new { msg = "importing failed, error occured" });
+                }
+            }
+            // return View();
+
+        }
+
+
+        [HttpPost]
         public ActionResult AddSeances(IFormFile excel)
         {
             if (excel == null || excel.Length <= 0)
@@ -557,19 +599,20 @@ namespace GestionDesAbsencesMigration.Controllers
 
         public JsonResult GetModule(int prof_id)
         {
-
-            var modules = professeurService.GetProfesseurById(prof_id).Modules;
-
-            // to prevent json recursivity
-            foreach(Module module in modules)
             {
-                module.Professeur = null;
+
+                var modules = professeurService.GetProfesseurById(prof_id).Modules;
+
+                // to prevent json recursivity
+                foreach (Module module in modules)
+                {
+                    module.Professeur = null;
+                }
+
+                return Json(modules);
+
             }
-
-            return Json(modules);
-
         }
-
         public JsonResult GetSeances(int module_id, int semaine_id)
         {
 
@@ -612,12 +655,12 @@ namespace GestionDesAbsencesMigration.Controllers
         //DONE
         public ActionResult Rectification()
         {
-            
+
             ViewBag.list_Module = new SelectList(moduleService.getAll(), "Id", "NomModule");
-            
+
             return View(semaineService.getSemainForCurrentYear());
-        }        
-        
+        }
+
         [HttpGet]//DONE
         public ActionResult Rectifier(int id_seance, int id_module, int id_semaine)
         {
@@ -675,7 +718,7 @@ namespace GestionDesAbsencesMigration.Controllers
         public JsonResult ClasseChart()
         {
             Dictionary<string, int> classes = etudiantService.GetCurrentSemaineAbsencesCountByClasse();
-            
+
             return Json(classes);
         }
 
@@ -687,4 +730,4 @@ namespace GestionDesAbsencesMigration.Controllers
             return user;
         }
     }
-}
+} 

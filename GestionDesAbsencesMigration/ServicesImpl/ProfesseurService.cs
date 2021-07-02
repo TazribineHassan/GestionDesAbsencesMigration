@@ -48,7 +48,7 @@ namespace GestionDesAbsencesMigration.ServicesImpl
         {
             string[] jours = { "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche" };
 
-            DateTime aujourdhui = DateTime.Parse("05/15/2021");
+            DateTime aujourdhui = DateTime.Parse("15/05/2021");
             Semaine semaine_courante;
             semaine_courante = context.Semaines.Where(s => s.Date_debut.CompareTo(aujourdhui) <= 0
                                                           && s.Date_fin.CompareTo(aujourdhui) >= 0).FirstOrDefault();
@@ -63,7 +63,7 @@ namespace GestionDesAbsencesMigration.ServicesImpl
                                                  .ThenInclude(emploi => emploi.Semaine)
                                                  .Include(emp => emp.Seance)
                                                  .Where(e => e.Module.Professeur.Id == professeur_id
-                                                             && e.Emploi.Semaine.id == semaine_courante.id
+                                                             && e.Emploi.Semaine.Id == semaine_courante.Id
                                                              && e.Seance.Jour.Equals(aujourdhui_string))
                                                   .Select(e => new
                                                   {
@@ -72,7 +72,7 @@ namespace GestionDesAbsencesMigration.ServicesImpl
                                                           cl.Id,
                                                           cl.Nom
                                                       }).ToList(),
-                                                      semaine = new { e.Emploi.Semaine.id, e.Emploi.Semaine.Code },
+                                                      semaine = new { e.Emploi.Semaine.Id, e.Emploi.Semaine.Code },
                                                       module = new { e.Module.Id, e.Module.NomModule },
                                                       date = aujourdhui
                                                   }).ToList();
@@ -90,7 +90,7 @@ namespace GestionDesAbsencesMigration.ServicesImpl
                     Date = seance.date,
                     Module = new Module() { Id = seance.module.Id, NomModule = seance.module.NomModule },
                     Seance = new Seance() { id = seance.seance.id, HeurDebut = seance.seance.HeurDebut, HeurFin = seance.seance.HeurFin },
-                    Semaine = new Semaine() { id = seance.semaine.id, Code = seance.semaine.Code }
+                    Semaine = new Semaine() { Id = seance.semaine.Id, Code = seance.semaine.Code }
                 };
                 listSeeances.Add(seancesForProf);
             }
@@ -104,7 +104,7 @@ namespace GestionDesAbsencesMigration.ServicesImpl
                                          .Include(seance => seance.Absences)
                                          .Where(r => (r.Module_Id == id_module
                                            && r.Seance_Id == id_seance
-                                           && r.Emploi.Semaine.id == id_semaine)).FirstOrDefault();
+                                           && r.Emploi.Semaine.Id == id_semaine)).FirstOrDefault();
 
             var students_by_classe = context.Modules
                             .Include(m => m.Classes).ThenInclude(classe => classe.Etudiants)    

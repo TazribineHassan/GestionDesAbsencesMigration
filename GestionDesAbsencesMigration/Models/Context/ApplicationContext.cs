@@ -1,4 +1,5 @@
 ﻿
+using GestionDesAbsencesMigration.Common;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -12,6 +13,11 @@ namespace GestionDesAbsencesMigration.Models.Context
         public ApplicationContext(DbContextOptions<ApplicationContext> options) : base(options)
         {
 
+        }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Seed();
         }
 
         public DbSet<Absence> Absences { get; set; }

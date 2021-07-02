@@ -38,7 +38,7 @@ namespace GestionDesAbsencesMigration.ServicesImpl
                                                          Heure_fin = absence.Details_Emploi.Seance.HeurFin,
                                                          Jour = absence.Details_Emploi.Seance.Jour
                                                      },
-                                                     semaine = new {id = absence.Details_Emploi.Emploi.Semaine.id, 
+                                                     semaine = new {id = absence.Details_Emploi.Emploi.Semaine.Id, 
                                                                     Code = absence.Details_Emploi.Emploi.Semaine.Code }
                                                      
                                                    }).ToList();
@@ -64,7 +64,7 @@ namespace GestionDesAbsencesMigration.ServicesImpl
                     },
                     semaine = new Semaine()
                     {
-                        id = absence.seance.id,
+                        Id = absence.seance.id,
                         Code = absence.semaine.Code
                     }
                 };
@@ -126,7 +126,7 @@ namespace GestionDesAbsencesMigration.ServicesImpl
             var absCount = context.details_Emplois.Include(demp => demp.Emploi).ThenInclude(emp => emp.Semaine)
                                            .Include(demp => demp.Seance)
                                            .Include(demp => demp.Absences)
-                                           .Where(demp => demp.Emploi.Semaine.id == semaine_courante.id
+                                           .Where(demp => demp.Emploi.Semaine.Id == semaine_courante.Id
                                                          && demp.Seance.Jour.Equals(jours[current_day_index]))
                                            .Select(demp => demp.Absences.Where(abs => !abs.EstPresent).Count())
                                            .ToList()
@@ -161,7 +161,7 @@ namespace GestionDesAbsencesMigration.ServicesImpl
                                           .Select(mod => new {
                                               classes = mod.Classes.Select(classe => classe.Nom).ToList(),
                                               module = mod.NomModule,
-                                              abs_count = mod.Details_Emplois.Where(emp => emp.Emploi.Semaine.id == semaine_courante.id)
+                                              abs_count = mod.Details_Emplois.Where(emp => emp.Emploi.Semaine.Id == semaine_courante.Id)
                                                                              .Select(emp => emp.Absences.Where(abs => !abs.EstPresent)
                                                                              .Count()).ToList()
                                           }).ToList();
@@ -204,7 +204,7 @@ namespace GestionDesAbsencesMigration.ServicesImpl
                                           .Select(mod => new {
                                                cycles = mod.Classes.Select(classe => classe.Cycle.Nom),
                                                module = mod.NomModule,
-                                               abs_count = mod.Details_Emplois.Where(emp => emp.Emploi.Semaine.id == semaine_courante.id)
+                                               abs_count = mod.Details_Emplois.Where(emp => emp.Emploi.Semaine.Id == semaine_courante.Id)
                                                                               .Select(emp => emp.Absences.Where(abs => !abs.EstPresent)
                                                                               .Count()).ToList()
                                           }).ToList();

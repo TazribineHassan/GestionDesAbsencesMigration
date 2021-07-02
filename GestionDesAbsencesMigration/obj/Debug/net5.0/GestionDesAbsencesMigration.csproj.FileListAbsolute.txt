@@ -477,3 +477,4 @@ D:\mini projets\GestionDesAbsencesMigration\GestionDesAbsencesMigration\bin\Debu
 D:\mini projets\GestionDesAbsencesMigration\GestionDesAbsencesMigration\bin\Debug\net5.0\refs\WindowsBase.dll
 D:\mini projets\GestionDesAbsencesMigration\GestionDesAbsencesMigration\bin\Debug\net5.0\Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation.dll
 D:\mini projets\GestionDesAbsencesMigration\GestionDesAbsencesMigration\bin\Debug\net5.0\Wkhtmltopdf.NetCore.dll
+D:\mini projets\GestionDesAbsencesMigration\GestionDesAbsencesMigration\obj\Debug\net5.0\GestionDesAbsencesMigration.csprojAssemblyReference.cache

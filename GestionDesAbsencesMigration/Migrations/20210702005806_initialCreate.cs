@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace GestionDesAbsencesMigration.Migrations
 {
-    public partial class intialCreate : Migration
+    public partial class initialCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -65,7 +65,7 @@ namespace GestionDesAbsencesMigration.Migrations
                 name: "Semaines",
                 columns: table => new
                 {
-                    id = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Code = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Date_debut = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -73,7 +73,7 @@ namespace GestionDesAbsencesMigration.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Semaines", x => x.id);
+                    table.PrimaryKey("PK_Semaines", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -148,15 +148,17 @@ namespace GestionDesAbsencesMigration.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Semaine_Id = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Emplois", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Emplois_Semaines_Id",
-                        column: x => x.Id,
+                        name: "FK_Emplois_Semaines_Semaine_Id",
+                        column: x => x.Semaine_Id,
                         principalTable: "Semaines",
-                        principalColumn: "id",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -205,7 +207,7 @@ namespace GestionDesAbsencesMigration.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     NomModule = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    id_Professeur = table.Column<int>(type: "int", nullable: false)
+                    id_Professeur = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -215,7 +217,7 @@ namespace GestionDesAbsencesMigration.Migrations
                         column: x => x.id_Professeur,
                         principalTable: "Professeurs",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -303,6 +305,96 @@ namespace GestionDesAbsencesMigration.Migrations
                         onDelete: ReferentialAction.Restrict);
                 });
 
+            migrationBuilder.InsertData(
+                table: "Cycles",
+                columns: new[] { "Id", "Nom" },
+                values: new object[,]
+                {
+                    { 1, "CP" },
+                    { 2, "CI" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Groupes",
+                columns: new[] { "Id", "Nom" },
+                values: new object[,]
+                {
+                    { 1, "Groupe 1" },
+                    { 2, "Groupe 2" },
+                    { 3, "Groupe 3" },
+                    { 4, "Groupe 4" },
+                    { 5, "Groupe 5" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Roles",
+                columns: new[] { "Id", "Nom" },
+                values: new object[,]
+                {
+                    { 3, "etudiant" },
+                    { 2, "professeur" },
+                    { 1, "admin" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Seances",
+                columns: new[] { "id", "HeurDebut", "HeurFin", "Jour" },
+                values: new object[,]
+                {
+                    { 20, "16:00", "18:00", "Jeudi" },
+                    { 21, "08:00", "10:00", "Vendredi" },
+                    { 22, "10:00", "12:00", "Vendredi" },
+                    { 23, "12:00", "14:00", "Vendredi" },
+                    { 24, "14:00", "16:00", "Vendredi" },
+                    { 25, "16:00", "18:00", "Vendredi" },
+                    { 26, "08:00", "10:00", "Samedi" },
+                    { 31, "08:00", "10:00", "Dimanche" },
+                    { 28, "12:00", "14:00", "Samedi" },
+                    { 29, "14:00", "16:00", "Samedi" },
+                    { 30, "16:00", "18:00", "Samedi" },
+                    { 19, "14:00", "16:00", "Jeudi" },
+                    { 32, "10:00", "12:00", "Dimanche" },
+                    { 33, "12:00", "14:00", "Dimanche" },
+                    { 27, "10:00", "12:00", "Samedi" },
+                    { 18, "12:00", "14:00", "Jeudi" },
+                    { 13, "12:00", "14:00", "Mercredi" },
+                    { 16, "08:00", "10:00", "Jeudi" },
+                    { 1, "08:00", "10:00", "Lundi" },
+                    { 2, "10:00", "12:00", "Lundi" },
+                    { 3, "12:00", "14:00", "Lundi" },
+                    { 4, "14:00", "16:00", "Lundi" },
+                    { 5, "16:00", "18:00", "Lundi" },
+                    { 6, "08:00", "10:00", "Mardi" },
+                    { 7, "10:00", "12:00", "Mardi" },
+                    { 8, "12:00", "14:00", "Mardi" },
+                    { 9, "14:00", "16:00", "Mardi" },
+                    { 10, "16:00", "18:00", "Mardi" },
+                    { 11, "08:00", "10:00", "Mercredi" },
+                    { 12, "10:00", "12:00", "Mercredi" },
+                    { 34, "14:00", "16:00", "Dimanche" },
+                    { 14, "14:00", "16:00", "Mercredi" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Seances",
+                columns: new[] { "id", "HeurDebut", "HeurFin", "Jour" },
+                values: new object[] { 15, "16:00", "18:00", "Mercredi" });
+
+            migrationBuilder.InsertData(
+                table: "Seances",
+                columns: new[] { "id", "HeurDebut", "HeurFin", "Jour" },
+                values: new object[] { 17, "10:00", "12:00", "Jeudi" });
+
+            migrationBuilder.InsertData(
+                table: "Seances",
+                columns: new[] { "id", "HeurDebut", "HeurFin", "Jour" },
+                values: new object[] { 35, "16:00", "18:00", "Dimanche" });
+
+            migrationBuilder.InsertData(
+                table: "Administrateurs",
+                columns: new[] { "Id", "Email", "Nom", "Password", "Prenom", "Role_Id" },
+                values: new object[] { 1, "admin@gmail.com", "Admin", "YWRtaW5Dc3JzeDgmYW1wO0dvRDN5dEBZSmhTQ2JHUTF1", "admin", 1 });
+
             migrationBuilder.CreateIndex(
                 name: "IX_Absences_Details_Emploi_id",
                 table: "Absences",
@@ -342,6 +434,11 @@ namespace GestionDesAbsencesMigration.Migrations
                 name: "IX_details_Emplois_Seance_Id",
                 table: "details_Emplois",
                 column: "Seance_Id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Emplois_Semaine_Id",
+                table: "Emplois",
+                column: "Semaine_Id");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Etudiants_Id_classe",

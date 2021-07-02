@@ -14,6 +14,7 @@ namespace GestionDesAbsencesMigration.Models
             Administrateurs = new HashSet<Administrateur>();
         }
 
+        [Key]
         public int Id { get; set; }
         public String Nom { get; set; }
 

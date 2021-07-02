@@ -15,8 +15,10 @@ namespace GestionDesAbsencesMigration.Models
             Details_Emplois = new HashSet<Details_Emploi>();
         }
         
-        [ForeignKey("Semaine")]
         public int Id { get; set; }
+
+        [ForeignKey("Semaine")]
+        public int Semaine_Id { get; set; }
 
         public virtual Semaine Semaine { get; set; }
         public virtual ICollection<Details_Emploi> Details_Emplois { get; set; }

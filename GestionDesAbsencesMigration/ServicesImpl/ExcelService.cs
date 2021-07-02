@@ -20,8 +20,119 @@ namespace GestionDesAbsencesMigration.ServicesImpl
             this.context = context;
         }
 
-        public DataTable ImportEtudiants(DataTable dt, XSSFWorkbook workbook, int class_id)
+        public DataTable ImportClasses(XSSFWorkbook workbook)
         {
+            DataTable dt = new DataTable();
+            NPOI.SS.UserModel.ISheet sheet = workbook.GetSheetAt(0);
+            IEnumerator rows = sheet.GetRowEnumerator();
+            rows.MoveNext();
+            var current = (XSSFRow)rows.Current;
+            for (int j = 0; j < (current.LastCellNum - current.FirstCellNum); j++)
+            {
+                dt.Columns.Add(current.Cells[j].StringCellValue);
+            }
+
+            while (rows.MoveNext())
+            {
+                XSSFRow current_row = (XSSFRow)rows.Current;
+                DataRow dr = dt.NewRow();
+                for (int i = 0; i < (current_row.LastCellNum - current_row.FirstCellNum); i++)
+                {
+                    NPOI.SS.UserModel.ICell cell = current_row.Cells[i];
+                    if (cell == null)
+                    {
+                        dr[i] = null;
+                    }
+                    else
+                    {
+                        if (cell.CellType == NPOI.SS.UserModel.CellType.String)
+                            dr[i] = cell.StringCellValue;
+                        if (cell.CellType == NPOI.SS.UserModel.CellType.Numeric)
+                            dr[i] = cell.NumericCellValue;
+                    }
+                }
+                dt.Rows.Add(dr);
+            }
+            if (dt != null && dt.Rows.Count != 0)
+            {
+                for (int i = 0; i < dt.Rows.Count; i++)
+                {
+                    Classe classe = new Classe();
+                    classe.Nom = dt.Rows[i]["Nom"].ToString();
+
+                    // attach to cycle
+                    string cycle_nom = dt.Rows[i]["Cycle"].ToString();
+                    var cycle = context.Cycles.Where(prof => prof.Nom.Equals(cycle_nom)).FirstOrDefault();
+                    if (cycle == null) throw new Exception("Le professeur avec l'email " + cycle_nom + "n'existe pas!");
+
+                    classe.Cycle = cycle;
+
+                    context.Classes.Add(classe);
+                }
+            }
+            context.SaveChanges();
+            return dt;
+        }
+
+        public DataTable ImportClasses(HSSFWorkbook workbook)
+        {
+            DataTable dt = new DataTable();
+            NPOI.SS.UserModel.ISheet sheet = workbook.GetSheetAt(0);
+            IEnumerator rows = sheet.GetRowEnumerator();
+            rows.MoveNext();
+            var current = (HSSFRow)rows.Current;
+            for (int j = 0; j < (current.LastCellNum - current.FirstCellNum); j++)
+            {
+                dt.Columns.Add(current.Cells[j].StringCellValue);
+            }
+
+            while (rows.MoveNext())
+            {
+                HSSFRow current_row = (HSSFRow)rows.Current;
+                DataRow dr = dt.NewRow();
+                for (int i = 0; i < (current_row.LastCellNum - current_row.FirstCellNum); i++)
+                {
+                    NPOI.SS.UserModel.ICell cell = current_row.Cells[i];
+                    if (cell == null)
+                    {
+                        dr[i] = null;
+                    }
+                    else
+                    {
+                        if (cell.CellType == NPOI.SS.UserModel.CellType.String)
+                            dr[i] = cell.StringCellValue;
+                        if (cell.CellType == NPOI.SS.UserModel.CellType.Numeric)
+                            dr[i] = cell.NumericCellValue;
+                    }
+                }
+                dt.Rows.Add(dr);
+            }
+
+            if (dt != null && dt.Rows.Count != 0)
+            {
+                for (int i = 0; i < dt.Rows.Count; i++)
+                {
+                    Classe classe = new Classe();
+                    classe.Nom = dt.Rows[i]["Nom"].ToString();
+
+                    // attach to cycle
+                    string cycle_nom = dt.Rows[i]["Cycle"].ToString();
+                    var cycle = context.Cycles.Where(prof => prof.Nom.Equals(cycle_nom)).FirstOrDefault();
+                    if (cycle == null) throw new Exception("Le professeur avec l'email " + cycle_nom + "n'existe pas!");
+
+                    classe.Cycle = cycle;
+
+                    context.Classes.Add(classe);
+                }
+            }
+            context.SaveChanges();
+            return dt;
+        }
+
+        public DataTable ImportEtudiants(XSSFWorkbook workbook, int class_id)
+        {
+
+            DataTable dt = new DataTable();
             NPOI.SS.UserModel.ISheet sheet = workbook.GetSheetAt(0);
             IEnumerator rows = sheet.GetRowEnumerator();
             rows.MoveNext();
@@ -86,8 +197,10 @@ namespace GestionDesAbsencesMigration.ServicesImpl
             return dt;
         }
 
-        public DataTable ImportEtudiants(DataTable dt, HSSFWorkbook workbook, int class_id)
+        public DataTable ImportEtudiants( HSSFWorkbook workbook, int class_id)
         {
+
+            DataTable dt = new DataTable();
             NPOI.SS.UserModel.ISheet sheet = workbook.GetSheetAt(0);
             IEnumerator rows = sheet.GetRowEnumerator();
             rows.MoveNext();
@@ -153,8 +266,135 @@ namespace GestionDesAbsencesMigration.ServicesImpl
             return dt;
         }
 
-        public DataTable ImportProfesseurs(DataTable dt, XSSFWorkbook workbook)
+        public DataTable ImportModules(XSSFWorkbook workbook)
         {
+            DataTable dt = new DataTable();
+            NPOI.SS.UserModel.ISheet sheet = workbook.GetSheetAt(0);
+            IEnumerator rows = sheet.GetRowEnumerator();
+            rows.MoveNext();
+            var current = (XSSFRow)rows.Current;
+            for (int j = 0; j < (current.LastCellNum - current.FirstCellNum); j++)
+            {
+                dt.Columns.Add(current.Cells[j].StringCellValue);
+            }
+
+            while (rows.MoveNext())
+            {
+                XSSFRow current_row = (XSSFRow)rows.Current;
+                DataRow dr = dt.NewRow();
+                for (int i = 0; i < (current_row.LastCellNum - current_row.FirstCellNum); i++)
+                {
+                    NPOI.SS.UserModel.ICell cell = current_row.Cells[i];
+                    if (cell == null)
+                    {
+                        dr[i] = null;
+                    }
+                    else
+                    {
+                        if (cell.CellType == NPOI.SS.UserModel.CellType.String)
+                            dr[i] = cell.StringCellValue;
+                        if (cell.CellType == NPOI.SS.UserModel.CellType.Numeric)
+                            dr[i] = cell.NumericCellValue;
+                    }
+                }
+                dt.Rows.Add(dr);
+            }
+            if (dt != null && dt.Rows.Count != 0)
+            {
+                for (int i = 0; i < dt.Rows.Count; i++)
+                {
+                    Module module = new Module();
+                    module.NomModule = dt.Rows[i]["NomModule"].ToString();
+
+                    // attach professeur
+                    string email = dt.Rows[i]["Ensiegnant_Email"].ToString();
+                    var prof = context.Professeurs.Where(prof => prof.Email.Equals(email)).FirstOrDefault();
+                    if (prof == null) throw new Exception("Le professeur avec l'email " + email + "n'existe pas!");
+                    module.Professeur = prof;
+
+                    // attach classes
+                    string[] classes_names = dt.Rows[i]["Classes"].ToString().Split("/");
+                    foreach(string classe_name in classes_names)
+                    {
+                        var classe = context.Classes.Where(cl => cl.Nom.Equals(classe_name)).FirstOrDefault();
+                        if(classe == null) throw new Exception("La classe " + classe_name + "n'existe pas!");
+
+                        module.Classes.Add(classe);
+                    }
+
+                    context.Modules.Add(module);
+                }
+            }
+            context.SaveChanges();
+            return dt;
+        }
+
+        public DataTable ImportModules(HSSFWorkbook workbook)
+        {
+            DataTable dt = new DataTable();
+            NPOI.SS.UserModel.ISheet sheet = workbook.GetSheetAt(0);
+            IEnumerator rows = sheet.GetRowEnumerator();
+            rows.MoveNext();
+            var current = (HSSFRow)rows.Current;
+            for (int j = 0; j < (current.LastCellNum - current.FirstCellNum); j++)
+            {
+                dt.Columns.Add(current.Cells[j].StringCellValue);
+            }
+
+            while (rows.MoveNext())
+            {
+                HSSFRow current_row = (HSSFRow)rows.Current;
+                DataRow dr = dt.NewRow();
+                for (int i = 0; i < (current_row.LastCellNum - current_row.FirstCellNum); i++)
+                {
+                    NPOI.SS.UserModel.ICell cell = current_row.Cells[i];
+                    if (cell == null)
+                    {
+                        dr[i] = null;
+                    }
+                    else
+                    {
+                        if (cell.CellType == NPOI.SS.UserModel.CellType.String)
+                            dr[i] = cell.StringCellValue;
+                        if (cell.CellType == NPOI.SS.UserModel.CellType.Numeric)
+                            dr[i] = cell.NumericCellValue;
+                    }
+                }
+                dt.Rows.Add(dr);
+            }
+            if (dt != null && dt.Rows.Count != 0)
+            {
+                for (int i = 0; i < dt.Rows.Count; i++)
+                {
+                    Module module = new Module();
+                    module.NomModule = dt.Rows[i]["NomModule"].ToString();
+
+                    // attach professeur
+                    string email = dt.Rows[i]["Ensiegnant_Email"].ToString();
+                    var prof = context.Professeurs.Where(prof => prof.Email.Equals(email)).FirstOrDefault();
+                    if (prof == null) throw new Exception("Le professeur avec l'email " + email + "n'existe pas!");
+                    module.Professeur = prof;
+
+                    // attach classes
+                    string[] classes_names = dt.Rows[i]["Classes"].ToString().Split("/");
+                    foreach (string classe_name in classes_names)
+                    {
+                        var classe = context.Classes.Where(cl => cl.Nom.Equals(classe_name)).FirstOrDefault();
+                        if (classe == null) throw new Exception("La classe " + classe_name + "n'existe pas!");
+
+                        module.Classes.Add(classe);
+                    }
+
+                    context.Modules.Add(module);
+                }
+            }
+            context.SaveChanges();
+            return dt;
+        }
+
+        public DataTable ImportProfesseurs(XSSFWorkbook workbook)
+        {
+            DataTable dt = new DataTable();
             NPOI.SS.UserModel.ISheet sheet = workbook.GetSheetAt(0);
             IEnumerator rows = sheet.GetRowEnumerator();
             rows.MoveNext();
@@ -217,8 +457,9 @@ namespace GestionDesAbsencesMigration.ServicesImpl
             return dt;
         }
 
-        public DataTable ImportProfesseurs(DataTable dt, HSSFWorkbook workbook)
+        public DataTable ImportProfesseurs(HSSFWorkbook workbook)
         {
+            DataTable dt = new DataTable();
             NPOI.SS.UserModel.ISheet sheet = workbook.GetSheetAt(0);
             IEnumerator rows = sheet.GetRowEnumerator();
             rows.MoveNext();
@@ -280,6 +521,64 @@ namespace GestionDesAbsencesMigration.ServicesImpl
             }
             context.SaveChanges();
             return dt;
+        }
+
+        public DataTable ImportSemaines(XSSFWorkbook workbook)
+        {
+            DataTable dt = new DataTable();
+            NPOI.SS.UserModel.ISheet sheet = workbook.GetSheetAt(0);
+            IEnumerator rows = sheet.GetRowEnumerator();
+            rows.MoveNext();
+            var current = (XSSFRow)rows.Current;
+            for (int j = 0; j < (current.LastCellNum - current.FirstCellNum); j++)
+            {
+                dt.Columns.Add(current.Cells[j].StringCellValue);
+            }
+
+            while (rows.MoveNext())
+            {
+                XSSFRow current_row = (XSSFRow)rows.Current;
+                DataRow dr = dt.NewRow();
+                for (int i = 0; i < (current_row.LastCellNum - current_row.FirstCellNum); i++)
+                {
+                    NPOI.SS.UserModel.ICell cell = current_row.Cells[i];
+                    if (cell == null)
+                    {
+                        dr[i] = null;
+                    }
+                    else
+                    {
+                        if (cell.CellType == NPOI.SS.UserModel.CellType.String)
+                            dr[i] = cell.StringCellValue;
+                        if (cell.CellType == NPOI.SS.UserModel.CellType.Numeric)
+                            dr[i] = cell.NumericCellValue;
+                    }
+                }
+                dt.Rows.Add(dr);
+            }
+            if (dt != null && dt.Rows.Count != 0)
+            {
+                for (int i = 0; i < dt.Rows.Count; i++)
+                {
+                    Semaine semaine = new Semaine();
+                    semaine.Code = dt.Rows[i]["Code"].ToString();
+
+                    var str_date_debut = double.Parse(dt.Rows[i]["Date debut"].ToString());
+                    semaine.Date_debut = DateTime.FromOADate(str_date_debut);
+
+                    var str_date_fin = double.Parse(dt.Rows[i]["date Fin"].ToString());
+                    semaine.Date_fin = DateTime.FromOADate(str_date_fin);
+
+                    context.Semaines.Add(semaine);
+                }
+            }
+            context.SaveChanges();
+            return dt;
+        }
+
+        public DataTable ImportSemaines(HSSFWorkbook workbook)
+        {
+            throw new NotImplementedException();
         }
     }
 }

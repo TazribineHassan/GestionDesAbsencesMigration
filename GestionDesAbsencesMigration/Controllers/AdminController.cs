@@ -326,15 +326,17 @@ namespace GestionDesAbsencesMigration.Controllers
         }
 
 
+
+                                /* IMPORT WITH EXCEL FILE */
         [HttpPost]
         public ActionResult importStudents(int id_classe, IFormFile excel)
         {
+            DataTable dt = new DataTable();
             if (excel == null || excel.Length <= 0)
             {
                 return Json("please select excel file");
             }
             Stream streamfile = excel.OpenReadStream();
-            DataTable dt = new DataTable();
             string FileName = Path.GetExtension(excel.FileName);
             if (FileName != ".xls" && FileName != ".xlsx")
             {
@@ -347,12 +349,12 @@ namespace GestionDesAbsencesMigration.Controllers
                     if (FileName == ".xls")
                     {
                         HSSFWorkbook workbook = new HSSFWorkbook(streamfile);
-                        dt = excelService.ImportEtudiants(dt, workbook, id_classe);
+                        dt = excelService.ImportEtudiants(workbook, id_classe);
                     }
                     else
                     {
                         XSSFWorkbook workbook = new XSSFWorkbook(streamfile);
-                        dt = excelService.ImportEtudiants(dt, workbook, id_classe);
+                        dt = excelService.ImportEtudiants(workbook, id_classe);
                     }
                     return RedirectToAction("AllEtudiants");
                 }
@@ -387,12 +389,12 @@ namespace GestionDesAbsencesMigration.Controllers
                     if (FileName == ".xls")
                     {
                         HSSFWorkbook workbook = new HSSFWorkbook(streamfile);
-                        dt = excelService.ImportProfesseurs(dt, workbook);
+                        dt = excelService.ImportProfesseurs(workbook);
                     }
                     else
                     {
                         XSSFWorkbook workbook = new XSSFWorkbook(streamfile);
-                        dt = excelService.ImportProfesseurs(dt, workbook);
+                        dt = excelService.ImportProfesseurs(workbook);
                     }
                     return RedirectToAction("AllProfs");
                 }
@@ -407,6 +409,131 @@ namespace GestionDesAbsencesMigration.Controllers
 
         }
 
+        [HttpPost]
+        public ActionResult AddClasses(IFormFile excel)
+        {
+            if (excel == null || excel.Length <= 0)
+            {
+                return Json("please select excel file");
+            }
+            Stream streamfile = excel.OpenReadStream();
+            DataTable dt = new DataTable();
+            string FileName = Path.GetExtension(excel.FileName);
+            if (FileName != ".xls" && FileName != ".xlsx")
+            {
+                return RedirectToAction("AllProfs", new { msg = "only excel files are allowed" });
+            }
+            else
+            {
+                try
+                {
+                    if (FileName == ".xls")
+                    {
+                        HSSFWorkbook workbook = new HSSFWorkbook(streamfile);
+                        dt = excelService.ImportClasses(workbook);
+                    }
+                    else
+                    {
+                        XSSFWorkbook workbook = new XSSFWorkbook(streamfile);
+                        dt = excelService.ImportClasses(workbook);
+                    }
+                    return RedirectToAction("AllProfs");
+                }
+
+                catch (Exception e)
+                {
+
+                    return RedirectToAction("AllProfs", new { msg = "importing failed, error occured" });
+                }
+            }
+            // return View();
+
+        }
+
+        [HttpPost]
+        public ActionResult AddModules(IFormFile excel)
+        {
+            if (excel == null || excel.Length <= 0)
+            {
+                return Json("please select excel file");
+            }
+            Stream streamfile = excel.OpenReadStream();
+            DataTable dt = new DataTable();
+            string FileName = Path.GetExtension(excel.FileName);
+            if (FileName != ".xls" && FileName != ".xlsx")
+            {
+                return RedirectToAction("AllProfs", new { msg = "only excel files are allowed" });
+            }
+            else
+            {
+                try
+                {
+                    if (FileName == ".xls")
+                    {
+                        HSSFWorkbook workbook = new HSSFWorkbook(streamfile);
+                        dt = excelService.ImportModules(workbook);
+                    }
+                    else
+                    {
+                        XSSFWorkbook workbook = new XSSFWorkbook(streamfile);
+                        dt = excelService.ImportModules(workbook);
+                    }
+                    return RedirectToAction("AllProfs");
+                }
+
+                catch (Exception e)
+                {
+
+                    return RedirectToAction("AllProfs", new { msg = "importing failed, error occured" });
+                }
+            }
+            // return View();
+
+        }
+
+        [HttpPost]
+        public ActionResult AddSemaines(IFormFile excel)
+        {
+            if (excel == null || excel.Length <= 0)
+            {
+                return Json("please select excel file");
+            }
+            Stream streamfile = excel.OpenReadStream();
+            DataTable dt = new DataTable();
+            string FileName = Path.GetExtension(excel.FileName);
+            if (FileName != ".xls" && FileName != ".xlsx")
+            {
+                return RedirectToAction("AllProfs", new { msg = "only excel files are allowed" });
+            }
+            else
+            {
+                try
+                {
+                    if (FileName == ".xls")
+                    {
+                        HSSFWorkbook workbook = new HSSFWorkbook(streamfile);
+                        dt = excelService.ImportSemaines(workbook);
+                    }
+                    else
+                    {
+                        XSSFWorkbook workbook = new XSSFWorkbook(streamfile);
+                        dt = excelService.ImportSemaines(workbook);
+                    }
+                    return RedirectToAction("AllProfs");
+                }
+
+                catch (Exception e)
+                {
+
+                    return RedirectToAction("AllProfs", new { msg = "importing failed, error occured" });
+                }
+            }
+            // return View();
+
+        }
+
+
+        /* PROFESSEUR CRUD */
         public ActionResult AjouterProfesseur()
         {
             ViewBag.adminName = admin_name;

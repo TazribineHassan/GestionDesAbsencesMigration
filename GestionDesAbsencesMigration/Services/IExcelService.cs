@@ -10,9 +10,24 @@ namespace GestionDesAbsencesMigration.Services
 {
     public interface IExcelService
     {
-        DataTable ImportEtudiants(DataTable dt, XSSFWorkbook workbook, int class_id);
-        DataTable ImportEtudiants(DataTable dt, HSSFWorkbook workbook, int class_id);
-        DataTable ImportProfesseurs(DataTable dt, XSSFWorkbook workbook);
-        DataTable ImportProfesseurs(DataTable dt, HSSFWorkbook workbook);
+        // Import Etudiants
+        DataTable ImportEtudiants(XSSFWorkbook workbook, int class_id);
+        DataTable ImportEtudiants(HSSFWorkbook workbook, int class_id);
+
+        // Import Professeurs
+        DataTable ImportProfesseurs(XSSFWorkbook workbook);
+        DataTable ImportProfesseurs(HSSFWorkbook workbook);
+
+        //Importer Classes
+        DataTable ImportClasses(XSSFWorkbook workbook);
+        DataTable ImportClasses(HSSFWorkbook workbook);
+
+        // Import Modules
+        DataTable ImportModules(XSSFWorkbook workbook);
+        DataTable ImportModules(HSSFWorkbook workbook);
+
+        // Import Semaines
+        DataTable ImportSemaines(XSSFWorkbook workbook);
+        DataTable ImportSemaines(HSSFWorkbook workbook);
     }
 }

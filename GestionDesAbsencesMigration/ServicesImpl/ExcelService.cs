@@ -3,6 +3,7 @@ using GestionDesAbsencesMigration.Models.Context;
 using GestionDesAbsencesMigration.Services;
 using Microsoft.EntityFrameworkCore;
 using NPOI.HSSF.UserModel;
+using NPOI.SS.UserModel;
 using NPOI.XSSF.UserModel;
 using System;
 using System.Collections;
@@ -23,37 +24,8 @@ namespace GestionDesAbsencesMigration.ServicesImpl
 
         public DataTable ImportClasses(XSSFWorkbook workbook)
         {
-            DataTable dt = new DataTable();
-            NPOI.SS.UserModel.ISheet sheet = workbook.GetSheetAt(0);
-            IEnumerator rows = sheet.GetRowEnumerator();
-            rows.MoveNext();
-            var current = (XSSFRow)rows.Current;
-            for (int j = 0; j < (current.LastCellNum - current.FirstCellNum); j++)
-            {
-                dt.Columns.Add(current.Cells[j].StringCellValue);
-            }
+            DataTable dt = workbookToDataTable(workbook);
 
-            while (rows.MoveNext())
-            {
-                XSSFRow current_row = (XSSFRow)rows.Current;
-                DataRow dr = dt.NewRow();
-                for (int i = 0; i < (current_row.LastCellNum - current_row.FirstCellNum); i++)
-                {
-                    NPOI.SS.UserModel.ICell cell = current_row.Cells[i];
-                    if (cell == null)
-                    {
-                        dr[i] = null;
-                    }
-                    else
-                    {
-                        if (cell.CellType == NPOI.SS.UserModel.CellType.String)
-                            dr[i] = cell.StringCellValue;
-                        if (cell.CellType == NPOI.SS.UserModel.CellType.Numeric)
-                            dr[i] = cell.NumericCellValue;
-                    }
-                }
-                dt.Rows.Add(dr);
-            }
             if (dt != null && dt.Rows.Count != 0)
             {
                 for (int i = 0; i < dt.Rows.Count; i++)
@@ -77,37 +49,7 @@ namespace GestionDesAbsencesMigration.ServicesImpl
 
         public DataTable ImportClasses(HSSFWorkbook workbook)
         {
-            DataTable dt = new DataTable();
-            NPOI.SS.UserModel.ISheet sheet = workbook.GetSheetAt(0);
-            IEnumerator rows = sheet.GetRowEnumerator();
-            rows.MoveNext();
-            var current = (HSSFRow)rows.Current;
-            for (int j = 0; j < (current.LastCellNum - current.FirstCellNum); j++)
-            {
-                dt.Columns.Add(current.Cells[j].StringCellValue);
-            }
-
-            while (rows.MoveNext())
-            {
-                HSSFRow current_row = (HSSFRow)rows.Current;
-                DataRow dr = dt.NewRow();
-                for (int i = 0; i < (current_row.LastCellNum - current_row.FirstCellNum); i++)
-                {
-                    NPOI.SS.UserModel.ICell cell = current_row.Cells[i];
-                    if (cell == null)
-                    {
-                        dr[i] = null;
-                    }
-                    else
-                    {
-                        if (cell.CellType == NPOI.SS.UserModel.CellType.String)
-                            dr[i] = cell.StringCellValue;
-                        if (cell.CellType == NPOI.SS.UserModel.CellType.Numeric)
-                            dr[i] = cell.NumericCellValue;
-                    }
-                }
-                dt.Rows.Add(dr);
-            }
+            DataTable dt = workbookToDataTable(workbook);
 
             if (dt != null && dt.Rows.Count != 0)
             {
@@ -133,37 +75,8 @@ namespace GestionDesAbsencesMigration.ServicesImpl
         public DataTable ImportEtudiants(XSSFWorkbook workbook, int class_id)
         {
 
-            DataTable dt = new DataTable();
-            NPOI.SS.UserModel.ISheet sheet = workbook.GetSheetAt(0);
-            IEnumerator rows = sheet.GetRowEnumerator();
-            rows.MoveNext();
-            var current = (XSSFRow)rows.Current;
-            for (int j = 0; j < (current.LastCellNum - current.FirstCellNum); j++)
-            {
-                dt.Columns.Add(current.Cells[j].StringCellValue);
-            }
+            DataTable dt = workbookToDataTable(workbook);
 
-            while (rows.MoveNext())
-            {
-                XSSFRow current_row = (XSSFRow)rows.Current;
-                DataRow dr = dt.NewRow();
-                for (int i = 0; i < (current_row.LastCellNum - current_row.FirstCellNum); i++)
-                {
-                    NPOI.SS.UserModel.ICell cell = current_row.Cells[i];
-                    if (cell == null)
-                    {
-                        dr[i] = null;
-                    }
-                    else
-                    {
-                        if(cell.CellType == NPOI.SS.UserModel.CellType.String)
-                            dr[i] = cell.StringCellValue;
-                        if (cell.CellType == NPOI.SS.UserModel.CellType.Numeric)
-                            dr[i] = cell.NumericCellValue;
-                    }
-                }
-                dt.Rows.Add(dr);
-            }
             if (dt != null && dt.Rows.Count != 0)
             {
                 for (int i = 0; i < dt.Rows.Count; i++)
@@ -201,37 +114,8 @@ namespace GestionDesAbsencesMigration.ServicesImpl
         public DataTable ImportEtudiants( HSSFWorkbook workbook, int class_id)
         {
 
-            DataTable dt = new DataTable();
-            NPOI.SS.UserModel.ISheet sheet = workbook.GetSheetAt(0);
-            IEnumerator rows = sheet.GetRowEnumerator();
-            rows.MoveNext();
-            var current = (HSSFRow)rows.Current;
-            for (int j = 0; j < (current.LastCellNum - current.FirstCellNum); j++)
-            {
-                dt.Columns.Add(current.Cells[j].StringCellValue);
-            }
+            DataTable dt = workbookToDataTable(workbook);
 
-            while (rows.MoveNext())
-            {
-                HSSFRow current_row = (HSSFRow)rows.Current;
-                DataRow dr = dt.NewRow();
-                for (int i = 0; i < (current_row.LastCellNum - current_row.FirstCellNum); i++)
-                {
-                    NPOI.SS.UserModel.ICell cell = current_row.Cells[i];
-                    if (cell == null)
-                    {
-                        dr[i] = null;
-                    }
-                    else
-                    {
-                        if (cell.CellType == NPOI.SS.UserModel.CellType.String)
-                            dr[i] = cell.StringCellValue;
-                        if (cell.CellType == NPOI.SS.UserModel.CellType.Numeric)
-                            dr[i] = cell.NumericCellValue;
-                    }
-                }
-                dt.Rows.Add(dr);
-            }
             if (dt != null && dt.Rows.Count != 0)
             {
                 for (int i = 0; i < dt.Rows.Count; i++)
@@ -269,37 +153,8 @@ namespace GestionDesAbsencesMigration.ServicesImpl
 
         public DataTable ImportModules(XSSFWorkbook workbook)
         {
-            DataTable dt = new DataTable();
-            NPOI.SS.UserModel.ISheet sheet = workbook.GetSheetAt(0);
-            IEnumerator rows = sheet.GetRowEnumerator();
-            rows.MoveNext();
-            var current = (XSSFRow)rows.Current;
-            for (int j = 0; j < (current.LastCellNum - current.FirstCellNum); j++)
-            {
-                dt.Columns.Add(current.Cells[j].StringCellValue);
-            }
+            DataTable dt = workbookToDataTable(workbook);
 
-            while (rows.MoveNext())
-            {
-                XSSFRow current_row = (XSSFRow)rows.Current;
-                DataRow dr = dt.NewRow();
-                for (int i = 0; i < (current_row.LastCellNum - current_row.FirstCellNum); i++)
-                {
-                    NPOI.SS.UserModel.ICell cell = current_row.Cells[i];
-                    if (cell == null)
-                    {
-                        dr[i] = null;
-                    }
-                    else
-                    {
-                        if (cell.CellType == NPOI.SS.UserModel.CellType.String)
-                            dr[i] = cell.StringCellValue;
-                        if (cell.CellType == NPOI.SS.UserModel.CellType.Numeric)
-                            dr[i] = cell.NumericCellValue;
-                    }
-                }
-                dt.Rows.Add(dr);
-            }
             if (dt != null && dt.Rows.Count != 0)
             {
                 for (int i = 0; i < dt.Rows.Count; i++)
@@ -332,37 +187,8 @@ namespace GestionDesAbsencesMigration.ServicesImpl
 
         public DataTable ImportModules(HSSFWorkbook workbook)
         {
-            DataTable dt = new DataTable();
-            NPOI.SS.UserModel.ISheet sheet = workbook.GetSheetAt(0);
-            IEnumerator rows = sheet.GetRowEnumerator();
-            rows.MoveNext();
-            var current = (HSSFRow)rows.Current;
-            for (int j = 0; j < (current.LastCellNum - current.FirstCellNum); j++)
-            {
-                dt.Columns.Add(current.Cells[j].StringCellValue);
-            }
+            DataTable dt = workbookToDataTable(workbook);
 
-            while (rows.MoveNext())
-            {
-                HSSFRow current_row = (HSSFRow)rows.Current;
-                DataRow dr = dt.NewRow();
-                for (int i = 0; i < (current_row.LastCellNum - current_row.FirstCellNum); i++)
-                {
-                    NPOI.SS.UserModel.ICell cell = current_row.Cells[i];
-                    if (cell == null)
-                    {
-                        dr[i] = null;
-                    }
-                    else
-                    {
-                        if (cell.CellType == NPOI.SS.UserModel.CellType.String)
-                            dr[i] = cell.StringCellValue;
-                        if (cell.CellType == NPOI.SS.UserModel.CellType.Numeric)
-                            dr[i] = cell.NumericCellValue;
-                    }
-                }
-                dt.Rows.Add(dr);
-            }
             if (dt != null && dt.Rows.Count != 0)
             {
                 for (int i = 0; i < dt.Rows.Count; i++)
@@ -395,37 +221,8 @@ namespace GestionDesAbsencesMigration.ServicesImpl
 
         public DataTable ImportProfesseurs(XSSFWorkbook workbook)
         {
-            DataTable dt = new DataTable();
-            NPOI.SS.UserModel.ISheet sheet = workbook.GetSheetAt(0);
-            IEnumerator rows = sheet.GetRowEnumerator();
-            rows.MoveNext();
-            var current = (XSSFRow)rows.Current;
-            for (int j = 0; j < (current.LastCellNum - current.FirstCellNum); j++)
-            {
-                dt.Columns.Add(current.Cells[j].StringCellValue);
-            }
+            DataTable dt = workbookToDataTable(workbook);
 
-            while (rows.MoveNext())
-            {
-                XSSFRow current_row = (XSSFRow)rows.Current;
-                DataRow dr = dt.NewRow();
-                for (int i = 0; i < (current_row.LastCellNum - current_row.FirstCellNum); i++)
-                {
-                    NPOI.SS.UserModel.ICell cell = current_row.Cells[i];
-                    if (cell == null)
-                    {
-                        dr[i] = null;
-                    }
-                    else
-                    {
-                        if (cell.CellType == NPOI.SS.UserModel.CellType.String)
-                            dr[i] = cell.StringCellValue;
-                        if (cell.CellType == NPOI.SS.UserModel.CellType.Numeric)
-                            dr[i] = cell.NumericCellValue;
-                    }
-                }
-                dt.Rows.Add(dr);
-            }
             if (dt != null && dt.Rows.Count != 0)
             {
                 for (int i = 0; i < dt.Rows.Count; i++)
@@ -460,37 +257,8 @@ namespace GestionDesAbsencesMigration.ServicesImpl
 
         public DataTable ImportProfesseurs(HSSFWorkbook workbook)
         {
-            DataTable dt = new DataTable();
-            NPOI.SS.UserModel.ISheet sheet = workbook.GetSheetAt(0);
-            IEnumerator rows = sheet.GetRowEnumerator();
-            rows.MoveNext();
-            var current = (HSSFRow)rows.Current;
-            for (int j = 0; j < (current.LastCellNum - current.FirstCellNum); j++)
-            {
-                dt.Columns.Add(current.Cells[j].StringCellValue);
-            }
+            DataTable dt = workbookToDataTable(workbook);
 
-            while (rows.MoveNext())
-            {
-                HSSFRow current_row = (HSSFRow)rows.Current;
-                DataRow dr = dt.NewRow();
-                for (int i = 0; i < (current_row.LastCellNum - current_row.FirstCellNum); i++)
-                {
-                    NPOI.SS.UserModel.ICell cell = current_row.Cells[i];
-                    if (cell == null)
-                    {
-                        dr[i] = null;
-                    }
-                    else
-                    {
-                        if (cell.CellType == NPOI.SS.UserModel.CellType.String)
-                            dr[i] = cell.StringCellValue;
-                        if (cell.CellType == NPOI.SS.UserModel.CellType.Numeric)
-                            dr[i] = cell.NumericCellValue;
-                    }
-                }
-                dt.Rows.Add(dr);
-            }
             if (dt != null && dt.Rows.Count != 0)
             {
                 for (int i = 0; i < dt.Rows.Count; i++)
@@ -526,37 +294,8 @@ namespace GestionDesAbsencesMigration.ServicesImpl
 
         public DataTable ImportSeances(XSSFWorkbook workbook)
         {
-            DataTable dt = new DataTable();
-            NPOI.SS.UserModel.ISheet sheet = workbook.GetSheetAt(0);
-            IEnumerator rows = sheet.GetRowEnumerator();
-            rows.MoveNext();
-            var current = (XSSFRow)rows.Current;
-            for (int j = 0; j < (current.LastCellNum - current.FirstCellNum); j++)
-            {
-                dt.Columns.Add(current.Cells[j].StringCellValue);
-            }
+            DataTable dt = workbookToDataTable(workbook);
 
-            while (rows.MoveNext())
-            {
-                XSSFRow current_row = (XSSFRow)rows.Current;
-                DataRow dr = dt.NewRow();
-                for (int i = 0; i < (current_row.LastCellNum - current_row.FirstCellNum); i++)
-                {
-                    NPOI.SS.UserModel.ICell cell = current_row.Cells[i];
-                    if (cell == null)
-                    {
-                        dr[i] = null;
-                    }
-                    else
-                    {
-                        if (cell.CellType == NPOI.SS.UserModel.CellType.String)
-                            dr[i] = cell.StringCellValue;
-                        if (cell.CellType == NPOI.SS.UserModel.CellType.Numeric)
-                            dr[i] = cell.NumericCellValue;
-                    }
-                }
-                dt.Rows.Add(dr);
-            }
             if (dt != null && dt.Rows.Count != 0)
             {
                 for (int i = 0; i < dt.Rows.Count; i++)
@@ -604,42 +343,58 @@ namespace GestionDesAbsencesMigration.ServicesImpl
 
         public DataTable ImportSeances(HSSFWorkbook workbook)
         {
-            throw new NotImplementedException();
+            DataTable dt = workbookToDataTable(workbook);
+
+            if (dt != null && dt.Rows.Count != 0)
+            {
+                for (int i = 0; i < dt.Rows.Count; i++)
+                {
+                    string nom_classe = dt.Rows[i]["Classe"].ToString();
+                    Classe classe = context.Classes.Where(cl => cl.Nom.Equals(nom_classe)).FirstOrDefault();
+                    if (classe == null) throw new Exception("La classe " + nom_classe + " n'existe pas!");
+
+                    string semaine_code = dt.Rows[i]["Semaine"].ToString();
+                    Semaine semaine = context.Semaines.Where(semaine => semaine.Code.Equals(semaine_code)).FirstOrDefault();
+                    if (semaine == null) throw new Exception("La Semaine " + semaine_code + " n'existe pas!");
+
+                    Emploi emploi = context.Emplois.Where(emp => emp.Classe.Nom.Equals(nom_classe)).FirstOrDefault();
+                    if (emploi == null)
+                    {
+                        emploi = new Emploi() { Classe = classe, Semaine = semaine };
+                        context.Emplois.Add(emploi);
+                        context.SaveChanges();
+                    }
+
+                    string nom_module = dt.Rows[i]["Module"].ToString();
+                    Module module = context.Modules.Where(m => m.NomModule.Equals(nom_module)).FirstOrDefault();
+                    if (module == null) throw new Exception("Le module " + nom_module + " n'existe pas!");
+
+                    string jour = dt.Rows[i]["Jour"].ToString();
+                    double double_heure_debut = double.Parse(dt.Rows[i]["DebutSeance"].ToString());
+                    var heure_debut = DateTime.FromOADate(double_heure_debut).TimeOfDay.ToString(@"hh\:mm");
+                    double double_heure_fin = double.Parse(dt.Rows[i]["FinSeance"].ToString());
+                    var heure_fin = DateTime.FromOADate(double_heure_fin).TimeOfDay.ToString(@"hh\:mm");
+
+
+                    Seance seance = context.Seances.Where(seance => seance.Jour.ToLower().Equals(jour.ToLower())
+                                                                    && seance.HeurDebut.Equals(heure_debut)
+                                                                    && seance.HeurFin.Equals(heure_fin))
+                                                   .FirstOrDefault();
+                    if (seance == null) throw new Exception("La seance de " + jour + " de " + heure_debut + " a " + " n'est pas valide!");
+
+                    Details_Emploi demp = new Details_Emploi() { Emploi = emploi, Module = module, Seance = seance };
+
+                    context.details_Emplois.Add(demp);
+                }
+            }
+            context.SaveChanges();
+            return dt;
         }
 
         public DataTable ImportSemaines(XSSFWorkbook workbook)
         {
-            DataTable dt = new DataTable();
-            NPOI.SS.UserModel.ISheet sheet = workbook.GetSheetAt(0);
-            IEnumerator rows = sheet.GetRowEnumerator();
-            rows.MoveNext();
-            var current = (XSSFRow)rows.Current;
-            for (int j = 0; j < (current.LastCellNum - current.FirstCellNum); j++)
-            {
-                dt.Columns.Add(current.Cells[j].StringCellValue);
-            }
-
-            while (rows.MoveNext())
-            {
-                XSSFRow current_row = (XSSFRow)rows.Current;
-                DataRow dr = dt.NewRow();
-                for (int i = 0; i < (current_row.LastCellNum - current_row.FirstCellNum); i++)
-                {
-                    NPOI.SS.UserModel.ICell cell = current_row.Cells[i];
-                    if (cell == null)
-                    {
-                        dr[i] = null;
-                    }
-                    else
-                    {
-                        if (cell.CellType == NPOI.SS.UserModel.CellType.String)
-                            dr[i] = cell.StringCellValue;
-                        if (cell.CellType == NPOI.SS.UserModel.CellType.Numeric)
-                            dr[i] = cell.NumericCellValue;
-                    }
-                }
-                dt.Rows.Add(dr);
-            }
+            DataTable dt = workbookToDataTable(workbook);
+           
             if (dt != null && dt.Rows.Count != 0)
             {
                 for (int i = 0; i < dt.Rows.Count; i++)
@@ -662,37 +417,8 @@ namespace GestionDesAbsencesMigration.ServicesImpl
 
         public DataTable ImportSemaines(HSSFWorkbook workbook)
         {
-            DataTable dt = new DataTable();
-            NPOI.SS.UserModel.ISheet sheet = workbook.GetSheetAt(0);
-            IEnumerator rows = sheet.GetRowEnumerator();
-            rows.MoveNext();
-            var current = (HSSFRow)rows.Current;
-            for (int j = 0; j < (current.LastCellNum - current.FirstCellNum); j++)
-            {
-                dt.Columns.Add(current.Cells[j].StringCellValue);
-            }
+            DataTable dt = workbookToDataTable(workbook);
 
-            while (rows.MoveNext())
-            {
-                HSSFRow current_row = (HSSFRow)rows.Current;
-                DataRow dr = dt.NewRow();
-                for (int i = 0; i < (current_row.LastCellNum - current_row.FirstCellNum); i++)
-                {
-                    NPOI.SS.UserModel.ICell cell = current_row.Cells[i];
-                    if (cell == null)
-                    {
-                        dr[i] = null;
-                    }
-                    else
-                    {
-                        if (cell.CellType == NPOI.SS.UserModel.CellType.String)
-                            dr[i] = cell.StringCellValue;
-                        if (cell.CellType == NPOI.SS.UserModel.CellType.Numeric)
-                            dr[i] = cell.NumericCellValue;
-                    }
-                }
-                dt.Rows.Add(dr);
-            }
             if (dt != null && dt.Rows.Count != 0)
             {
                 for (int i = 0; i < dt.Rows.Count; i++)
@@ -710,6 +436,86 @@ namespace GestionDesAbsencesMigration.ServicesImpl
                 }
             }
             context.SaveChanges();
+            return dt;
+        }
+
+        private DataTable workbookToDataTable(XSSFWorkbook workbook)
+        {
+            workbook.MissingCellPolicy = MissingCellPolicy.RETURN_BLANK_AS_NULL;
+
+            var dt = new DataTable();
+            ISheet sheet = workbook.GetSheetAt(0);
+            IEnumerator rows = sheet.GetRowEnumerator();
+            rows.MoveNext();
+            var current = (XSSFRow)rows.Current;
+            for (int j = 0; j < (current.LastCellNum - current.FirstCellNum); j++)
+            {
+                dt.Columns.Add(current.Cells[j].StringCellValue);
+            }
+
+            while (rows.MoveNext())
+            {
+                XSSFRow current_row = (XSSFRow)rows.Current;
+                if (string.IsNullOrEmpty(current_row.Cells[0].ToString())) continue;
+
+                DataRow dr = dt.NewRow();
+                for (int i = 0; i < (current_row.LastCellNum - current_row.FirstCellNum); i++)
+                {
+                    ICell cell = current_row.Cells[i];
+                    if (cell == null)
+                    {
+                        dr[i] = null;
+                    }
+                    else
+                    {
+                        if (cell.CellType == CellType.String)
+                            dr[i] = cell.StringCellValue;
+                        if (cell.CellType == CellType.Numeric)
+                            dr[i] = cell.NumericCellValue;
+                    }
+                }
+                dt.Rows.Add(dr);
+            }
+            return dt;
+        }
+
+        private DataTable workbookToDataTable(HSSFWorkbook workbook)
+        {
+            workbook.MissingCellPolicy = MissingCellPolicy.RETURN_BLANK_AS_NULL;
+
+            var dt = new DataTable();
+            ISheet sheet = workbook.GetSheetAt(0);
+            IEnumerator rows = sheet.GetRowEnumerator();
+            rows.MoveNext();
+            var current = (HSSFRow)rows.Current;
+            for (int j = 0; j < (current.LastCellNum - current.FirstCellNum); j++)
+            {
+                dt.Columns.Add(current.Cells[j].StringCellValue);
+            }
+
+            while (rows.MoveNext())
+            {
+                HSSFRow current_row = (HSSFRow)rows.Current;
+                if (string.IsNullOrEmpty(current_row.Cells[0].ToString())) continue;
+
+                DataRow dr = dt.NewRow();
+                for (int i = 0; i < (current_row.LastCellNum - current_row.FirstCellNum); i++)
+                {
+                    ICell cell = current_row.Cells[i];
+                    if (cell == null)
+                    {
+                        dr[i] = null;
+                    }
+                    else
+                    {
+                        if (cell.CellType == CellType.String)
+                            dr[i] = cell.StringCellValue;
+                        if (cell.CellType == CellType.Numeric)
+                            dr[i] = cell.NumericCellValue;
+                    }
+                }
+                dt.Rows.Add(dr);
+            }
             return dt;
         }
     }

@@ -59,11 +59,9 @@ namespace GestionDesAbsencesMigration.Controllers
         // GET: Admin
         public ActionResult Index()
         {
-
-            var user = GetIdUserFromCoockie();
-            this.admin_name = user.Nom = " " + user.Prenom;
-            ViewBag.adminName = admin_name;
-
+            ViewBag.absence_count = etudiantService.GetCurrentDayAbsencesCount();
+            ViewBag.absence_count_by_cycle = etudiantService.GetCurrentSemaineAbsencesCountByCycle();
+            ViewBag.list_semaine = new SelectList(semaineService.getAll(), "Id", "Nom");
             return View("Home");
         }
 
